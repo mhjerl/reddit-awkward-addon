@@ -1,4 +1,4 @@
-{I deleted the top-line and replaced it with this sentence: "Joe is cool!"
+{I think we should delete this line soon
   "description": "Hide specific reddit comments and subjects based on user-inserted tags.",
   "manifest_version": 2,
   "name": "Reddit Awkward",
