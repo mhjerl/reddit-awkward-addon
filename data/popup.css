@@ -1,0 +1,98 @@
+* {
+		margin: 0;
+		padding: 0;
+	}
+
+body, html {
+		height: 500px;
+		width: 600px;
+        overflow-y: hidden;
+		background: green;
+	}
+ .header_sct {
+		width: 100%;
+		height: 160px;
+		position:absolute;
+		top: 0;
+		margin: 0 auto;
+		background: white;
+		text-align: center;
+	}
+	.content_sct {
+		width: 100%;
+        overflow-y: scroll;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+		background: white;
+		margin-top: 160px;
+		/*padding-left: 50px;*/
+	}
+
+
+div.wrapper {
+	margin: 0 auto;
+	padding: 1em;
+	/*max-width: 30em; mhh */
+}
+
+h1 {
+	font-family: "Open Sans";
+	font-weight: 800;
+	font-style: normal;
+	color: #27272E;
+	font-size: 2.747em;
+	margin: 0;
+	line-height: 1.1;
+	text-transform: uppercase;
+}
+
+span.h1-span {
+	font-family: "Merriweather";
+	font-weight: 700;
+	font-style: italic;
+	font-size: 0.63em;
+	display: block;
+	margin: 1em auto 0 auto;
+	text-transform: none;
+}
+
+h2 {
+	font-family: "Open Sans";
+	font-weight: 400;
+	font-style: normal;
+	color: #27272E;
+	text-transform: uppercase;
+	border-top: 1px solid #A9A9A9;
+	font-size: .874em;
+	text-align: center;
+	line-height: 1;
+	margin-top: 1.953em;
+}
+
+span.h2-span {
+	background: white;
+	position: relative;
+	top: -.45em;
+	padding: 0 5%;
+	margin-top: -1em;
+	font-family: "Open Sans";
+	font-weight: 800;
+	font-style: normal;
+}
+
+h3 {
+	font-style: italic;
+	font-weight: 700;
+	font-size: 1.229em;
+	margin: 1em 0 .25em 0;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+
+p {
+	margin-bottom: 1em;
+	font-size: 1em;
+}

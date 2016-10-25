@@ -1,0 +1,234 @@
+blockquote.style1 {
+  font: 14px/20px italic Times, serif;
+  padding: 8px;
+  /*background-color: #faebbc;
+  border-top: 1px solid #e1cc89;
+  border-bottom: 1px solid #e1cc89;*/
+  margin: 5px;
+  /*background-image: url(../openquote1.gif);
+  background-position: top left;
+  background-repeat: no-repeat;*/
+  text-indent: 23px;
+  font-style: italic;
+  }
+  /*blockquote.style1 span {
+    	display: block;
+    	background-image: url(../closequote1.gif);
+    	background-repeat: no-repeat;
+    	background-position: bottom right;
+  	}*/
+
+
+
+.circleEffectOrange {
+	display: inline-block;
+	height: 16px;
+	width: 16px; 
+	line-height: 16px; 
+	-moz-border-radius: 8px; 
+	border-radius: 8px; 
+	background-color: orange; 
+	color: black; 
+	text-align: center; 
+}
+
+.circleEffectGreen {
+	display: inline-block; 
+	height: 16px; 
+	width: 16px; 
+	line-height: 16px; 
+	-moz-border-radius: 8px; 
+	border-radius: 8px; 
+	background-color: #00FF7F; 
+	color: black; 
+	text-align: center;
+}
+
+div.wrapComment { 
+	display: inline-block; 
+	height: 70px; 
+	width: 100%;
+}
+
+div.wrapRightComment { 
+	display: inline-block; 
+	height: 70px; 
+}
+
+div.redditorImage {
+	margin-right: 20px;
+}
+
+/*.wrapComment img { 
+	border: 1px solid blue; 
+	position: absolute; 
+	bottom: 0;
+	width: 90px;
+	height: 70px; 
+	display: inline-block; 
+}*/
+
+/*.wrapCommentPartRight a { 
+	border: 1px solid blue; 
+	width: 90px;
+	height: 70px;
+	display: inline-block; 
+}*/
+
+.wrapCommentPartLeft {
+	display: inline-block;
+	float:left;
+	height: 70px;
+}
+
+.wrapCommentPartRight { 
+	float:right;
+	display: inline-block;
+	height: 70px; 
+}
+
+
+
+
+/* ------------------------------------------
+PURE CSS SPEECH BUBBLES
+by Nicolas Gallagher
+- https://nicolasgallagher.com/pure-css-speech-bubbles/
+
+https://nicolasgallagher.com
+https://twitter.com/necolas
+
+Created: 02 March 2010
+Version: 1.2 (03 March 2011)
+
+Dual licensed under MIT and GNU GPLv2 Nicolas Gallagher
+------------------------------------------ */
+
+/* NOTE: Some declarations use longhand notation so that it can be clearly
+explained what specific properties or values do and what their relationship
+is to other properties or values in creating the effect */
+
+/* ============================================================================================================================
+== GENERAL STYLES
+** ============================================================================================================================ */
+
+/*p {
+  margin:1em 0;
+}
+
+.content h2 {
+  margin:2em 0 0.75em;
+  font-size:2em;
+  font-weight:bold;
+  font-style:normal;
+  text-align:left;
+}*/
+
+
+/*
+ Should you want to set a background colour on a containing element
+ certain types of bubble effect may require you to include these
+ style declarations.
+ */
+/*.content {
+  position:relative;
+  z-index:1;
+}*/
+
+/* ============================================================================================================================
+== BUBBLE WITH A BORDER AND TRIANGLE
+** ============================================================================================================================ */
+
+/* THE SPEECH BUBBLE
+------------------------------------------------------------------------------------------------------------------------------- */
+
+.triangle-border {
+  display: inline-block; /* added by mhh */
+  vertical-align: top; /* added by mhh */
+  position:relative;
+  padding:15px;
+  /*margin:1em 0 3em; removed by mhh */
+  border:5px solid gray;   /* mhh orig: border:5px solid #5a8f00; */
+  color:#333;
+  background:#fff;
+  /* css3 */
+  -webkit-border-radius:10px;
+  -moz-border-radius:10px;
+  border-radius:10px;
+  font:1em/1.4 Cambria, Georgia, sans-serif; /* mhh */
+  color:#333; /* mhh */
+  background:#fff; /* mhh */
+}
+
+/* Variant : for left positioned triangle
+------------------------------------------ */
+
+.triangle-border.left {
+  margin-left:30px;
+}
+
+/* Variant : for right positioned triangle
+------------------------------------------ */
+
+.triangle-border.right {
+  margin-right:30px;
+}
+
+/* THE TRIANGLE
+------------------------------------------------------------------------------------------------------------------------------- */
+
+.triangle-border:before {
+  content:"";
+  position:absolute;
+  bottom:-20px; /* value = - border-top-width - border-bottom-width */
+  left:40px; /* controls horizontal position */
+  border-width:20px 20px 0;
+  border-style:solid;
+  border-color: gray transparent;  /* mhh orig: border-color:#5a8f00 transparent; */
+  /* reduce the damage in FF3.0 */
+  display:block;
+  width:0;
+}
+
+/* creates the smaller  triangle */
+.triangle-border:after {
+  content:"";
+  position:absolute;
+  bottom:-13px; /* value = - border-top-width - border-bottom-width */
+  left:47px; /* value = (:before left) + (:before border-left) - (:after border-left) */
+  border-width:13px 13px 0;
+  border-style:solid;
+  border-color:#fff transparent;
+  /* reduce the damage in FF3.0 */
+  display:block;
+  width:0;
+}
+
+
+
+
+/* Variant : right
+------------------------------------------ */
+
+/* creates the larger triangle */
+.triangle-border.right:before {
+  top:10px; /* controls vertical position */
+  bottom:auto;
+  left:auto;
+  right:-30px; /* value = - border-left-width - border-right-width */
+  border-width:15px 0 15px 30px;
+  border-color:transparent gray; /* mhh orig: border-color:transparent #5a8f00;  */
+}
+
+/* creates the smaller  triangle */
+.triangle-border.right:after {
+  top:16px; /* value = (:before top) + (:before border-top) - (:after border-top) */
+  bottom:auto;
+  left:auto;
+  right:-21px; /* value = - border-left-width - border-right-width */
+  border-width:9px 0 9px 21px;
+  border-color:transparent #fff;
+}
+
+
+}

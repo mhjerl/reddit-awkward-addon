@@ -1,0 +1,58 @@
+<!doctype html><html xmlns="https://www.w3.org/1999/xhtml" lang="da" xml:lang="da">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<script src="jquery.js"></script>
+<script src="popse.js"></script>
+<link rel="stylesheet" media="screen" href="popup.css"/>
+
+</head>
+<body>
+<div class="header_sct">
+	<h1><span class="h1-span">Control Panel</span>Reddit Awkward</h1>
+	<h2><span class="h2-span" id="redditorSpanner"></span></h2>
+	<center><span style="color:red;" id="statusSpanner"></span></center>
+</div>
+<div class="content_sct">
+	<div id="versionerror_div" style="display: none;">
+		<h3 style="color:red;">New app version available. Please <a href="https://redditawkward.com">upgrade</a>.</h3>
+	</div>
+	<div id="before_authenticated_div">
+		<h3>Please enter authentication hash</h3>
+		<input id="auth_hash_inp" type="text">
+		<input id="auth_subm" type="submit" value="Authenticate">
+	</div>
+	<div id="after_authenticated_div" style="display: none;">
+
+		<h3>Awkward Karma: <span id="pKarmaSpanner"></span></h3>
+		<div class="article">
+			<div id="notificationsandgifts-container">
+			<table border="0" id="notificationandgift-table"><tr><th></th><th></th></tr></table>
+			</div>
+		</div>
+		<h3>Friends</h3>
+		<div class="article">
+			<div id="friends-container">
+			<table border="0" id="friend-table"><tr><th></th><th></th></tr></table>
+			</div>
+		</div>
+		<h3>Account</h3>
+		<div class="article">
+			<div id="accountTypeInfo">
+				<div class="button_wrapper"><a target="_blank" href="https://redditawkward.com/p/pricing-3columns.php">Go Premium!</a></div>
+			</div>
+		</div>
+		<h3>Misc.</h3>
+		<div class="article">
+			<p><small><a target="_blank" href="https://redditawkward.com">TODO: View all gifts and notifications...</a></small></p>
+			<p><a target="_blank" href="https://redditawkward.com">Reddit Awkward</a></p>
+			<input type="checkbox" id="checkboxActive" name="checkboxActive"/>
+			<label for="checkboxActive"><nobr>Aktiv</nobr></label>
+
+			<p>Tid til næste forsøg: <span id="timerLabel"></span></p>
+			<p>Antal forsøg: <span id="counterLabel"></span></p>
+		</div>
+	</div>
+</div>
+</body>
+</html>
