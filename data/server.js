@@ -237,7 +237,7 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 							if (ruleViolationSpecification) {
 								ruleViolationSpecification2 = ruleViolationSpecification;
 							}
-							html = '<li><span title="' + ruleViolationSpecification2 + '" style="color: red" class="tab"><a target="_blank" href="https://redditawkward.com/p/report_rule_violation.php?subreddit=' + subreddit + '&commentid=' + commentId + '&tag=' + tag + '">violation!</a></span></li>';
+							html = '<li><span title="' + ruleViolationSpecification2 + '" style="color: red" class="tab"><a target="_blank" href="https://redditawkward.com/report_rule_violation.php?subreddit=' + subreddit + '&commentid=' + commentId + '&tag=' + tag + '">violation!</a></span></li>';
 
 							gubbe = $('#' + tname);
 							//var sizegubbe = $('#' + tname).html().length;
@@ -283,7 +283,7 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 						//$('#' + tname).append(img);*/
 					
 						var html2 = $('#' + tname).find(".usertext-body").first().find(".md").first().html();
-						var img = '<div class="redditorImage"><a href="https://redditawkward.com/p/"><img src="https://redditawkward.com/temp/team-member3.jpg" height="65"></a></div>';
+						var img = '<div class="redditorImage"><a href="https://redditawkward.com/"><img src="https://redditawkward.com/temp/team-member3.jpg" height="65"></a></div>';
 						var html3 = '<div class="wrapComment">';
 						var urlImgo = chrome.extension.getURL('/data/openquote1.gif');
 						html3 = html3 + '<div class="wrapCommentPartLeft"><div class="md">' + html2 + '</div></div>';

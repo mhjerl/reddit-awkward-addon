@@ -361,17 +361,17 @@ function loadIt() {
 				if (obby.type === "gift") {
 					var imagetype = obby.obby.imagetype;
 					if (imagetype === "man") {
-						hyperlink = '<a title="' + titlepopup + '" href="https://redditawkward.com/p/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/p/images/avatars/builderman.png" width="48"></a>';
+						hyperlink = '<a title="' + titlepopup + '" href="https://redditawkward.com/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/images/avatars/builderman.png" width="48"></a>';
 					}
 					else if (imagetype === "woman") {
-						hyperlink = '<a title="' + titlepopup + '" href="https://redditawkward.com/p/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/p/images/avatars/builderwoman.png" width="48"></a>';
+						hyperlink = '<a title="' + titlepopup + '" href="https://redditawkward.com/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/images/avatars/builderwoman.png" width="48"></a>';
 					}
 					else if (imagetype === "neutral") {
-						hyperlink = '<a title="' + titlepopup + '" href="https://redditawkward.com/p/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/p/images/avatars/astronaut.png" width="48"></a>';
+						hyperlink = '<a title="' + titlepopup + '" href="https://redditawkward.com/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/images/avatars/astronaut.png" width="48"></a>';
 					}
 					else if (imagetype === "custom") {
 						var imagecustom = obby.obby.imagecustom;
-						hyperlink = '<a title="' + titlepopup + '" href="https://redditawkward.com/p/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/p/uplooood/' + imagecustom +'"></a>';
+						hyperlink = '<a title="' + titlepopup + '" href="https://redditawkward.com/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/uplooood/' + imagecustom +'"></a>';
 					}
 				}
 				
@@ -382,7 +382,7 @@ function loadIt() {
 					var tagCategory = tagCategories[tag];
 					console.log("tagCategory: " + tagCategory);
 					tagCategory = tagCategory.toLowerCase();
-					imghyperlink = '<a title="' + titlepopup + '" href="https://redditawkward.com/rules/' + tag + '.html"><img src="https://redditawkward.com/p/images/categories/' + tagCategory + '.png" width="48"></a>';
+					imghyperlink = '<a title="' + titlepopup + '" href="https://redditawkward.com/rules/' + tag + '.html"><img src="https://redditawkward.com/images/categories/' + tagCategory + '.png" width="48"></a>';
 					console.log("imghyperlink: " + imghyperlink);
 				}
 				
@@ -448,16 +448,16 @@ function loadIt() {
 				var friendName = friends[i].friend;
 				var hyperlink = null;
 				if (friends[i].imagetype === "man") {
-					hyperlink = '<a href="https://redditawkward.com/p/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/p/images/avatars/builderman.png" width="48"></a>';
+					hyperlink = '<a href="https://redditawkward.com/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/images/avatars/builderman.png" width="48"></a>';
 				}
 				else if (friends[i].imagetype === "woman") {
-					hyperlink = '<a href="https://redditawkward.com/p/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/p/images/avatars/builderwoman.png" width="48"></a>';
+					hyperlink = '<a href="https://redditawkward.com/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/images/avatars/builderwoman.png" width="48"></a>';
 				}
 				else if (friends[i].imagetype === "neutral") {
-					hyperlink = '<a href="https://redditawkward.com/p/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/p/images/avatars/astronaut.png" width="48"></a>';
+					hyperlink = '<a href="https://redditawkward.com/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/images/avatars/astronaut.png" width="48"></a>';
 				}
 				else if (friends[i].imagetype === "custom") {
-					hyperlink = '<a href="https://redditawkward.com/p/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/p/uplooood/' + friends[i].imagecustom +'" width="48"></a>';
+					hyperlink = '<a href="https://redditawkward.com/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/uplooood/' + friends[i].imagecustom +'" width="48"></a>';
 				}
 				cell1.innerHTML = hyperlink;
 				cell2.innerHTML = friends[i].total;
