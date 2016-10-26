@@ -247,6 +247,98 @@ function mimbaw() {
 	}
 
 
+	// Enforce general rule §5: Nearly all Awkward tags are social in nature. Redditors can't direct any tags, besides reddit.awkward{no.i.mean.it}, towards their own comments.
+	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
+		var redditor = allCommentsWithAllEntries[i]['author'];
+		var secondPersonCommentWithAllEntriesYoobee = getParent(allCommentsWithAllEntries[i]);
+		if (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{") !== -1) {
+			if (redditor === secondPersonCommentWithAllEntriesYoobee['author']) {
+				// Here: Redditor is responding to himself
+				// Test if he's using the reddit.awkward{no.i.mean.it} tag
+				if (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{no.i.mean.it}") === -1) {
+					// Here: He is not using the reddit.awkward{no.i.mean.it} tag
+					// Therefore: Garble
+					var titleCursory = "General Rule §5: §5: Nearly all Awkward tags are social in nature. Redditors can't direct any tags, besides reddit.awkward{no.i.mean.it}, towards their own comments.";
+					var textCursory = "Don't do that";
+					var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally used an Awkward tag in dialogue with myself!", override: true};
+					viewSetterBunch.push(viewSetter);
+				}
+			}
+		}
+	}
+
+
+
+	// reddit.awkward{i.dont.think.the.original.post.has.been.addressed.yet}, reddit.awkward{i.dont.think.the.original.post.has.been.taken.seriously.yet} or reddit.awkward{its.fine.i.consider.the.case.closed} tags:
+	// find (if it exists) comment with reddit.awkward{i.dont.think.the.original.post.has.been.addressed.yet}, reddit.awkward{i.dont.think.the.original.post.has.been.treated.respectfully} or reddit.awkward{its.fine.i.consider.the.case.closed} tag
+	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
+		if ((allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{no.problem}") !== -1) || (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{i.dont.think.the.original.post.has.been.taken.seriously.yet}") !== -1)  |(allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{i.dont.think.the.original.post.has.been.treated.respectfully}") !== -1)) {
+			var secondPersonCommentWithAllEntriesYoobee = getParent(allCommentsWithAllEntries[i]);
+			if (secondPersonCommentWithAllEntriesYoobee['id'] !== allCommentsWithAllEntries   [0]    ) {
+				// Here: Parent isn't main comment
+				// Therefore: Garble!
+				// Match text between {}
+				var matches = body.match(/\{(.*?)\}/);
+				var shortHandTag = matches[1];
+				var tag = "reddit.awkward{" + shortHandTag + "}";
+				var titleCursory = "This tag (" + tag + ") should only be used as direct answer to main post/link.";
+				var textCursory = tag + " tag misuse";
+				var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally used " + tag + " too deep into the comment tree."};
+				viewSetterBunch.push(viewSetter);
+			}
+		}
+	}
+
+
+	// reddit.awkward{thanks}, reddit.awkward{explanation.why.i.was.angry} and reddit.awkward{i.was.being.careless}
+	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
+		if ((allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{thanks}") !== -1) || (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{explanation.why.i.was.angry}") !== -1)  |(allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{i.was.being.careless}") !== -1)) {
+			var secondPersonCommentWithAllEntriesYoobee = getParent(allCommentsWithAllEntries[i]);
+			if ((secondPersonCommentWithAllEntriesYoobee['body'].indexOf("reddit.awkward{no.problem}") === -1) && (secondPersonCommentWithAllEntriesYoobee['body'].indexOf("reddit.awkward{dont.mind.its.ok.lets.move.on}") === -1) || (secondPersonCommentWithAllEntriesYoobee['body'].indexOf("reddit.awkward{its.fine.i.consider.the.case.closed}") === -1)) {
+				// Here: Tag is not used towards an overbearing act of kindness
+				// Therefore: Garble
+
+				// Match text between {}
+				var body = allCommentsWithAllEntries[i]['body'];
+				var matches = body.match(/\{(.*?)\}/);
+				var shortHandTag = matches[1];
+				var tag = "reddit.awkward{" + shortHandTag + "}";
+				var titleCursory = "You misused the tag " + tag + ". It should be directed against 'an overbearing act' i.e. either towards reddit.awkward{no.problem}, reddit.awkward{dont.mind.its.ok.lets.move.on} or reddit.awkward{its.fine.i.consider.the.case.closed}."
+				var textCursory = tag + " tag misuse";
+				var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally used " + tag + " where nobody was overbearing."};
+				viewSetterBunch.push(viewSetter);
+			}
+			
+		}
+	}
+
+
+
+
+
+
+	// reddit.awkward{no.problem}, reddit.awkward{dont.mind.its.ok.lets.move.on} or reddit.awkward{its.fine.i.consider.the.case.closed} tags:
+	// find (if it exists) comment with reddit.awkward{no.problem}, reddit.awkward{dont.mind.its.ok.lets.move.on} or reddit.awkward{its.fine.i.consider.the.case.closed} tag
+	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
+		if ((allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{no.problem}") !== -1) || (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{dont.mind.its.ok.lets.move.on}") !== -1)  |(allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{its.fine.i.consider.the.case.closed}") !== -1)) {
+			var secondPersonCommentWithAllEntriesYoobee = getParent(allCommentsWithAllEntries[i]);
+			if ((secondPersonCommentWithAllEntriesYoobee['body'].indexOf("reddit.awkward{i.apologize}") === -1) && (secondPersonCommentWithAllEntriesYoobee['body'].indexOf("reddit.awkward{guarded.apology}") === -1)) {
+				// Here: Tag is not used towards apology
+				// Therefore: Garble
+
+				// Match text between {}
+				var matches = body.match(/\{(.*?)\}/);
+				var shortHandTag = matches[1];
+				var tag = "reddit.awkward{" + shortHandTag + "}";
+				var titleCursory = "This tag (" + tag + ")should only be used towards an apology.";
+				var textCursory = tag + " tag misuse";
+				var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally used " + tag + " where nobody apologized."};
+				viewSetterBunch.push(viewSetter);
+			}
+		}
+	}
+
+
 
 	// reddit.awkward{doorslam} tag:
 	// find (if it exists) comment with reddit.awkward{doorslam} tag

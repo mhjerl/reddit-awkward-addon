@@ -1,9 +1,8 @@
 {
-
   "description": "Hide specific reddit comments and subjects based on user-inserted tags.",
   "manifest_version": 2,
   "name": "Reddit Awkward",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "homepage_url": "https://redditawkward.com",
   "applications": {
     "gecko": {
