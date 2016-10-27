@@ -345,7 +345,12 @@ function mimbaw() {
 	// reddit.awkward{fight.the.reddit.karma.system}
 	// reddit.awkward{fight.reddit.tyranny.of.the.masses}
 	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
-		if ((allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{fight.reddit.anonymity}") !== -1)) || (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{fight.the.reddit.karma.system}") !== -1)) || (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{fight.reddit.tyranny.of.the.masses}") !== -1)) {
+		if (
+
+(allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{fight.reddit.anonymity}") !== -1)
+ || (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{fight.the.reddit.karma.system}") !== -1) 
+ || (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{fight.reddit.tyranny.of.the.masses}") !== -1)
+	) {
 			var body = allCommentsWithAllEntries[i]['body'];
 			// Match text between {}
 			var matches = body.match(/\{(.*?)\}/);
@@ -446,8 +451,6 @@ function mimbaw() {
 			}		
 		}
 	}
-
-
 
 
 

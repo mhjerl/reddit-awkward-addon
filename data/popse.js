@@ -264,7 +264,41 @@ function loadIt() {
 	chrome.storage.local.get(null, function(data) {
 		versionError = data.versionError;
 		if (versionError !== "none") {
-			$( '#before_authenticated_div' ).hide();
+
+
+
+
+
+
+
+
+
+
+
+
+
+			//$( '#before_authenticated_div' ).hide();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 			$( '#versionerror_div' ).show();
 			return;
 		}
