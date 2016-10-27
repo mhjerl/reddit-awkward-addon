@@ -262,6 +262,85 @@ function mimbaw() {
 		}
 	}
 
+
+
+
+	// reddit.awkward{i.am.one.of.the.strangest.people.youll.ever.meet} tag:
+	// find (if it exists) comment with reddit.awkward{i.am.one.of.the.strangest.people.youll.ever.meet} tag
+	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
+		if (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{i.am.one.of.the.strangest.people.youll.ever.meet}") !== -1) {
+			var tag = "reddit.awkward{" + shortHandTag + "}";
+			var titleCursory = "";
+			var textCursory = "Won Awkward Karma";
+			var viewSetter = {tag: "reddit.awkward{i.am.one.of.the.strangest.people.youll.ever.meet}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "green", title: titleCursory, garble: false, exclamation: "I am one of the strangest people you'll ever meet."};
+			viewSetterBunch.push(viewSetter);
+		}
+	}
+
+
+
+	// reddit.awkward{er.hi.what.kind.of.strange.presentation.is.that} tag:
+	// find (if it exists) comment with reddit.awkward{er.hi.what.kind.of.strange.presentation.is.that} tag
+	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
+		if (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{er.hi.what.kind.of.strange.presentation.is.that}") !== -1) {
+			var secondPersonCommentWithAllEntriesYoobee = getParent(allCommentsWithAllEntries[i]);
+			if (secondPersonCommentWithAllEntriesYoobee['author'] === allCommentsWithAllEntries[i]['author']) {
+				// Whoops. Redditor can't say this to himself/herself
+				// Garble
+				var titleCursory = "Redditor shouldn't talk to yourself here.";
+				var textCursory = "Talking to himself/herself";
+				var viewSetter = {tag: "reddit.awkward{er.hi.what.kind.of.strange.presentation.is.that}", id: apples[j]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally answered talked to myself too much."};
+				viewSetterBunch.push(viewSetter);
+			}
+			else {
+				if (secondPersonCommentWithAllEntriesYoobee['body'].indexOf("reddit.awkward{i.am.one.of.the.strangest.people.youll.ever.meet}") !== -1) {
+					// Here: Should be reply to a comment with reddit.awkward{i.am.one.of.the.strangest.people.youll.ever.meet}
+					var titleCursory = "";
+					var textCursory = "Won Awkward Karma";
+					var viewSetter = {tag: "reddit.awkward{er.hi.what.kind.of.strange.presentation.is.that}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "green", title: titleCursory, garble: false, exclamation: "I am one of the strangest people you'll ever meet."};
+					viewSetterBunch.push(viewSetter);
+				}
+				else {
+					var titleCursory = "Redditor shouldn't only say such things in reply to a comment with reddit.awkward{i.am.one.of.the.strangest.people.youll.ever.meet} in it.";
+					var textCursory = "Don't say here!";
+					var viewSetter = {tag: "reddit.awkward{er.hi.what.kind.of.strange.presentation.is.that}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "Er."};
+					viewSetterBunch.push(viewSetter);
+				}
+			}
+			
+		}
+	}
+
+
+
+	// reddit.awkward{watch.me.playing.soccer.with.myself.in.this.video} tag:
+	// find (if it exists) comment with reddit.awkward{watch.me.playing.soccer.with.myself.in.this.video} tag
+	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
+		if (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{watch.me.playing.soccer.with.myself.in.this.video}") !== -1) {
+			var secondPersonCommentWithAllEntriesYoobee = getParent(allCommentsWithAllEntries[i]);
+			var body = allCommentsWithAllEntries[i]['body'].toLowerCase()
+			if (body.indexOf("youtube") === -1) {
+				// Here: No YouTube links in here
+				// Therefore: Garble
+				var titleCursory = "Redditor said he/she would post a YouTube link, but no YouTube link was found in comment.";
+				var textCursory = "No youtube link found.";
+				var viewSetter = {tag: "reddit.awkward{watch.me.playing.soccer.with.myself.in.this.video}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I forgot a YouTube link in my comment."};
+				viewSetterBunch.push(viewSetter);
+			}
+			else {
+				// Here: Found YouTube word
+				// Therefore: Make nice viewsetter
+				var tag = "reddit.awkward{" + shortHandTag + "}";
+				var titleCursory = "";
+				var textCursory = "Won Awkward Karma";
+				var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "green", title: titleCursory, garble: false, exclamation: "I won Awkward Karma for playing soccer with myself."};
+				viewSetterBunch.push(viewSetter);
+			}
+		}
+	}
+
+
+
 	// reddit.awkward{fight.reddit.anonymity}
 	// reddit.awkward{fight.the.reddit.karma.system}
 	// reddit.awkward{fight.reddit.tyranny.of.the.masses}
