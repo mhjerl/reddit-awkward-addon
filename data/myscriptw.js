@@ -83,12 +83,6 @@ function mimbaw() {
 
 
 
-
-
-
-
-	////console.log(startsWith("asdf", "s"));
-	////console.log(startsWith("asdf", "p"));
 	//console.log("count: " + allCommentsWithAllEntries.length);
 	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
 		allCommentsWithAllEntriesPointer = i;
@@ -193,7 +187,8 @@ function mimbaw() {
 			var matches = body.match(/\{(.*?)\}/);
 			var shortHandTag = matches[1];
 			var tag = "reddit.awkward{" + shortHandTag + "}";
-			var isStandAlone = hasMoreWordsBesidesTheTagItselfDude(wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson[j]['body'], tag);
+			var wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson = getWholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson(allCommentsWithAllEntries[i]);
+			var isStandAlone = hasMoreWordsBesidesTheTagItselfDude(wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson[i]['body'], tag);
 			if (mustBeStandAloneTags[shortHandTag] === "mayNotStandAlone") {
 				// Here: Tag may not stand alone
 				// Therefore: If it does, garble
@@ -266,6 +261,179 @@ function mimbaw() {
 			}
 		}
 	}
+
+	// reddit.awkward{fight.reddit.anonymity}
+	// reddit.awkward{fight.the.reddit.karma.system}
+	// reddit.awkward{fight.reddit.tyranny.of.the.masses}
+	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
+		if ((allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{fight.reddit.anonymity}") !== -1)) || (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{fight.the.reddit.karma.system}") !== -1)) || (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{fight.reddit.tyranny.of.the.masses}") !== -1)) {
+			var body = allCommentsWithAllEntries[i]['body'];
+			// Match text between {}
+			var matches = body.match(/\{(.*?)\}/);
+			var shortHandTag = matches[1];
+			var tag = "reddit.awkward{" + shortHandTag + "}";
+			var titleCursory = "";
+			var textCursory = "Won Awkward Karma";
+			var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "green", title: titleCursory, garble: false, exclamation: "I won Awkward Karma for using this tag: " + tag + "!"};
+			viewSetterBunch.push(viewSetter);
+		}
+	}
+
+	// reddit.awkward{interesting.will.write.more.in.a.few.days.time} tag:
+	// find (if it exists) comment with reddit.awkward{interesting.will.write.more.in.a.few.days.time} tag
+	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
+		if (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{interesting.will.write.more.in.a.few.days.time}") !== -1) {
+			var secondPersonCommentWithAllEntriesYoobee = getParent(allCommentsWithAllEntries[i]);	
+			var idOfSecondPerson = secondPersonCommentWithAllEntriesYoobee['id'];
+			var id = idOfSecondPerson;
+			// ----------------------- same as giveMeTheNamesOfAllApplesOnTheBranchWithThisCommentAsAxePointHmmm start ------------------------
+			var apples = [];
+			for (var k = 0; k < branches.length; k++) {
+				var maybeApplesWeCanUse = [];
+				var ourAppleFound = false;
+				for (var m = 0; m < branches[k].length; m++) {
+					if (branches[k][m] === id) {
+						// Here: Apple found
+						// Push and break
+						ourAppleFound = true;
+						break;
+					}
+					else {
+						// Here: Apple not found yet and this is not our axepoint
+						// Therefore: Push
+						maybeApplesWeCanUse.push(branches[k][m]);
+					}
+				}
+				if (ourAppleFound) {
+					// Here: All apples we found are legit
+					// Therefore: Add them to apple bunch
+					apples.push(maybeApplesWeCanUse);
+				}
+			}
+			// ----------------------- same as giveMeTheNamesOfAllApplesOnTheBranchWithThisCommentAsAxePointHmmm end --------------------------
+			var answeredCorrectly = false;
+			for (var j = 0; j < apples.length; j++) {
+				if (allCommentsWithAllEntries[i]['id'] !== apples[j]['id']) {
+					// Here: Found other comment which is a reply to parent comment
+					// Therefore: Check if author is me, i.e. then the comment is maybe valide (if it's within the timespan)
+					if (allCommentsWithAllEntries[i]['author'] === apples[j]['author']) {
+						// Here: Found comment by redditor
+						// Therefore: Check if redditor has answered in the appropriate timespan in the branch of the parent comment
+						var timeUTCTagUsed =  allCommentsWithAllEntries['id']['created_utc'] * 1000;
+						var timeOfMyReply = allCommentsWithAllEntries[apples[j]['id']]['created_utc'] * 1000;
+						var hoursGoneBy = ((timeOfMyReply - timeUTCTagUsed) / (60 * 60 * 1000));
+						if (hoursGoneBy < 24) {
+							// Here: Redditor answered too early
+							// Therefore: Garble
+							var titleCursory = "Redditor said he/she would answer in a few days time, but answered within 24 hours.";
+							var textCursory = "Answered too early";
+							var viewSetter = {tag: "reddit.awkward{interesting.will.write.more.in.a.few.days.time}", id: apples[j]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally answered too early."};
+							viewSetterBunch.push(viewSetter);
+						}
+						else if (hoursGoneBy > 24 * 4) {
+							// Here: Expired
+                            // Therefore: Garble
+							var titleCursory = "Redditor said he/she would answer in a few days time, but answered within after four days.";
+							var textCursory = "Answered too late";
+							var viewSetter = {tag: "reddit.awkward{interesting.will.write.more.in.a.few.days.time}", id: apples[j]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally answered too late."};
+							viewSetterBunch.push(viewSetter);
+						}
+						else {
+							// Here: Redditor answered correctly
+							// Therefore: Make nice viewsetter
+							answeredCorrectly = true;
+							var titleCursory = "";
+							var textCursory = "Won Awkward Karma";
+							var viewSetter = {tag: "reddit.awkward{interesting.will.write.more.in.a.few.days.time}", id: apples[j]['id'], text: textCursory, color: "green", title: titleCursory, garble: false, exclamation: "I won Awkward Karma for answering " + apples[j]['author'] + " like I said I would."};
+							viewSetterBunch.push(viewSetter);
+						}
+					}
+				}
+			}
+			if (!answeredCorrectly) {
+				// Here: Redditor didn't answer yet, as he/she said he/she would.
+				// Therefore: Check if the time has run out
+				var nowUTC = new Date().getTime();
+				var timeUTCTagUsed =  allCommentsWithAllEntries['id']['created_utc'] * 1000;
+				var hoursGoneBy = (nowUTC - timeUTCTagUsed)/Math.floor(1000 * 60 *60);
+				if ($hoursGoneBy > 24 * 4) {
+					// Expired
+					// Garble
+					var titleCursory = "Redditor said he/she would answer in a few days time, but didn't answer within four days.";
+					var textCursory = "Didn't answer";
+					var viewSetter = {tag: "reddit.awkward{interesting.will.write.more.in.a.few.days.time}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally forgot to answer."};
+					viewSetterBunch.push(viewSetter);
+				}	
+			}		
+		}
+	}
+
+
+
+
+
+
+	// reddit.awkward{youre.being.overly.ironic.and.are.violating.the.rules} tag:
+	// find (if it exists) comment with reddit.awkward{youre.being.overly.ironic.and.are.violating.the.rules} tag
+	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
+		if (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{youre.being.overly.ironic.and.are.violating.the.rules}") !== -1) {
+			var secondPersonCommentWithAllEntriesYoobee = getParent(allCommentsWithAllEntries[i]);
+			if (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{youre.being.overly.ironic.and.are.violating.the.rules}")         ===        -1) {
+				// Here: Disobeyed §1 Must be a reply to a comment with a Reddit Awkward tag in it.
+				// Therefore: Garble
+				var titleCursory = "Redditor must only use this tag against a comment containing a Reddit Awkward tag. (Tag Rule §1)";
+				var textCursory = "Disallowed tag use";
+				var viewSetter = {tag: "reddit.awkward{youre.being.overly.ironic.and.are.violating.the.rules}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally used this tag at a comment without an Awkward Tag in it."};
+				viewSetterBunch.push(viewSetter);
+			}
+		}
+	}
+
+
+	// reddit.awkward{i.consider.this.comment.definitive.and.consider.any.reply.inappropriate} tag:
+	// find (if it exists) comment with reddit.awkward{doorslam} tag
+	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
+		if (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{i.consider.this.comment.definitive.and.consider.any.reply.inappropriate}") !== -1) {
+			var redditor = allCommentsWithAllEntries[i]['author'];
+			var id = allCommentsWithAllEntries[i]['id'];
+			var wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson = getWholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson(allCommentsWithAllEntries[i]);
+			for (var j = 0; j < wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson.length; j++) {
+				// ----------------------- same as giveMeTheNamesOfAllApplesOnTheBranchWithThisCommentAsAxePointHmmm start ------------------------
+				var apples = [];
+				for (var k = 0; k < branches.length; k++) {
+					var maybeApplesWeCanUse = [];
+					var ourAppleFound = false;
+					for (var m = 0; m < branches[k].length; m++) {
+						if (branches[k][m] === id) {
+							// Here: Apple found
+							// Push and break
+							ourAppleFound = true;
+							break;
+						}
+						else {
+							// Here: Apple not found yet and this is not our axepoint
+							// Therefore: Push
+							maybeApplesWeCanUse.push(branches[k][m]);
+						}
+					}
+					if (ourAppleFound) {
+						// Here: All apples we found are legit
+						// Therefore: Add them to apple bunch
+						apples.push(maybeApplesWeCanUse);
+					}
+				}
+				// ----------------------- same as giveMeTheNamesOfAllApplesOnTheBranchWithThisCommentAsAxePointHmmm end --------------------------
+				for (var j = 0; j < apples.length; j++) {
+					var titleCursory = "Redditor must not comment following a comment with reddit.awkward{i.consider.this.comment.definitive.and.consider.any.reply.inappropriate}";
+					var textCursory = "Replies prohibited";
+					var viewSetter = {tag: "reddit.awkward{i.consider.this.comment.definitive.and.consider.any.reply.inappropriate}", id: allCommentsWithAllEntries[j]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally ignored reddit.awkward{i.consider.this.comment.definitive.and.consider.any.reply.inappropriate}"};
+					viewSetterBunch.push(viewSetter);
+				}
+			}
+			
+		}
+	}
+
 
 
 
@@ -370,7 +538,6 @@ function mimbaw() {
 			}
 		}
 	}
-
 
 
 	// reddit.awkward{explanation.why.i.was.angry} tag:
@@ -816,9 +983,6 @@ function getWholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson(commentWith
 	return bunch;
 }
 
-function isLeaf(cid) {
-	
-}
 
 
 function dump(obj) {
