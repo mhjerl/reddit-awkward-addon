@@ -382,7 +382,7 @@ function loadIt() {
 					var tagCategory = tagCategories[tag];
 					console.log("tagCategory: " + tagCategory);
 					tagCategory = tagCategory.toLowerCase();
-					imghyperlink = '<a title="' + titlepopup + '" href="https://redditawkward.com/rules/' + tag + '.html"><img src="https://redditawkward.com/images/categories/' + tagCategory + '.png" width="48"></a>';
+					imghyperlink = '<a title="' + titlepopup + '" href="https://redditawkward.com/rules/' + tag + '.php"><img src="https://redditawkward.com/images/categories/' + tagCategory + '.png" width="48"></a>';
 					console.log("imghyperlink: " + imghyperlink);
 				}
 				

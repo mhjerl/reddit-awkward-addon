@@ -36,7 +36,7 @@ function rADropdownSelect(sel, cid) {
 		if (mustBeStandAloneTags[value] === "mustStandAlone") {
 			lineBreaks = "";
 		}
-		var ins_text = yourCommentHere + lineBreaks + '[reddit.awkward{' + value + '}](https://redditawkward.com/rules/' + value + '.html)';
+		var ins_text = yourCommentHere + lineBreaks + '[reddit.awkward{' + value + '}](https://redditawkward.com/rules/' + value + '.php)';
 		if (!chkbx.prop('checked')) {
 			ins_text = yourCommentHere + lineBreaks + 'reddit.awkward{' + value + '}';
 		}
