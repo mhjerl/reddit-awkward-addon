@@ -50,7 +50,7 @@ function listenOListenMyFriend2(request, sender, sendResponse) {
         }
         sendResponse({redditor: redditor});
     }
-	else if (request.funkodonko === "getTabURL") {
+	else if (request.funkodonko === "getTabURLFromUtilJS") {
 		console.log("a");
 		var tabURL = window.location.toString();
 		console.log("b:" + tabURL);

@@ -138,7 +138,7 @@ function mimbaw() {
 						if (allCommentsWithAllEntries[j]['author'] === secondPersonCommentWithAllEntriesYoobee['author']) {
 							// Here: Redditor is author
 							// Therefore: Check for existence of Reddit Awkward tag
-							var commentBody = $secondPersonCommentWithAllEntriesYoobee['body'];
+							var commentBody = secondPersonCommentWithAllEntriesYoobee['body'];
 							if (commentBody.indexOf("reddit.awkward{") !== -1) {
 								// Here: Conclusion: Redditor used more than oneAwkward Tags on the same level
 								// Therefore: Garble all viewSetters on this spot
@@ -187,8 +187,7 @@ function mimbaw() {
 			var matches = body.match(/\{(.*?)\}/);
 			var shortHandTag = matches[1];
 			var tag = "reddit.awkward{" + shortHandTag + "}";
-			var wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson = getWholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson(allCommentsWithAllEntries[i]);
-			var isStandAlone = hasMoreWordsBesidesTheTagItselfDude(wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson[i]['body'], tag);
+			var isStandAlone = hasMoreWordsBesidesTheTagItselfDude(body, tag);
 			if (mustBeStandAloneTags[shortHandTag] === "mayNotStandAlone") {
 				// Here: Tag may not stand alone
 				// Therefore: If it does, garble
@@ -216,9 +215,12 @@ function mimbaw() {
 		var redditor = allCommentsWithAllEntries[i]['author'];
 		var body = allCommentsWithAllEntries[i]['body'];
 		// Match text between {}
-		var matches = body.match(/\{(.*?)\}/);
-		var shortHandTag = matches[1];
-		var tag = "reddit.awkward{" + shortHandTag + "}";
+		var tag = "none";
+		if (body.indexOf("reddit.awkward{") !== -1) {
+			var matches = body.match(/\{(.*?)\}/);
+			var shortHandTag = matches[1];
+			tag = "reddit.awkward{" + shortHandTag + "}";
+		}
 		for (var j = 0; j < conflictRedditorsOnPage.length; j++) {
 			if (conflictRedditorsOnPage[j]['needsToApologizeRedditor'] === redditor) {
 				var secondPersonName = conflictRedditorsOnPage[j]['angryRedditor'];
@@ -478,41 +480,39 @@ function mimbaw() {
 		if (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{i.consider.this.comment.definitive.and.consider.any.reply.inappropriate}") !== -1) {
 			var redditor = allCommentsWithAllEntries[i]['author'];
 			var id = allCommentsWithAllEntries[i]['id'];
-			var wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson = getWholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson(allCommentsWithAllEntries[i]);
+			/*var wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson = getWholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson(allCommentsWithAllEntries[i]);
 			for (var j = 0; j < wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson.length; j++) {
-				// ----------------------- same as giveMeTheNamesOfAllApplesOnTheBranchWithThisCommentAsAxePointHmmm start ------------------------
-				var apples = [];
-				for (var k = 0; k < branches.length; k++) {
-					var maybeApplesWeCanUse = [];
-					var ourAppleFound = false;
-					for (var m = 0; m < branches[k].length; m++) {
-						if (branches[k][m] === id) {
-							// Here: Apple found
-							// Push and break
-							ourAppleFound = true;
-							break;
-						}
-						else {
-							// Here: Apple not found yet and this is not our axepoint
-							// Therefore: Push
-							maybeApplesWeCanUse.push(branches[k][m]);
-						}
+				// ----------------------- same as giveMeTheNamesOfAllApplesOnTheBranchWithThisCommentAsAxePointHmmm start ------------------------*/
+			var apples = [];
+			for (var k = 0; k < branches.length; k++) {
+				var maybeApplesWeCanUse = [];
+				var ourAppleFound = false;
+				for (var m = 0; m < branches[k].length; m++) {
+					if (branches[k][m] === id) {
+						// Here: Apple found
+						// Push and break
+						ourAppleFound = true;
+						break;
 					}
-					if (ourAppleFound) {
-						// Here: All apples we found are legit
-						// Therefore: Add them to apple bunch
-						apples.push(maybeApplesWeCanUse);
+					else {
+						// Here: Apple not found yet and this is not our axepoint
+						// Therefore: Push
+						maybeApplesWeCanUse.push(branches[k][m]);
 					}
 				}
-				// ----------------------- same as giveMeTheNamesOfAllApplesOnTheBranchWithThisCommentAsAxePointHmmm end --------------------------
-				for (var j = 0; j < apples.length; j++) {
-					var titleCursory = "Redditor must not comment following a comment with reddit.awkward{i.consider.this.comment.definitive.and.consider.any.reply.inappropriate}";
-					var textCursory = "Replies prohibited";
-					var viewSetter = {tag: "reddit.awkward{i.consider.this.comment.definitive.and.consider.any.reply.inappropriate}", id: allCommentsWithAllEntries[j]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally ignored reddit.awkward{i.consider.this.comment.definitive.and.consider.any.reply.inappropriate}"};
-					viewSetterBunch.push(viewSetter);
+				if (ourAppleFound) {
+					// Here: All apples we found are legit
+					// Therefore: Add them to apple bunch
+					apples.push(maybeApplesWeCanUse);
 				}
 			}
-			
+			// ----------------------- same as giveMeTheNamesOfAllApplesOnTheBranchWithThisCommentAsAxePointHmmm end --------------------------
+			for (var j = 0; j < apples.length; j++) {
+				var titleCursory = "Redditor must not comment following a comment with reddit.awkward{i.consider.this.comment.definitive.and.consider.any.reply.inappropriate}";
+				var textCursory = "Replies prohibited";
+				var viewSetter = {tag: "reddit.awkward{i.consider.this.comment.definitive.and.consider.any.reply.inappropriate}", id: apples[j], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally ignored reddit.awkward{i.consider.this.comment.definitive.and.consider.any.reply.inappropriate}"};
+				viewSetterBunch.push(viewSetter);
+			}
 		}
 	}
 

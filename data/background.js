@@ -30,7 +30,6 @@ chrome.tabs.onUpdated.addListener(function(tabId, info, tab) {
 		console.log("??????????????????????????????? complete ??????????????????????????????????" + codeOneURL);
 		processReddit(codeOneURL);
 
-		//chrome.runtime.sendMessage({funkodonko: "notifyAboutNiceGiftsJustInAndPutThemOnTheShelf", gifts: gifts}, function(response) {  
 	}
 });
 
@@ -69,7 +68,7 @@ chrome.webNavigation.onDOMContentLoaded.addListener(logOnDOMContentLoaded);
 //console.log("----------------- lapotska ----------------------------hi from background.js");
 
 
-function initAsynchronous(redditor, redditurl) {
+function initAsynchronous(redditurl) {
 	//console.log("glame");
 
 
@@ -78,7 +77,13 @@ function initAsynchronous(redditor, redditurl) {
 	commentPageId = getSegment(redditurl, 4);
 	pageName = getSegment(redditurl, 5);
 
-
+	if (semiSecretHash == null) {
+		chrome.browserAction.setIcon({
+			path : "data/off1.png"
+		});
+		console.log("No hash. Returning");
+		return;
+	}
 
 
 	
@@ -124,7 +129,7 @@ function initAsynchronous(redditor, redditurl) {
 			set("redditor", redditor);
 			var serverJsonObj = JSON.parse(serverJson);
 			//console.log("Klopstockssisyy");
-			var versionError = JSON.parse(serverJsonObj.versionError);
+			var versionError = serverJsonObj.versionError;
 			set("versionError", versionError);
 			
 			dump(serverJsonObj);
@@ -132,14 +137,6 @@ function initAsynchronous(redditor, redditurl) {
 			//console.log("");
 			dump(gifts);
 			
-			//$mainPostId = $jsonObj[0]->data->children[0]->data->id;
-
-			//console.log("gifts 2 motivation........: " + gifts[2].motivation);
-			//chrome.browserAction.setBadgeText({text: (gifts.length).toString()});
-			//console.log("kamel");
-			/*chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-				chrome.tabs.sendMessage(tabs[0].id, {funkodonko: "serverMessageIsFineAndReadyEr", sJson: serverJson}, function(response) {});
-			});*/
 
 			//console.log("Klossk");
 			
@@ -202,12 +199,6 @@ function initAsynchronous(redditor, redditurl) {
 			set("membersOnPage", membersOnPage);
 
 
-			chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-				chrome.tabs.sendMessage(tabs[0].id, {funkodonko: "serverMessageIsFineAndReadyEr", sJson: serverJson}, function(response) {});
-			});
-
-
-
 
 			var totalPKarma = JSON.parse(serverJsonObj.totalPKarma);
 			//console.log("totalPKarma: " + totalPKarma);
@@ -226,9 +217,6 @@ function initAsynchronous(redditor, redditurl) {
 				popup.loadIt();
 			}
 
-			chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-				chrome.tabs.sendMessage(tabs[0].id, {funkodonko: "serverMessageIsFineAndReadyEr", sJson: serverJson}, function(response) {});
-			});
 			chrome.browserAction.setBadgeBackgroundColor({color: "#933ec5"}); // purple
 			chrome.browserAction.setBadgeText({text: (gifts.length + notifications.length).toString()});
 			processReddit3();
@@ -292,8 +280,8 @@ function processDisqus(url) {
 // thread link:https://redditawkward.com/rules/your.comment.inspired.me.html
 function processReddit(url) {
 	console.log("-------------- k a b u t --------------" + url);
-	chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-		chrome.tabs.sendMessage(tabs[0].id, {funkodonko: "getTabURL"}, function(response) {
+	/*chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+		chrome.tabs.sendMessage(tabs[0].id, {funkodonko: "getTabURLFromUtilJS"}, function(response) {
             //console.log("response: " + response.redditor);
             tabURL = response.tabURL;
 			console.log("tabURL: " + tabURL);
@@ -308,7 +296,15 @@ function processReddit(url) {
 			}
 			
 		});
-    });
+    });*/
+	domain = extractDomain(url);
+	console.log("domain: " + domain);
+	if (domain === "www.reddit.com") {
+		processReddit11(url);
+	}
+	else {
+		processDisqus(url);
+	}
 }
 
 
@@ -344,7 +340,7 @@ function processReddit11(url) {
             if (xhr.readyState == 4) {
                 pageJson = xhr.responseText;
                 //console.log("klabonk");
-                processReddit2(url);
+                initAsynchronous(url);
             }
         }
         xhr.send();
@@ -353,22 +349,6 @@ function processReddit11(url) {
 
 }
 
-function processReddit2(redditurl) {
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-        chrome.tabs.sendMessage(tabs[0].id, {funkodonko: "getRedditor"}, function(response) {
-            //console.log("response: " + response.redditor);
-            redditor = response.redditor;
-			if (redditor !== "---") {
-				initAsynchronous(redditor, redditurl);
-			}
-		});
-		/*chrome.tabs.sendMessage(tabs[0].id, {funkodonko: "getTabURL"}, function(response) {
-            //console.log("response: " + response.redditor);
-            tabURL = response.tabURL;
-			console.log("tabURL: " + tabURL); 
-		});*/
-    });
-}
 
 function processReddit3() {
     ////console.log("fredesen");
@@ -419,7 +399,6 @@ function processMainPage() {
     xhr.open("GET", codeOneURL + ".json", true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
-            // WARNING! Might be injecting a malicious script!
             pageJson = xhr.responseText;
             processMainPage3();
         }
@@ -496,22 +475,23 @@ function setVariablesCalledFromPopse(tag, ac, ma) {
 }
 
 function authenticateCalledFromPopse(hash) {
-	var authenticated = false;		
+	set("authenticated", "connectionerror");
 	var xhr = new XMLHttpRequest();
 	var url = "https://redditawkward.com/server/authenticate.php?hash=" + hash;
-    xhr.open("GET", url, false);  // true indicates asynchronous
+    xhr.open("GET", url, true);  // true indicates asynchronous
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
-            // WARNING! Might be injecting a malicious script!
             responsoo = xhr.responseText;
 			var responsooObby = JSON.parse(responsoo);
 			if (responsooObby.msg === "correcthash") {
-				authenticated = true;
-			} 
+				set("authenticated", "correcthash");
+			}
+			else {
+				set("authenticated", "wronghash");
+			}
         }
     }
     xhr.send();
-	return authenticated;
 }
 
 function loadIt() {
@@ -535,7 +515,7 @@ function loadIt() {
         //console.log("loadIt tag:" + codeOneTag);
 
 
-
+		redditor = data.redditor;
 		semiSecretHash = data.semiSecretHash;
 
 

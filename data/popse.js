@@ -58,20 +58,33 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 $( "#auth_subm" ).click(function(event) {
 	var hash = $('#auth_hash_inp').val();
+	var redditor = $('#redditor_inp').val();
 	// spændende, egentlig!
 	var backgroundPage = chrome.extension.getBackgroundPage();
-	var authenticated = backgroundPage.authenticateCalledFromPopse(hash);
-	
-	if (!authenticated) {
-		$( "#statusSpanner" ).text("Unknown hash.");
-	}
-	else {
-		$( '#before_authenticated_div' ).hide();
-		$( '#after_authenticated_div' ).show();
-		$( "#statusSpanner" ).css( "color", "green" );
-		$( "#statusSpanner" ).text("Ready for action. Please reload the reddit page...");
-		set("semiSecretHash", hash);
-	}
+	backgroundPage.authenticateCalledFromPopse(hash);
+	$("auth_status").text("Authenticating...");
+	setTimeout(function() { 
+		chrome.storage.local.get(null, function(data) {
+			if (data.authenticated === "correcthash") {
+				$("auth_status").text("");
+				$( '#before_authenticated_div' ).hide();
+				$( '#after_authenticated_div' ).show();
+				$( "#statusSpanner" ).css( "color", "green" );
+				$( "#statusSpanner" ).text("Ready for action. Please reload the reddit page...");
+				set("semiSecretHash", hash);
+				set("redditor", redditor);
+			}
+			else if (data.authenticated === "wronghash") {
+				$( "#auth_status" ).text("Wrong hash.");
+			}
+			else if (data.authenticated === "connectionerror") {
+				$( "#auth_status" ).text("Connection error. Please try again in 1 minute.");
+			}
+			else {
+				$( "#auth_status" ).text("Unknown error. Please contact us at redditawkward@redditawkward.com Thanks.");
+			}
+		});
+	}, 6000);
 }); 
 
 
@@ -196,16 +209,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
 
 	}
-	else if(request.funkodonko === "notifyAboutNiceGiftsJustInAndPutThemOnTheShelf") {
-		console.log("processing processing processing")
-		//processReddit();
-
-	}
 });
-
-
-
-
 
 
 

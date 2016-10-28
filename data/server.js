@@ -7,25 +7,6 @@ var tagsAtYourDisposal;
 $.fn.exists = function () {
 	return this.length !== 0;
 }
-/*chrome.tabs.onUpdated.addListener(function(tabId,info, tab) {
-   if (info.status == "complete") {
-   	console.log("!!!!!!!!!!!!!!!!!!!!!!!!!! complete !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-	//chrome.runtime.sendMessage({funkodonko: "notifyAboutNiceGiftsJustInAndPutThemOnTheShelf", gifts: gifts}, function(response) {  
-   }
-});*/
-
-/*window.addEventListener("load", myMain, false);
-function myMain(evt) {
-	/var jsInitCheckTimer = setInterval(checkForJSFinish, 111);
-	
-
-
-}
-function checkForJSFinish() {
-
-
-}*/
-
 
 // Event listener: listens for messages from inject.js
 document.addEventListener('select_an_opt', function(data) {
@@ -107,26 +88,7 @@ chrome.runtime.onMessage.addListener(listenOListenMyFriend3);
 //console.log("hej fra content scriptet server.js");
 function listenOListenMyFriend3(request, sender, sendResponse) {
 	//console.log("irriterende dims fra server.js!" + request.funkodonko);
-    if (request.funkodonko === "serverMessageIsFineAndReadyEr") {
-		//console.log("hej fra server.js!");
-        var serverJson = request.sJson;
-		serverJsonObj = JSON.parse(serverJson);
-		//console.log("Klopstockssisyy");
-		dump(serverJsonObj);
-		var gifts = JSON.parse(serverJsonObj.gifts);
-		//console.log("");
-		dump(gifts);
-		//$mainPostId = $jsonObj[0]->data->children[0]->data->id;
-
-		////console.log("gifts 2 motivation...: " + gifts[2].motivation);
-		browserAction.setBadgeText("" + gifts.length);
-
-
-		chrome.runtime.sendMessage({funkodonko: "notifyAboutNiceGiftsJustInAndPutThemOnTheShelf", gifts: gifts}, function(response) {
-  		////console.log(response.farewell);
-		});
-    }
-	else if (request.funkodonko === "makeDaryAlterationsToView") {
+	if (request.funkodonko === "makeDaryAlterationsToView") {
 		var s = document.createElement('script');
 		s.src = chrome.extension.getURL('data/inject.js');
 		// "If you immediately remove the node after inserting the script tag, then the asynchronous script load would be aborted and the script would never run. To avoid that, the the node removal has to be done in an onload event handler:"
