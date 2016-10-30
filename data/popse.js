@@ -391,37 +391,55 @@ function loadIt() {
 				var cell4 = row.insertCell(3);
 
 				var imghyperlink = null;
+				var minusOrPlusImgLink = null;
+				var ruleLink = null;
+				var commentLink = null;
+	
 				var timeinfo = null;
 				
 				var obby = createdUTCToGiftsOrNotificationsObject[i];
 
-				var titlepopup = obby.obby.motivation;
-				if (obby.type === "gift") {
-					var imagetype = obby.obby.imagetype;
-					if (imagetype === "man") {
-						hyperlink = '<a title="' + titlepopup + '" href="https://redditawkward.com/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/images/avatars/builderman.png" width="48"></a>';
-					}
-					else if (imagetype === "woman") {
-						hyperlink = '<a title="' + titlepopup + '" href="https://redditawkward.com/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/images/avatars/builderwoman.png" width="48"></a>';
-					}
-					else if (imagetype === "neutral") {
-						hyperlink = '<a title="' + titlepopup + '" href="https://redditawkward.com/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/images/avatars/astronaut.png" width="48"></a>';
-					}
-					else if (imagetype === "custom") {
-						var imagecustom = obby.obby.imagecustom;
-						hyperlink = '<a title="' + titlepopup + '" href="https://redditawkward.com/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/uplooood/' + imagecustom +'"></a>';
-					}
-				}
+				var pointsText = "";
 				
+				if (obby.type === "gift") {
+
+					var pageid = obby.obby.pageid;
+					var commentid = obby.obby.commentid;
+					var when = obby.obby.when;
+					var utc = obby.obby.utc;
+					var points = obby.obby.points;
+					var motivation = obby.obby.motivation;
+					var rule = obby.obby.rule;
+					var subreddit = obby.obby.subreddit;
+					var pagename = obby.obby.pagename;
+					var tag = obby.obby.tag;
+					
+					var tagShortHand = tag.match(/\{([^)]+)\}/)[1];
+					var tagCategory = tagCategories[tagShortHand];
+					
+					tagCategory = tagCategory.toLowerCase();
+					
+					pointsText = "" + points;
+
+					if (points < 0) {		
+						minusOrPlusImgLink = '<a target="new" title="' + motivation + '" href="https://redditawkward.com/rules/' + tagShortHand + '.php"><img src="https://redditawkward.com/images/categories/error.png" width="48"></a>';
+					}
+					else {
+						minusOrPlusImgLink = '<a target="new" href="https://redditawkward.com/rules/' + tagShortHand + '.php"><img src="https://redditawkward.com/images/categories/plus.png" width="48"></a>';
+					}
+					imghyperlink = '<a title="' + motivation + '" href="https://www.reddit.com/r/' + subreddit + '/comments/' + pageid + '/' + pagename + '/' + commentid + '"><img src="https://redditawkward.com/images/categories/' + tagCategory + '.png" width="48"></a>';
+				}
 				else if (obby.type === "notification") {
+					var titlepopup = obby.obby.motivation;
 					var tag = obby.obby.tag;
 					tag = tag.match(/\{([^)]+)\}/)[1];
 					console.log("tag: " + tag);
 					var tagCategory = tagCategories[tag];
 					console.log("tagCategory: " + tagCategory);
 					tagCategory = tagCategory.toLowerCase();
-					imghyperlink = '<a title="' + titlepopup + '" href="https://redditawkward.com/rules/' + tag + '.php"><img src="https://redditawkward.com/images/categories/' + tagCategory + '.png" width="48"></a>';
+					imghyperlink = '<a title="' + titlepopup + '" href="https://redditawkward.com/rules/' + tag + '.php"><img src="https://redditawkward.com/images/categories/browsericonandawkward.png" width="48"></a>' + tagCategory;
 					console.log("imghyperlink: " + imghyperlink);
+					minusOrPlusImgLink = '';
 				}
 				
 			
@@ -434,7 +452,9 @@ function loadIt() {
 				
 				
 				cell1.innerHTML = imghyperlink;
-				cell2.innerHTML = "" + timeMagic(now, backThen);
+				cell2.innerHTML = minusOrPlusImgLink;
+				cell3.innerHTML = "" + timeMagic(now, backThen);
+				cell4.innerHTML = pointsText;
 
 
 
@@ -597,7 +617,6 @@ var tagCategories = {
 	"waits.for.your.reply.only" : "Requests",
 	"i.find.this.unworthy.for.discussion" : "Outrule",
 	"i.find.the.subject.unworthy.for.discussion" : "Outrule",
-	"please.use.reddit.awkward.tags.from.here" : "Meta",
 	"i.will.not.reply.and.expect.apology" : "Anger",
 	"i.apologize" : "Apology",
 	"no.problem" : "Apology",
@@ -620,13 +639,7 @@ var tagCategories = {
 	"er.hi.what.kind.of.strange.presentation.is.that" : "Funny",
 	"youre.being.overly.ironic.and.are.violating.the.rules" : "Meta",
 	"awkward" : "Awkward",
-	"f**k.you" : "Kidding",
-	"haha" : "Kidding",
-	"wtf" : "Kidding",
 	"watch.me.playing.soccer.with.myself.in.this.video" : "Bodily",
-	"how.are.things.old.chap" : "Friendly",
-	"reading.lagerlof" : "Friendly",
-	"reading.steinbeck" : "Friendly",
 	"no.i.mean.it" : "Praise",
 	"that.pissed.me.off.but.please.dont.mind" : "Anger"
 };
