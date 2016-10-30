@@ -475,13 +475,14 @@ function setVariablesCalledFromPopse(tag, ac, ma) {
 }
 
 function authenticateCalledFromPopse(hash) {
+	console.log("hash: " + hash);
 	set("authenticated", "connectionerror");
 	var xhr = new XMLHttpRequest();
 	var url = "https://redditawkward.com/server/authenticate.php?hash=" + hash;
     xhr.open("GET", url, true);  // true indicates asynchronous
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
-            responsoo = xhr.responseText;
+            var responsoo = xhr.responseText;
 			var responsooObby = JSON.parse(responsoo);
 			if (responsooObby.msg === "correcthash") {
 				set("authenticated", "correcthash");

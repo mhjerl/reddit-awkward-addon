@@ -57,14 +57,23 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
 $( "#auth_subm" ).click(function(event) {
+	console.log("1");
 	var hash = $('#auth_hash_inp').val();
+	console.log("2");
 	var redditor = $('#redditor_inp').val();
+	console.log("3");
 	// spændende, egentlig!
 	var backgroundPage = chrome.extension.getBackgroundPage();
+	console.log("4");
 	backgroundPage.authenticateCalledFromPopse(hash);
+	console.log("5");
 	$("auth_status").text("Authenticating...");
-	setTimeout(function() { 
+	console.log("6");
+	setTimeout(function() {
+		console.log("hej");
 		chrome.storage.local.get(null, function(data) {
+			console.log("7");
+			console.log("hej 2");
 			if (data.authenticated === "correcthash") {
 				$("auth_status").text("");
 				$( '#before_authenticated_div' ).hide();
@@ -83,6 +92,7 @@ $( "#auth_subm" ).click(function(event) {
 			else {
 				$( "#auth_status" ).text("Unknown error. Please contact us at redditawkward@redditawkward.com Thanks.");
 			}
+			console.log("hej 3");	
 		});
 	}, 6000);
 }); 
@@ -267,6 +277,7 @@ function loadIt() {
 	// Chrome docs: "Pass in null to get the entire contents of storage."
 	chrome.storage.local.get(null, function(data) {
 		versionError = data.versionError;
+		console.log("------------------>versionError: " + versionError);
 		if (versionError !== "none") {
 
 
@@ -437,9 +448,9 @@ function loadIt() {
 					var tagCategory = tagCategories[tag];
 					console.log("tagCategory: " + tagCategory);
 					tagCategory = tagCategory.toLowerCase();
-					imghyperlink = '<a title="' + titlepopup + '" href="https://redditawkward.com/rules/' + tag + '.php"><img src="https://redditawkward.com/images/categories/browsericonandawkward.png" width="48"></a>' + tagCategory;
+					imghyperlink = '<a title="' + titlepopup + '" href="https://redditawkward.com/rules/' + tag + '.php"><img src="https://redditawkward.com/images/categories/browsericonandawkward.png" width="48"></a>';
 					console.log("imghyperlink: " + imghyperlink);
-					minusOrPlusImgLink = '';
+					minusOrPlusImgLink = "";
 				}
 				
 			
