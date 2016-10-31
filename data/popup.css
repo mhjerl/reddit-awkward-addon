@@ -1,3 +1,88 @@
+.giftornotif_content_section_ra {
+  padding-top: 30px;
+}
+
+.tag_section_ra {
+  padding-top: 20px;
+  font-size: 14px;
+}
+
+.top_header_section_ra {
+  width:550px;
+  height: 52px;
+  /*padding-top: 20px;*/
+  display: inline-block;
+}
+
+.header_presentation {
+  background-color:white;
+  width:550px;
+  height: 80px;
+  /*border: 1px solid black;*/
+  overflow: hidden;
+  /*margin-bottom: 50px;*/
+}
+
+.icon_images {
+	position: relative; left: 0; top: 0;
+    margin-left: 15px;
+    float: left;
+    width: 80px;
+    display: inline-block;
+}
+
+.icon_image1 {
+	position: relative; top: 0; left: 0;
+}
+
+.icon_image2 {
+	position: absolute; top: 0px; left: 30px;
+}
+
+.giftornotif_action {
+  float: right; 
+  width: 440px;
+}
+
+p {
+  font-family: 'Vollkorn', serif;
+  line-height: 1em;
+  
+}
+
+a {
+  text-decoration: none;
+}
+
+a:visited {
+  color: green;
+}
+
+a:link {
+  color: green;
+}
+
+a:hover {
+  color: hotpink;
+}
+
+table {
+  border: 1px solid #DDDDDD; border-collapse: collapse;
+  margin-right: 20px;
+  /*margin-bottom: 20px;*/
+}
+
+table tr {
+  border: 1px solid #DDDDDD;
+}
+
+table td {
+  border: 1px solid #DDDDDD;
+}
+
+
+
+
 * {
 		margin: 0;
 		padding: 0;
@@ -90,9 +175,4 @@ h3 {
 
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 	display: block;
-}
-
-p {
-	margin-bottom: 1em;
-	font-size: 1em;
 }

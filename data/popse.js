@@ -50,9 +50,11 @@ function logStorage() {
 
 
 
+
+
+
+
 document.addEventListener("DOMContentLoaded", function(event) {
-
-
 
 
 
@@ -383,26 +385,11 @@ function loadIt() {
 		//var nyedva = document.getElementById('nyedva');
 		console.log("done");
 
-
-
-		
-		var notificationsandgiftsContainer = document.querySelector('#notificationsandgifts-container');
-
-		var notificationsandgiftsTable = document.getElementById("notificationandgift-table");
-
 		for (var i = 0; i < createdUTCToGiftsOrNotificationsObject.length; i++) {
 			if (createdUTCToGiftsOrNotificationsObject[i]) {
-				// "The value of -1 can also be used, this results in a new row being inserted at the last position."
-				var row = notificationsandgiftsTable.insertRow(-1);
-				
-				// Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
-				var cell1 = row.insertCell(0);
-				var cell2 = row.insertCell(1);
-				var cell3 = row.insertCell(2);
-				var cell4 = row.insertCell(3);
-
 				var imghyperlink = null;
-				var minusOrPlusImgLink = null;
+				var minusOrPlus = null;
+				var minusOrPlusText = null;
 				var ruleLink = null;
 				var commentLink = null;
 	
@@ -426,31 +413,103 @@ function loadIt() {
 					var tag = obby.obby.tag;
 					
 					var tagShortHand = tag.match(/\{([^)]+)\}/)[1];
-					var tagCategory = tagCategories[tagShortHand];
+					var tagCategoryCapital = tagCategories[tagShortHand];
 					
-					tagCategory = tagCategory.toLowerCase();
+					var tagCategory = tagCategoryCapital.toLowerCase();
 					
 					pointsText = "" + points;
 
 					if (points < 0) {		
-						minusOrPlusImgLink = '<a target="new" title="' + motivation + '" href="https://redditawkward.com/rules/' + tagShortHand + '.php"><img src="https://redditawkward.com/images/categories/error.png" width="48"></a>';
+						minusOrPlus = 'minus';
+						minusOrPlusText = ' <span style="color: red;">' + points + ' <img src="https://redditawkward.com/images/categories/minus.png" width="14"></span>';
 					}
 					else {
-						minusOrPlusImgLink = '<a target="new" href="https://redditawkward.com/rules/' + tagShortHand + '.php"><img src="https://redditawkward.com/images/categories/plus.png" width="48"></a>';
+						minusOrPlus = 'plus';
+						minusOrPlusText = ' <span>' + points + ' <img src="https://redditawkward.com/images/categories/plus.png" width="14"></span>';
+						
 					}
-					imghyperlink = '<a title="' + motivation + '" href="https://www.reddit.com/r/' + subreddit + '/comments/' + pageid + '/' + pagename + '/' + commentid + '"><img src="https://redditawkward.com/images/categories/' + tagCategory + '.png" width="48"></a>';
+
+
+// From my jsbin: http://jsbin.com/maxidayeyo/4/
+
+
+var html = '<div class="header_presentation">' +
+    '<a href="#" class="toggle15">' +
+    '<div class="icon_images">' +
+     	'<img class="icon_image1" src="https://redditawkward.com/images/categories/' + tagCategory + '.png" width="48"><img class="icon_image2" src="https://redditawkward.com/images/categories/' + minusOrPlus + '.png" width="20">' +
+    '</div>' +
+    '</a>' +
+    '<div class="giftornotif_action">' +
+	  '<div class="top_header_section_ra">' +
+		'<div class="tag_section_ra">' + tagShortHand + minusOrPlusText + '</div>' +
+	  '</div>' +
+	  '<div class="giftornotif_content_section_ra">' +
+		  '<table>' +
+		    '<tr><td style="width: 150px">Motivation</td><td>"' + motivation + '"</td></tr>' +
+		    '<tr><td>Category</td><td>' + tagCategoryCapital + '</td></tr>' +
+		    '<tr><td>Subreddit</td><td><a target="_new" href="https://www.reddit.com/r/' + subreddit + '">' + subreddit + '</a></td></tr>' +
+		    '<tr><td>Reddit Links</td><td><a target="_new" href=https://www.reddit.com/r/' + subreddit + '/comments/' + pageid + '/' + pagename + '">thread</a>, <a target="_new" href=https://www.reddit.com/r/' + subreddit + '/comments/' + pageid + '/' + pagename + '/' + commentid + '">permalink</a></td></tr>' +
+		    '<tr><td>Redditor Addressed</td><td><a target="_new" href="https://redditawkward.com/user.php?redditor=landfast">???</a></td></tr>' +
+		    '<tr><td>Rule</td><td>??? <a target="_new" href="https://redditawkward.com/rules/' + tagShortHand + '.php">More...</a></td></tr>' +
+		    '<tr><td>Action</td><td>???</td></tr>' +
+		  '</table>' +
+		'</div>' +
+	'</div>' +
+  '</div>';
+
+
+					$('#notificationsandgifts-container').append(html);
+
 				}
 				else if (obby.type === "notification") {
-					var titlepopup = obby.obby.motivation;
+					var pageid = obby.obby.pageid;
+					var commentid = obby.obby.commentid;
+					var when = obby.obby.when;
+					var utc = obby.obby.utc;
+					var motivation = obby.obby.motivation;
+					var rule = obby.obby.rule;
+					var subreddit = obby.obby.subreddit;
+					var pagename = obby.obby.pagename;
 					var tag = obby.obby.tag;
-					tag = tag.match(/\{([^)]+)\}/)[1];
-					console.log("tag: " + tag);
-					var tagCategory = tagCategories[tag];
-					console.log("tagCategory: " + tagCategory);
-					tagCategory = tagCategory.toLowerCase();
-					imghyperlink = '<a title="' + titlepopup + '" href="https://redditawkward.com/rules/' + tag + '.php"><img src="https://redditawkward.com/images/categories/browsericonandawkward.png" width="48"></a>';
-					console.log("imghyperlink: " + imghyperlink);
-					minusOrPlusImgLink = "";
+					var tagShortHand = tag.match(/\{([^)]+)\}/)[1];
+					var tagCategoryCapital = tagCategories[tagShortHand];
+
+
+var html = '<div class="header_presentation">' +
+    '<a href="#" class="toggle15">' +
+	'<div class="icon_images">' +
+     	'<img class="icon_image1" src="https://redditawkward.com/images/categories/browsericonandawkward.png" width="48">' +
+	'</div>' +
+    '</a>' +
+    '<div class="giftornotif_action">' +
+      '<div class="top_header_section_ra">' +
+      '<div class="tag_section_ra">' + tagShortHand + '</div>' +
+      '</div>' +
+	  '<div class="giftornotif_content_section_ra">' +
+		  '<table>' +
+		    '<tr><td style="width: 150px">Motivation</td><td>"' + motivation + '"</td></tr>' +
+		    '<tr><td>Category</td><td>' + tagCategoryCapital + '</td></tr>' +
+			'<tr><td> </td></tr>' +
+		    '<tr><td>Subreddit</td><td><a target="_new" href="https://www.reddit.com/r/' + subreddit + '">' + subreddit + '</a></td></tr>' +
+		    '<tr><td>Reddit Links</td><td><a target="_new" href=https://www.reddit.com/r/' + subreddit + '/comments/' + pageid + '/' + pagename + '">thread</a>, <a target="_new" href=https://www.reddit.com/r/' + subreddit + '/comments/' + pageid + '/' + pagename + '/' + commentid + '">permalink</a></td></tr>' +
+		    '<tr><td>Redditor Addressed</td><td><a target="_new" href="https://redditawkward.com/user.php?redditor=landfast">???</a></td></tr>' +
+		    '<tr><td>Rule</td><td>??? <a target="_new" href="https://redditawkward.com/rules/' + tagShortHand + '.php">More...</a></td></tr>' +
+		    '<tr><td>Action</td><td>???</td></tr>' +
+		'</table>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+
+					$('#notificationsandgifts-container').append(html);
+
+
+
+
+
+
+
+
+
 				}
 				
 			
@@ -459,30 +518,6 @@ function loadIt() {
 				var backThen = createdUTCToGiftsOrNotificationsObject[i].utc * 1000;
 				
 				timeinfo = "" + timeMagic(now, backThen);
-	
-				
-				
-				cell1.innerHTML = imghyperlink;
-				cell2.innerHTML = minusOrPlusImgLink;
-				cell3.innerHTML = "" + timeMagic(now, backThen);
-				cell4.innerHTML = pointsText;
-
-
-
-				/*cell3.innerHTML = '<a target="_blank" href="https://www.reddit.com/r/' + notifications[i].subreddit + '/comments/'  + notifications[i].pageid + '/' + notifications[i].pagename + '/' + notifications[i].commentid + '">Kommentar</a>';
-				cell4.innerHTML = '<a target="_blank" href="https://primadonnakoder.wordpress.com/2016/09/13/tagoverblik/#' + notifications[i].rule + '">Regel</a>';*/
-
-
-
-
-
-
-
-
-
-
-
-
 			}
 		}
 		
@@ -493,7 +528,6 @@ function loadIt() {
 		backgroundPage.clearBadge();
 		*/
 		//var nyedva = document.getElementById('nyedva');
-		notificationsandgiftsContainer.scrollTop = 200;
 		console.log("done");
 
 
@@ -517,16 +551,16 @@ function loadIt() {
 				var friendName = friends[i].friend;
 				var hyperlink = null;
 				if (friends[i].imagetype === "man") {
-					hyperlink = '<a href="https://redditawkward.com/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/images/avatars/builderman.png" width="48"></a>';
+					hyperlink = '<a target="_new" href="https://redditawkward.com/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/images/avatars/builderman.png" width="48"></a>';
 				}
 				else if (friends[i].imagetype === "woman") {
-					hyperlink = '<a href="https://redditawkward.com/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/images/avatars/builderwoman.png" width="48"></a>';
+					hyperlink = '<a target="_new" href="https://redditawkward.com/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/images/avatars/builderwoman.png" width="48"></a>';
 				}
 				else if (friends[i].imagetype === "neutral") {
-					hyperlink = '<a href="https://redditawkward.com/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/images/avatars/astronaut.png" width="48"></a>';
+					hyperlink = '<a target="_new" href="https://redditawkward.com/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/images/avatars/astronaut.png" width="48"></a>';
 				}
 				else if (friends[i].imagetype === "custom") {
-					hyperlink = '<a href="https://redditawkward.com/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/uplooood/' + friends[i].imagecustom +'" width="48"></a>';
+					hyperlink = '<a target="_new" href="https://redditawkward.com/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/uplooood/' + friends[i].imagecustom +'" width="48"></a>';
 				}
 				cell1.innerHTML = hyperlink;
 				cell2.innerHTML = friends[i].total;
@@ -549,10 +583,42 @@ function loadIt() {
 
 		var e = document.getElementById('checkboxActive');
 		e.checked = activated;
-
+		
+		// clear notification count
 		var backgroundPage = chrome.extension.getBackgroundPage();
 		backgroundPage.clearBadgeText();
-		// clear notification count	
+		
+
+		console.log("done loading. adding handler...");
+
+
+		$('.toggle15').click(function() {
+		  console.log("click! height: " + $(this).parent().height());
+		  //alert($(this).parent().height());
+		  if ($(this).parent().height() > 80) {
+			$(this).parent().animate(
+			  {height: "80px"}, 400);
+		  }
+		  else if ($(this).parent().height() <= 80) {
+			/*$("#giftornotif").animate({height: "360px"});*/
+			$(this).parent().animate({height: $(this).parent().get(0).scrollHeight}, 400);
+		  }
+		  //$('.toggle3').toggle('slow');
+		  return false;
+		});
+
+
+
+
+
+		console.log("handlers added.");
+
+
+
+
+
+
+
 
 	});
 	console.log("loadIt 2");
