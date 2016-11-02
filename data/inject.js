@@ -1,3 +1,7 @@
+$.fn.exists = function () {
+	return this.length !== 0;
+}
+
 $(document).ready(function() {
 	$( ".save" ).click(function() {
 		//alert( "Handler for .click() called." );
@@ -20,10 +24,10 @@ $(document).ready(function() {
 
 function rADropdownSelect(sel, cid) {
 	var value = sel.value;
-	if (value !== "Please select a Reddit Awkward Tag:") {
+	if (value !== "Please select a Reddit Awkward Tag:" && value !== "No Reddit Awkward Tags available") {
 		var linkCheckboxId = "ra_link_chkbx_" + cid;
 		var chkbx = $( sel ).parent().parent().parent().find("#" + linkCheckboxId);
-		var ta = $( sel ).parent().parent().parent().find("textarea");
+		var ta = $( sel ).parent().parent().parent().parent().find("textarea");
 		var textAreaIsEmpty = false;
 		var yourCommentHere = "";
 		if (!$.trim( ta.val())) {
@@ -49,9 +53,10 @@ function rADropdownSelect(sel, cid) {
 			document.dispatchEvent(new CustomEvent("select_an_opt", {
 				detail: {
 					commentId: cid,
-					targetThing: sel.target,
 					value: value
-				}
+				},
+				bubbles: true,
+				cancelable: true
 			}));
 		}, 0);
 		ta.focus();
@@ -67,20 +72,25 @@ function rADropdownSelect(sel, cid) {
 $(document).ready(function() {
 	$( ".reply-button" ).click(function(event) {
 		setTimeout( function() {
-			var commentId = $( event.target ).parent().parent().parent().parent().attr( "id" );
-			var n = commentId.lastIndexOf("_") + 1;
-			commentId = commentId.substring(n);
+			var parentElementId = $( event.target ).parent().parent().parent().parent().attr( "id" );
+			var n = parentElementId.lastIndexOf("_") + 1;
+			var commentId = parentElementId.substring(n);
 			console.log("commentId------------------------------->" + commentId);
-			setTimeout(function() {
-				/* Example: Send data to your Chrome extension*/
-				document.dispatchEvent(new CustomEvent("small_reply_link_clicked", {
-					detail: {
-						commentId: commentId,
-						targetThing: event.target
-					}
-		    		
-				}));
-			}, 0);
+			var selectId = "ra_select_" + commentId;
+			//if (!$( "#" + selectId ).exists()) {
+				setTimeout(function() {
+					//$( "div" ).remove( ".ra_inserted_div" ); // BUG2_ FIX FAILED
+					/* Example: Send data to your Chrome extension*/
+					document.dispatchEvent(new CustomEvent("small_reply_link_clicked", {
+						detail: {
+							commentId: commentId,
+							parentElementId: parentElementId
+						},
+						bubbles: true,
+						cancelable: true
+					}));
+				}, 0);
+			//}
 		}, 2000);
 	}); 
 });

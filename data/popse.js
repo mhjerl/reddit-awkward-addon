@@ -58,6 +58,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
 
+$('#auth_hash_inp').keypress(function (e) {
+  if (e.which == 13) {
+    $( "#auth_subm" ).click();
+    return false;    //<---- Add this line
+  }
+});
+
+
 $( "#auth_subm" ).click(function(event) {
 	console.log("1");
 	var hash = $('#auth_hash_inp').val();
@@ -94,9 +102,11 @@ $( "#auth_subm" ).click(function(event) {
 			else {
 				$( "#auth_status" ).text("Unknown error. Please contact us at redditawkward@redditawkward.com Thanks.");
 			}
-			console.log("hej 3");	
+			console.log("hej 3");
+			return false;
 		});
 	}, 6000);
+	
 }); 
 
 
@@ -522,7 +532,7 @@ var html = '<div class="header_presentation">' +
 		}
 		
 
-		console.log("done0");	
+		console.log("done0");
 		// spændende, egentlig!
 		/*var backgroundPage = chrome.extension.getBackgroundPage();
 		backgroundPage.clearBadge();
@@ -534,36 +544,45 @@ var html = '<div class="header_presentation">' +
 		var friends = data.friends;
 
 		console.log("friends.length: " + friends.length);
-		var friendsContainer = document.querySelector('#friends-container');
-
-		var table = document.getElementById("friend-table");
 
 		for (var i = 0; i < friends.length; i++) {
 			if (friends[i]) {
-				// "The value of -1 can also be used, this results in a new row being inserted at the last position."
-				var row = table.insertRow(-1);
-
-				// Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
-				var cell1 = row.insertCell(0);
-				var cell2 = row.insertCell(1);
-
 				// Add some text to the new cells:
 				var friendName = friends[i].friend;
-				var hyperlink = null;
+				var img = null;
 				if (friends[i].imagetype === "man") {
-					hyperlink = '<a target="_new" href="https://redditawkward.com/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/images/avatars/builderman.png" width="48"></a>';
+					img = '<img src="https://redditawkward.com/images/avatars/builderman.png" width="48">';
 				}
 				else if (friends[i].imagetype === "woman") {
-					hyperlink = '<a target="_new" href="https://redditawkward.com/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/images/avatars/builderwoman.png" width="48"></a>';
+					img = '<img src="https://redditawkward.com/images/avatars/builderwoman.png" width="48">';
 				}
 				else if (friends[i].imagetype === "neutral") {
-					hyperlink = '<a target="_new" href="https://redditawkward.com/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/images/avatars/astronaut.png" width="48"></a>';
+					img = '<img src="https://redditawkward.com/images/avatars/astronaut.png" width="48">';
 				}
 				else if (friends[i].imagetype === "custom") {
-					hyperlink = '<a target="_new" href="https://redditawkward.com/user.php?redditor=' + friendName + '"><img src="https://redditawkward.com/uplooood/' + friends[i].imagecustom +'" width="48"></a>';
+					img = '<img src="https://redditawkward.com/uplooood/' + friends[i].imagecustom +'" width="48">';
 				}
-				cell1.innerHTML = hyperlink;
-				cell2.innerHTML = friends[i].total;
+
+
+var html = '<div class="header_presentation">' +
+    '<a target="_new" href="https://redditawkward.com/user.php?redditor=' + friendName + '">' +
+	'<div class="icon_images">' +
+     	img +
+	'</div>' +
+    '</a>' +
+    '<div class="giftornotif_action">' +
+      '<div class="top_header_section_ra">' +
+      	'<div class="tag_section_ra">' + friendName + ' (' + friends[i].total + ')</div>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+
+
+				$('#friends-container').append(html);
+
+
+
+
 			}
 		}
 
@@ -573,7 +592,7 @@ var html = '<div class="header_presentation">' +
 		backgroundPage.clearBadge();
 		*/
 		//var nyedva = document.getElementById('nyedva');
-		friendsContainer.scrollTop = 200;
+
 		console.log("done");
 
 		activated = data.activated;

@@ -11,9 +11,8 @@ $.fn.exists = function () {
 // Event listener: listens for messages from inject.js
 document.addEventListener('select_an_opt', function(data) {
 	var commentId = data.detail.commentId;
-	var target = data.detail.targetThing;
 	var valuePlain = data.detail.value;
-	//alert("Received message dispatched from inject.js: " + commentId + " target: " + target + " valuePlain: " + valuePlain);
+	//alert("Received message dispatched from inject.js: " + commentId + " valuePlain: " + valuePlain);
 
 	var tagline = "Hello world!";
 	if (valuePlain === "awkward") {
@@ -23,62 +22,123 @@ document.addEventListener('select_an_opt', function(data) {
 	var ruleSpannerId = "ra_rule_spanner_" + commentId;
 	var selectId = "ra_select_" + commentId;
 	var labelId = "ra_label_" + commentId;
+	var divId = "ra_inserted_div_" + commentId;
 	
 	$( '#' + ruleSpannerId ).text( tagline );
 	
 	//alert(selectId);
-	if ($( '#' + selectId ).exists()) {
-		$( '#' + labelId ).remove();
-		$( '#' + ruleSpannerId ).remove();
+	if ($( '#' + divId ).exists()) {
+		console.log("removing div with dropdown");
+		$( '#' + divId ).remove();
+		//$( '#' + ruleSpannerId ).remove();
 	}
 });
 
 
 // Event listener: listens for messages from inject.js
 document.addEventListener('small_reply_link_clicked', function(data) {
+	var bugOneFixVarIsResponseToMyself = false;
+	//dump(data);
 	var commentId = data.detail.commentId;
-	var target = data.detail.targetThing;
-	//alert("Received message dispatched from inject.js: " + commentId + " target: " + target);
+	var parentElementId = data.detail.parentElementId;
+	//console.log("Received message dispatched from inject.js: parentElementId: " + parentElementId);
+	//alert("Received message dispatched from inject.js: " + commentId);
 
 	var ruleSpannerId = "ra_rule_spanner_" + commentId;
 	var linkCheckboxId = "ra_link_chkbx_" + commentId;
 	var selectId = "ra_select_" + commentId;
 	var labelId = "ra_label_" + commentId;
-
-	var ruleSpanner = '<span style="color: green;" id="' + ruleSpannerId + '"></span>';
-	var checkbox = '<label id="' + labelId + '"><input type="checkbox" checked id="' + linkCheckboxId  + '">Link</label>';
-	var dropdown = '<select id="' + selectId + '" onchange="rADropdownSelect(this, \'' + commentId + '\')"><option id="header">Please select a Reddit Awkward Tag:</option>';
-	var html = ruleSpanner + checkbox + dropdown;
-	var optionTagsAtYourDisposal = getArrayOfNiceOptionTagsAtYourDisposal(commentId);
-	for (var c = 0; c < optionTagsAtYourDisposal.length; c++) {
-		html += optionTagsAtYourDisposal[c];
-	}
-	html += '</select>';
 	
-	if (!$( target ).parent().parent().parent().parent().find( "#" + selectId ).exists()) {
-		$( target ).parent().parent().parent().parent().find( ".usertext-buttons" ).prepend( html );
+
+	var ruleSpanner = '<span style="color: green;" id="' + ruleSpannerId + '"></span>' +                                                '<br>';
+	var checkbox = '<label id="' + labelId + '"><input type="checkbox" checked id="' + linkCheckboxId  + '">Link</label>' +             '<br>';
+	var dropdown = '<select id="' + selectId + '" onchange="rADropdownSelect(this, \'' + commentId + '\')">';
+	var html = '<div id="' + divId + '">' + ruleSpanner + checkbox + dropdown;
+	var optionTagsAtYourDisposal = getArrayOfNiceOptionTagsAtYourDisposal(commentId);
+	if (optionTagsAtYourDisposal) {
+		console.log("optionTagsAtYourDisposal isn't null");
+		html += '<option id="ra_select_header_' + commentId + '">Please select a Reddit Awkward Tag:</option>';
+		// Here: We can't be certain there are any tags at all at our disposal, but in this case there are
+		// Therefore: Create option list for select
+		for (var c = 0; c < optionTagsAtYourDisposal.length; c++) {
+			html += optionTagsAtYourDisposal[c];
+		}
+	}
+	else {
+		bugOneFixVarIsResponseToMyself = true;
+		console.log("optionTagsAtYourDisposal is null");
+		// Here: No option tags for this cid
+		// Therefore: Put "No Reddit Awkward Tags available
+		html += '<option id="ra_select_header_' + commentId + '">No Reddit Awkward Tags available</option>';
+	}
+	html += '</select></div><br>';
+	if (!$( "#" + parentElementId ).find( "#" + selectId ).exists()) {
+		console.log("select doesn't exist. html: " + html);
+		if (!$( "#" + parentElementId ).find( ".usertext-buttons" ).first().exists()) {
+			console.log("Couldn't find 1");
+		}
+		else {
+			console.log("Could find 1");
+		}
+		if (!$( "#" + parentElementId ).find( ".usertext-buttons" ).exists()) {
+			console.log("Couldn't find 2");
+		}
+		else {
+			console.log("Could find 2");
+		}
+		if (!$( "#" + parentElementId ).exists()) {
+			console.log("Couldn't find 3");
+		}
+		else {
+			console.log("Could find 3");
+		}
+		if (bugOneFixVarIsResponseToMyself) {
+			// Here: Reddit JS code unfolds html elements different if firstperson==secondperson
+			// Therefore: Use "last"
+			$( "#" + parentElementId ).find( ".usertext-buttons" ).last().prepend( html );
+		}
+		else {
+			$( "#" + parentElementId ).find( ".usertext-buttons" ).first().prepend( html );
+		}
+		if (!$("#" + divId).is(":visible")) { // BUG2_ FIX
+			console.log("applied BUG2_ FIX");
+			$( "#" + parentElementId ).find( ".usertext-buttons" ).prepend( html );
+		}
+	}
+	else {
+		console.log("select does exist. not adding: " + selectId);
 	}
 });
 
 function getArrayOfNiceOptionTagsAtYourDisposal(cid) {
-	if (!tagsAtYourDisposal) { alert("error: no tags in here!"); }
-	console.log("tagsAtYourDisposal len: " + tagsAtYourDisposal.length);
+	if (!tagsAtYourDisposal) { console.log("ERROR ERROR ERROR ERROR ERROR: no tags in here!"); }
+	console.log("tagsAtYourDisposal len: " + tagsAtYourDisposal.length + " cid: " + cid);
+	//dump(tagsAtYourDisposal);
 	for (var c = 0; c < tagsAtYourDisposal.length; c++) {
 		var tagAtYourDisposal = tagsAtYourDisposal[c];
+		//dump(tagAtYourDisposal);
 		if (tagAtYourDisposal.id === cid) {
 			var tagArray = tagAtYourDisposal.tagsAtYourDisposal;
-			console.log("tagArray len: " + tagArray.length);
+			if (tagArray == null) {
+				console.log("tagArray is null. returning null");
+				// Here: Special situation: No tags, because redditor is trying to reply to himself without replying to reddit.awkward{your.comment.inspired.me}
+				// Therefore: Simply return null
+				return null;
+			}
+			//console.log("tagArray len: " + tagArray.length);
 			var optionElements = [];
 			for (var j = 0; j < tagArray.length; j++) {
 				var tag = tagArray[j].tag;
 				var innerTag = tag.match(/\{([^)]+)\}/)[1];
-				var optionElement = '<option id="' + innerTag + '">' + innerTag + '</option>';
+				var optionElement = '<option id="ra_select_option_' + cid + '">' + innerTag + '</option>';
 				optionElements[j] = optionElement;
 			}
 			return optionElements;
 		}
 	}
+	return null;
 }
+
 /*
  Assign listenOListenMyFriend() as a listener for messages from the extension.
  */
@@ -199,7 +259,7 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 							if (ruleViolationSpecification) {
 								ruleViolationSpecification2 = ruleViolationSpecification;
 							}
-							html = '<li><span title="' + ruleViolationSpecification2 + '" style="color: red" class="tab"><a target="_blank" href="https://redditawkward.com/report_rule_violation.php?subreddit=' + subreddit + '&commentid=' + commentId + '&tag=' + tag + '">violation!</a></span></li>';
+							html = '<li><span title="' + ruleViolationSpecification2 + '" style="color: red" class="tab"><a target="_blank" href="https://redditawkward.com/report_rule_violation.php?subreddit=' + subreddit + '&commentid=' + commentId + '&tag=' + tag + '&redditor=' + redditor + '">violation!</a></span></li>';
 
 							gubbe = $('#' + tname);
 							//var sizegubbe = $('#' + tname).html().length;
@@ -366,7 +426,7 @@ function dump(obj) {
     for (var i in obj) {
         out += i + ": " + obj[i] + "\n";
     }
-    //console.log(out);
+    console.log(out);
 }
 
 /**

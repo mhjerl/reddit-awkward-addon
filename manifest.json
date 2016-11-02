@@ -1,8 +1,8 @@
 {
-  "description": "Hide specific reddit comments and subjects based on user-inserted tags.",
+  "description": "A browser extension adding new social features to discussions on Reddit.",
   "manifest_version": 2,
   "name": "Reddit Awkward",
-  "version": "0.6.7",
+  "version": "1.1.9",
   "homepage_url": "https://redditawkward.com",
   "applications": {
     "gecko": {
