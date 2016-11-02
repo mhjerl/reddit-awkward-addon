@@ -21,6 +21,7 @@ var domain;
 var disqusThreadID;
 var justInstalled;
 
+
 chrome.tabs.onUpdated.addListener(function(tabId, info, tab) {
 	if (info.status == "complete") {
 		var url = tab.url;
@@ -28,8 +29,38 @@ chrome.tabs.onUpdated.addListener(function(tabId, info, tab) {
         codeOneURL =  stripTrailingSlash(codeOneURL);
 		
 		console.log("??????????????????????????????? complete ??????????????????????????????????" + codeOneURL);
+
 		processReddit(codeOneURL);
 
+	}
+});
+
+
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+	console.log("a");
+    if (request.funkodonko == "authenticateFromPopseToBackground") {
+	console.log("b");
+		var xhr = new XMLHttpRequest();
+		var url = "https://redditawkward.com/server/authenticate.php?hash=" + request.hash;
+		xhr.open("GET", url, true);  // true indicates asynchronous
+		xhr.onreadystatechange = function() {
+		    if (xhr.readyState == 4) {
+		        var responsoo = xhr.responseText;
+				var responsooObby = JSON.parse(responsoo);
+				if (responsooObby.msg === "correcthash") {
+					sendResponse({
+						auth: true
+					});
+				}
+				else {
+					sendResponse({
+						auth: false
+					});
+				}
+		    }
+		}
+		xhr.send();
 	}
 });
 
@@ -474,7 +505,10 @@ function setVariablesCalledFromPopse(tag, ac, ma) {
     mistillidPersonArray = ma;
 }
 
-function authenticateCalledFromPopse(hash) {
+
+
+
+/*function authenticateCalledFromPopse(hash) {
 	console.log("hash: " + hash);
 	set("authenticated", "connectionerror");
 	var xhr = new XMLHttpRequest();
@@ -485,15 +519,25 @@ function authenticateCalledFromPopse(hash) {
             var responsoo = xhr.responseText;
 			var responsooObby = JSON.parse(responsoo);
 			if (responsooObby.msg === "correcthash") {
-				set("authenticated", "correcthash");
+				//set("authenticated", "correcthash");
+				chrome.runtime.sendMessage({request: "authenticateFromBackgroundToPopse", auth: true}, function(response) {
+					if (response.done) {
+						//doSomething();
+					}
+				});
 			}
 			else {
-				set("authenticated", "wronghash");
+				//set("authenticated", "wronghash");
+				chrome.runtime.sendMessage({request: "authenticateFromBackgroundToPopse", auth: false}, function(response) {
+					if (response.done) {
+						//doSomething();
+					}
+				});
 			}
         }
     }
     xhr.send();
-}
+}*/
 
 function loadIt() {
     //console.log("loadIt 1");

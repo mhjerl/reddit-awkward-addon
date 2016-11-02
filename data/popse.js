@@ -71,10 +71,81 @@ $( "#auth_subm" ).click(function(event) {
 	var hash = $('#auth_hash_inp').val();
 	console.log("2");
 	var redditor = $('#redditor_inp').val();
-	console.log("3");
-	// spændende, egentlig!
-	var backgroundPage = chrome.extension.getBackgroundPage();
+	console.log("3a");
+
+	var xhr = new XMLHttpRequest();
+	var url = "https://redditawkward.com/server/authenticate.php?redditor=" + redditor + "&hash=" + hash;
+	xhr.open("GET", url, true);  // true indicates asynchronous
+	xhr.onreadystatechange = function() {
+	    if (xhr.readyState == 4) {
+			if (xhr.status == 200) {
+			    var responsoo = xhr.responseText;
+				var responsooObby = JSON.parse(responsoo);
+				if (responsooObby.msg === "correcthash") {
+					$("auth_status").text("");
+					$( '#before_authenticated_div' ).hide();
+					$( '#after_authenticated_div' ).show();
+					$( "#statusSpanner" ).css( "color", "green" );
+					$( "#statusSpanner" ).text("Ready for action. Please reload the reddit page...");
+					set("semiSecretHash", hash);
+					set("redditor", redditor);
+				}
+				else if (responsooObby.msg === "wronghash") {
+					$( "#auth_status" ).text("Wrong hash.");
+				}
+				else if (responsooObby.msg === "connectionerror") {
+					$( "#auth_status" ).text("Connection error. Please try again in 1 minute.");
+				}
+				else {
+					$( "#auth_status" ).text("Connection error: A. Please contact us at redditawkward@redditawkward.com Thanks. Message:" + responsooObby.msg);
+				}
+			}
+			else {
+				$( "#auth_status" ).text("Connection error: B. Please contact us at redditawkward@redditawkward.com Thanks.");
+			}
+	    }
+	}
+	xhr.send();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/*chrome.runtime.sendMessage({
+		funkodonko: "authenticateFromPopseToBackground",
+		hash: hash
+	},
+	function(response) {
+	 	if (response.auth) {
+			$("auth_status").text("");
+			$( '#before_authenticated_div' ).hide();
+			$( '#after_authenticated_div' ).show();
+			$( "#statusSpanner" ).css( "color", "green" );
+			$( "#statusSpanner" ).text("Ready for action. Please reload the reddit page...");
+			set("semiSecretHash", hash);
+			set("redditor", redditor);
+		}
+		else {
+			$( "#auth_status" ).text("Something went wrong");
+		}
+	});*/
+});
+
+
+/*	var backgroundPage = chrome.extension.getBackgroundPage();
 	console.log("4");
+
 	backgroundPage.authenticateCalledFromPopse(hash);
 	console.log("5");
 	$("auth_status").text("Authenticating...");
@@ -107,7 +178,7 @@ $( "#auth_subm" ).click(function(event) {
 		});
 	}, 6000);
 	
-}); 
+}); */
 
 
 
