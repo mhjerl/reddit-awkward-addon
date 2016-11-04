@@ -2,7 +2,7 @@
   "description": "A browser extension adding new social features to discussions on Reddit.",
   "manifest_version": 2,
   "name": "Reddit Awkward",
-  "version": "1.2.9",
+  "version": "1.6.7",
   "homepage_url": "https://redditawkward.com",
   "applications": {
     "gecko": {
@@ -30,7 +30,8 @@
     "default_popup": "data/popup.html"
   },
   "icons": {
-    "19": "data/on1.png"
+    "19": "data/on1.png",
+	"48": "data/on1.png"
   },
   "content_scripts": [
     {

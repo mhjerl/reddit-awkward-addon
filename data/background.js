@@ -107,8 +107,13 @@ function initAsynchronous(redditurl) {
 	subreddit = getSegment(redditurl, 2);
 	commentPageId = getSegment(redditurl, 4);
 	pageName = getSegment(redditurl, 5);
+	
+	if (!commentPageId) {
+		console.log("Not a reddit comment page. Returning");
+		return;
+	}
 
-	if (semiSecretHash == null) {
+	if(typeof semiSecretHash === 'undefined' || semiSecretHash === '<loggedout>') {
 		chrome.browserAction.setIcon({
 			path : "data/off1.png"
 		});
@@ -116,6 +121,8 @@ function initAsynchronous(redditurl) {
 		return;
 	}
 
+	chrome.browserAction.setBadgeBackgroundColor({color: "#ff0000"}); // purple
+	chrome.browserAction.setBadgeText({text: "Wait"});
 
 	
 	var url = "https://redditawkward.com/server/init.php?redditor=" + redditor + "&hash=" + semiSecretHash +  "&subreddit=" + subreddit +"&commentpageid=" + commentPageId +"&pagename=" + pageName + "&strictversion=1";

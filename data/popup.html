@@ -14,44 +14,30 @@
 	<center><span style="color:red;" id="statusSpanner"></span></center>
 </div>
 <div class="content_sct">
-	<div id="versionerror_div" style="display: none;">
+	<div id="versionerror_div" class="popup_section" style="display: none;">
 		<h3 style="color:red;">New app version available. Please <a href="https://redditawkward.com">upgrade</a>.</h3>
 	</div>
 
-	<div id="before_authenticated_div">
+	<div id="before_authenticated_div" class="popup_section">
 		<h3>Redditor</h3>
 		<input id="redditor_inp" type="text">
-		<h3>Please enter authentication hash</h3>
+		<h3>Please enter your activation hash</h3>
 		<input id="auth_hash_inp" type="text">
 		<input id="auth_subm" type="submit" value="Authenticate">
 		<span id="auth_status"></span>
+		<h3><a target="_new" href="https://redditawkward.com/activate.php">Get your activation hash...</a></h3>
 	</div>
 	<div id="after_authenticated_div" style="display: none;">
 		<div class="article">
 			<div id="notificationsandgifts-container">
 			</div>
 		</div>
-		<h3>Awkward Karma: <span id="pKarmaSpanner"></span></h3>
-		<h3>Friends</h3>
-		<div class="article">
-			<div id="friends-container">
-			</div>
-		</div>
-		<h3>Account</h3>
-		<div class="article">
-			<div id="accountTypeInfo">
-				<div class="button_wrapper"><a target="_blank" href="https://redditawkward.com/pricing-3columns.php">Go Premium!</a></div>
-			</div>
-		</div>
-		<h3>Misc.</h3>
-		<div class="article">
-			<p><small><a target="_blank" href="https://redditawkward.com">TODO: View all gifts and notifications...</a></small></p>
-			<p><a target="_blank" href="https://redditawkward.com">Reddit Awkward</a></p>
-			<input type="checkbox" id="checkboxActive" name="checkboxActive"/>
-			<label for="checkboxActive"><nobr>Aktiv</nobr></label>
-
-			<p>Tid til næste forsøg: <span id="timerLabel"></span></p>
-			<p>Antal forsøg: <span id="counterLabel"></span></p>
+		<div class="popup_section">
+			<h3>Friends</h3>
+			<div id="friends-container"></div>
+			<h3>Account</h3>
+			<h3>Awkward Karma: <span id="pKarmaSpanner"></span></h3>
+			<input id="logout_subm" type="submit" value="Log out">
 		</div>
 	</div>
 </div>

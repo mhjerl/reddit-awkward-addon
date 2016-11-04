@@ -745,8 +745,8 @@ function mimbaw() {
 						// Here: No RA tag in second person's comment
 						// Therefore: Everything is ok.
 						var titleCursory = "";
-						var textCursory = "reddit.awkward{awkward} tag violation";
-						var viewSetter = {tag: "reddit.awkward{awkward}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I used the reddit.awkward{awkward} tag", ruleViolationSpecification: '§4 Definition: \'An awkward text, low-key, honest, cautious, reticent, modest, unobstrusive, with exactly one low-key, non-provocative question and one typo\''};
+						var textCursory = "reddit.awkward{awkward}";
+						var viewSetter = {tag: "reddit.awkward{awkward}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "green", title: titleCursory, garble: false, exclamation: "I used the reddit.awkward{awkward} tag", ruleViolationSpecification: '§4 Definition: \'An awkward text, low-key, honest, cautious, reticent, modest, unobstrusive, with exactly one low-key, non-provocative question and one typo\''};
 						viewSetterBunch.push(viewSetter);
 					}
 				}
@@ -1041,7 +1041,10 @@ function mimbaw() {
     //console.log("start 3 hooop. axeSpot count: " + axeSpots.length);
 }
 function hasMoreWordsBesidesTheTagItselfDude(text, tag) {
-	var actualStringTheWayItLooksOnThePage = '[' + tag + '](https://redditawkward.com/rules/' + tag + '.php)';
+	var actualStringTheWayItLooksOnThePage = tag;
+	if (text.indexOf("](https://redditawkward.com/rules/") !== -1) {
+		actualStringTheWayItLooksOnThePage = '[' + tag + '](https://redditawkward.com/rules/' + tag + '.php)';
+	}
 	//This javascript code removes all 3 types of line breaks
 	text = text.replace(/(\r\n|\n|\r)/gm,"");
 	return (text.length > actualStringTheWayItLooksOnThePage.length);

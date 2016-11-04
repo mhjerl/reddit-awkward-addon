@@ -1,3 +1,11 @@
+.popup_section {
+	position: relative;
+	left: 0; top: 0;
+    margin-left: 15px;
+    float: left;
+    display: inline-block;
+}
+
 .giftornotif_content_section_ra {
   padding-top: 30px;
 }
@@ -40,14 +48,13 @@
 }
 
 .giftornotif_action {
-  float: right; 
+  float: right;
   width: 440px;
 }
 
 p {
   font-family: 'Vollkorn', serif;
   line-height: 1em;
-  
 }
 
 a {
@@ -84,35 +91,35 @@ table td {
 
 
 * {
-		margin: 0;
-		padding: 0;
-	}
+	margin: 0;
+	padding: 0;
+}
 
 body, html {
-		height: 500px;
-		width: 600px;
-        overflow-y: hidden;
-		background: green;
-	}
- .header_sct {
-		width: 100%;
-		height: 160px;
-		position:absolute;
-		top: 0;
-		margin: 0 auto;
-		background: white;
-		text-align: center;
-	}
-	.content_sct {
-		width: 100%;
-        overflow-y: scroll;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-		background: white;
-		margin-top: 160px;
-		/*padding-left: 50px;*/
-	}
+	height: 500px;
+	width: 600px;
+    overflow-y: hidden;
+	background: green;
+}
+.header_sct {
+	width: 100%;
+	height: 180px;
+	position:absolute;
+	top: 0;
+	margin: 0 auto;
+	background: white;
+	text-align: center;
+}
+.content_sct {
+	width: 100%;
+    overflow-y: scroll;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+	background: white;
+	margin-top: 180px;
+	/*padding-left: 50px;*/
+}
 
 
 div.wrapper {

@@ -48,6 +48,7 @@ document.addEventListener('small_reply_link_clicked', function(data) {
 	var linkCheckboxId = "ra_link_chkbx_" + commentId;
 	var selectId = "ra_select_" + commentId;
 	var labelId = "ra_label_" + commentId;
+	var divId = "ra_inserted_div_" + commentId;
 	
 
 	var ruleSpanner = '<span style="color: green;" id="' + ruleSpannerId + '"></span>' +                                                '<br>';
@@ -303,9 +304,38 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 						$('#' + tname).find(".usertext-body").empty();
 						$('#' + tname).find(".usertext-body").append(html3);
 						//$('#' + tname).append(img);*/
+						
+						var imagetype;
+						var imagecustom;
+						var imageurl;
+						for (var k = 0; k < membersOnPage.length; k++) {
+							if (membersOnPage[k]['member'] === allComments[i]['author']) {
+								// Here: Found this comments author as member
+								// Therefore: Extract image data
+								imagetype = membersOnPage[k]['imagetype'];
+								imagecustom = membersOnPage[k]['imagecustom'];
+								break;
+							}
+						}
+						
+						if (typeof imagetype !== 'undefined') {
+							if (imagetype === "man") {
+								imageurl = '<img class="friend_image_resize_fit_center " src="https://redditawkward.com/images/avatars/builderman.png" height="65"/>';
+							}
+							else if (imagetype === "woman") {
+								imageurl = '<img class="friend_image_resize_fit_center " src="https://redditawkward.com/images/avatars/builderwoman.png" height="65"/>';
+							}
+							else if (imagetype === "neutral") {
+								imageurl = '<img class="friend_image_resize_fit_center" src="https://redditawkward.com/images/avatars/astronaut.png" height="65"/>';
+							}
+							else if (imagetype === "custom") {
+								imageurl = '<img class="friend_image_resize_fit_center" src="https://redditawkward.com/uplooood/' + imagecustom + '"  height="65"/>';
+							}
+						}
+
 					
 						var html2 = $('#' + tname).find(".usertext-body").first().find(".md").first().html();
-						var img = '<div class="redditorImage"><a href="https://redditawkward.com/"><img src="https://redditawkward.com/temp/team-member3.jpg" height="65"></a></div>';
+						var img = '<div class="redditorImage"><a target="_new" href="https://redditawkward.com/user.php?redditor=' + allComments[i]['author'] + '">' + imageurl + '</a></div>';
 						var html3 = '<div class="wrapComment">';
 						var urlImgo = chrome.extension.getURL('/data/openquote1.gif');
 						html3 = html3 + '<div class="wrapCommentPartLeft"><div class="md">' + html2 + '</div></div>';

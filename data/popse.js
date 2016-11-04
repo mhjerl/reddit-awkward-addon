@@ -58,6 +58,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
 
+$( "#logout_subm" ).click(function(event) {
+	set("semiSecretHash", "<loggedout>");
+	$( '#after_authenticated_div' ).fadeOut();
+	$( '#before_authenticated_div' ).fadeIn();
+	$( "#statusSpanner" ).text("You are now logged out");
+});
+
 $('#auth_hash_inp').keypress(function (e) {
   if (e.which == 13) {
     $( "#auth_subm" ).click();
@@ -83,8 +90,8 @@ $( "#auth_subm" ).click(function(event) {
 				var responsooObby = JSON.parse(responsoo);
 				if (responsooObby.msg === "correcthash") {
 					$("auth_status").text("");
-					$( '#before_authenticated_div' ).hide();
-					$( '#after_authenticated_div' ).show();
+					$( '#before_authenticated_div' ).fadeOut();
+					//$( '#after_authenticated_div' ).fadeIn();
 					$( "#statusSpanner" ).css( "color", "green" );
 					$( "#statusSpanner" ).text("Ready for action. Please reload the reddit page...");
 					set("semiSecretHash", hash);
@@ -107,97 +114,12 @@ $( "#auth_subm" ).click(function(event) {
 	}
 	xhr.send();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	/*chrome.runtime.sendMessage({
-		funkodonko: "authenticateFromPopseToBackground",
-		hash: hash
-	},
-	function(response) {
-	 	if (response.auth) {
-			$("auth_status").text("");
-			$( '#before_authenticated_div' ).hide();
-			$( '#after_authenticated_div' ).show();
-			$( "#statusSpanner" ).css( "color", "green" );
-			$( "#statusSpanner" ).text("Ready for action. Please reload the reddit page...");
-			set("semiSecretHash", hash);
-			set("redditor", redditor);
-		}
-		else {
-			$( "#auth_status" ).text("Something went wrong");
-		}
-	});*/
 });
-
-
-/*	var backgroundPage = chrome.extension.getBackgroundPage();
-	console.log("4");
-
-	backgroundPage.authenticateCalledFromPopse(hash);
-	console.log("5");
-	$("auth_status").text("Authenticating...");
-	console.log("6");
-	setTimeout(function() {
-		console.log("hej");
-		chrome.storage.local.get(null, function(data) {
-			console.log("7");
-			console.log("hej 2");
-			if (data.authenticated === "correcthash") {
-				$("auth_status").text("");
-				$( '#before_authenticated_div' ).hide();
-				$( '#after_authenticated_div' ).show();
-				$( "#statusSpanner" ).css( "color", "green" );
-				$( "#statusSpanner" ).text("Ready for action. Please reload the reddit page...");
-				set("semiSecretHash", hash);
-				set("redditor", redditor);
-			}
-			else if (data.authenticated === "wronghash") {
-				$( "#auth_status" ).text("Wrong hash.");
-			}
-			else if (data.authenticated === "connectionerror") {
-				$( "#auth_status" ).text("Connection error. Please try again in 1 minute.");
-			}
-			else {
-				$( "#auth_status" ).text("Unknown error. Please contact us at redditawkward@redditawkward.com Thanks.");
-			}
-			console.log("hej 3");
-			return false;
-		});
-	}, 6000);
-	
-}); */
-
-
-
-
-
-
-
-
 
 
 console.log("popse.js: glutse glutse glutse glutse glutse glutse glutse glutse123 DOM fully loaded and parsed");
 loadIt();
 
-document.querySelector('#checkboxActive').addEventListener('change',  function(event) {
-        var t = event.target;
-		activated = t.checked;
-		storeIt();
-		//changeHandler();
-}, false);
 
 });
 
@@ -287,8 +209,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 		codeOneTag = request.codeOneTag;
 		console.log("setLoadedData tag:" + codeOneTag);
 
-		var e = document.getElementById('checkboxActive');
-		e.checked = activated;
 
 
 
@@ -361,7 +281,7 @@ function loadIt() {
 	chrome.storage.local.get(null, function(data) {
 		versionError = data.versionError;
 		console.log("------------------>versionError: " + versionError);
-		if (versionError !== "none") {
+		if (versionError !== "none" && typeof versionError !== 'undefined') {
 
 
 
@@ -401,7 +321,7 @@ function loadIt() {
 			return;
 		}
 		var semiSecretHash = data.semiSecretHash;
-		if(typeof semiSecretHash === 'undefined') {
+		if(typeof semiSecretHash === 'undefined' || semiSecretHash === '<loggedout>') {
 			authenticated = false;
 			return;
 		}
@@ -671,8 +591,6 @@ var html = '<div class="header_presentation">' +
 		if (data.codeOneTag) codeOneTag = data.codeOneTag;
 		console.log("loadIt tag:" + codeOneTag);
 
-		var e = document.getElementById('checkboxActive');
-		e.checked = activated;
 		
 		// clear notification count
 		var backgroundPage = chrome.extension.getBackgroundPage();
