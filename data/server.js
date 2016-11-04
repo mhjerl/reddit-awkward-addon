@@ -187,7 +187,30 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 						color = "#FAFAD2";  // "LightGoldenRodYellow"    //getColorFromScheme(colorPointer);
 						colorPointer++;
 					}
+
+
+
+
+
+
+
+
+
 					$('#' + tname).find('.entry').first().css("background", color);
+					//$('#' + tname).find('.entry').first().attr("class","BorderCorner");
+
+
+
+
+
+
+
+
+
+
+
+
+
 				}
 			}
 			for (var j = 0; j < viewSetterBunch.length; j++) {
@@ -335,11 +358,15 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 
 					
 						var html2 = $('#' + tname).find(".usertext-body").first().find(".md").first().html();
-						var img = '<div class="redditorImage"><a target="_new" href="https://redditawkward.com/user.php?redditor=' + allComments[i]['author'] + '">' + imageurl + '</a></div>';
-						var html3 = '<div class="wrapComment">';
+						var img = '<a target="_new" href="https://redditawkward.com/user.php?redditor=' + allComments[i]['author'] + '">' + imageurl + '</a>';
+						var html3 = '<div class="wrapCommentWholeBox">';
 						var urlImgo = chrome.extension.getURL('/data/openquote1.gif');
-						html3 = html3 + '<div class="wrapCommentPartLeft"><div class="md">' + html2 + '</div></div>';
-						html3 = html3 + '<div class="wrapCommentPartRight"><div class="wrapRightComment"><div class="wrapCommentPartLeft"><span class="triangle-border right"><span class="blockquote.style1"><span style="font-size:18px;">“</span>' + exclamation + '<span style="font-size:18px;">“</span></span></span></div><div class="wrapCommentPartRight">' + img + '</div></div></div>';
+						html3 = html3 + '<div class="wrapCommentPartRedditText"><div class="md">' + html2 + '</div></div>';
+
+						html3 = html3 + '<div class="wrapCommentBubbleAndImage"><div class="wrapCommentPartBubble"><div class="wrapCommentPartImage">' + img + '</div><span class="triangle-border right">' + exclamation + '</span></div></div></div>';
+						//html3 = html3 + '<div class="wrapCommentBubbleAndImage"><div class="wrapCommentPartBubble"><span class="triangle-border right"><span style="font-size:18px;">“</span>' + exclamation + '<span style="font-size:18px;">“</span></span></div><div class="wrapCommentPartImage">' + img + '</div></div>';
+						
+						//html3 = html3 + '<div class="wrapCommentBubbleAndImage"><div class="wrapCommentPartBubble"><span class="blockquote.style1"><span style="font-size:18px;">“</span>' + exclamation + '<span style="font-size:18px;">“</span></span></div><div class="wrapCommentPartImage">' + img + '</div></div>';
 						html3 = html3 + '</div>';
 						//$('#' + tname).find(".usertext-body").find("p").first().append(img);
 						$('#' + tname).find(".usertext-body").first().empty();
@@ -367,7 +394,7 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 							for (var a = 0; a < cleanText.length; a++) {
 								var charThing = cleanText.charAt(a);
 								if (colorPointer >= colors.length) { colorPointer = 0; }
-								var fontSize = getRandomInt(8, 16);
+								var fontSize = getRandomInt(16, 24);
 								var garbling = '<span style="color: ' + colors[colorPointer] + '; font-size:' + fontSize + 'px ;">' + charThing  + '</span>';
 								garbledHtml = garbledHtml + garbling;
 								colorPointer++;

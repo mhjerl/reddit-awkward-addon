@@ -1,3 +1,5 @@
+
+
 blockquote.style1 {
   font: 14px/20px italic Times, serif;
   padding: 8px;
@@ -44,20 +46,63 @@ blockquote.style1 {
 	text-align: center;
 }
 
-div.wrapComment { 
+
+
+div.wrapCommentWholeBox { 
 	display: inline-block; 
-	height: 70px; 
+	width: 100%;
+	height: 100%;
+}
+
+.wrapCommentPartRedditText {
+	display: inline-block;
+	height: 100%;
+	/*width: 55%;*/ /* make a small margin. mhh. */
+	margin-right: 20px;
+}
+
+.wrapCommentBubbleAndImage {
+	display: inline-block;
+	float:right;
+	/*width: 40%;*/
+	height: 100%;
+	min-width: 400px;
+	
+}
+
+.wrapCommentPartBubble {
+	display:inline-block;
+	vertical-align: top;
+	/*width: 70%;*/
+	float: right;
+	min-height: 70px;
+	height: 100%;
 	width: 100%;
 }
 
-div.wrapRightComment { 
-	display: inline-block; 
-	height: 70px; 
+.wrapCommentPartImage {
+	display:inline-block;
+	vertical-align: top;
+	float: right;
+	/*width: 30%;*/
+	min-width: 70px;
+	max-width: 70px;
+	margin-right: 10px;
 }
 
-div.redditorImage {
-	margin-right: 20px;
-}
+
+
+
+
+
+
+
+/* override reddit css: "md" is the comment body. mhh. */
+/*div.md { 
+	display: inline-block;
+	width: 100%;
+}*/
+
 
 /*.wrapComment img { 
 	border: 1px solid blue; 
@@ -75,17 +120,7 @@ div.redditorImage {
 	display: inline-block; 
 }*/
 
-.wrapCommentPartLeft {
-	display: inline-block;
-	float:left;
-	height: 70px;
-}
 
-.wrapCommentPartRight { 
-	float:right;
-	display: inline-block;
-	height: 70px; 
-}
 
 
 
@@ -155,9 +190,16 @@ is to other properties or values in creating the effect */
   -webkit-border-radius:10px;
   -moz-border-radius:10px;
   border-radius:10px;
-  font:1em/1.4 Cambria, Georgia, sans-serif; /* mhh */
+  font: 1em/1.4 normal x-small verdana,arial,helvetica,sans-serif; /* mhh */
   color:#333; /* mhh */
   background:#fff; /* mhh */
+
+
+  height: 100%; /* added by mhh */
+  /*min-width: 200px;*/ /* added by mhh */
+  max-width: 300px; /* added by mhh */
+  text-align: center; /* added by mhh */
+  float: right; /* added by mhh */
 }
 
 /* Variant : for left positioned triangle
