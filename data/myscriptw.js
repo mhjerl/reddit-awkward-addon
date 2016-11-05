@@ -343,28 +343,6 @@ function mimbaw() {
 
 
 
-	// reddit.awkward{fight.reddit.anonymity}
-	// reddit.awkward{fight.the.reddit.karma.system}
-	// reddit.awkward{fight.reddit.tyranny.of.the.masses}
-	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
-		if (
-
-(allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{fight.reddit.anonymity}") !== -1)
- || (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{fight.the.reddit.karma.system}") !== -1) 
- || (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{fight.reddit.tyranny.of.the.masses}") !== -1)
-	) {
-			var body = allCommentsWithAllEntries[i]['body'];
-			// Match text between {}
-			var matches = body.match(/\{(.*?)\}/);
-			var shortHandTag = matches[1];
-			var tag = "reddit.awkward{" + shortHandTag + "}";
-			var titleCursory = "";
-			var textCursory = "Won Awkward Karma";
-			var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "green", title: titleCursory, garble: false, exclamation: "I won Awkward Karma for using this tag: " + tag + "!"};
-			viewSetterBunch.push(viewSetter);
-		}
-	}
-
 	// reddit.awkward{interesting.will.write.more.in.a.few.days.time} tag:
 	// find (if it exists) comment with reddit.awkward{interesting.will.write.more.in.a.few.days.time} tag
 	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {

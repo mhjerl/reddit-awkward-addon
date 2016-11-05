@@ -375,6 +375,11 @@ function loadIt() {
 				createdUTCToGiftsOrNotificationsObject.push({ utc: notifications[i].utc, type: 'notification', obby: notifications[i] });
 			}
 		}
+
+		if (createdUTCToGiftsOrNotificationsObject.length === 0) {
+			$('#notificationsandgifts-container').append('<div class="popup_section"><h3>No notifications, gifts or penalties...</h3></div>');
+		}
+		
 		console.log("createdUTCToGiftsOrNotificationsObject size: " + createdUTCToGiftsOrNotificationsObject.length);
 		createdUTCToGiftsOrNotificationsObject.sort(keysrt('utc'));
 		createdUTCToGiftsOrNotificationsObject.reverse();
