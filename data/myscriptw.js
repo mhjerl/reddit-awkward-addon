@@ -291,7 +291,7 @@ function mimbaw() {
 				// Garble
 				var titleCursory = "Redditor shouldn't talk to yourself here.";
 				var textCursory = "Talking to himself/herself";
-				var viewSetter = {tag: "reddit.awkward{er.hi.what.kind.of.strange.presentation.is.that}", id: apples[j]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally answered talked to myself too much."};
+				var viewSetter = {tag: "reddit.awkward{er.hi.what.kind.of.strange.presentation.is.that}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally answered talked to myself too much."};
 				viewSetterBunch.push(viewSetter);
 			}
 			else {
@@ -347,16 +347,18 @@ function mimbaw() {
 	// find (if it exists) comment with reddit.awkward{interesting.will.write.more.in.a.few.days.time} tag
 	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
 		if (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{interesting.will.write.more.in.a.few.days.time}") !== -1) {
-			var secondPersonCommentWithAllEntriesYoobee = getParent(allCommentsWithAllEntries[i]);	
-			var idOfSecondPerson = secondPersonCommentWithAllEntriesYoobee['id'];
-			var id = idOfSecondPerson;
+			var firstPersonHasRepliedToHimOrHerself = false;
+			var id = allCommentsWithAllEntries[i]['id'];
 			// ----------------------- same as giveMeTheNamesOfAllApplesOnTheBranchWithThisCommentAsAxePointHmmm start ------------------------
 			var apples = [];
 			for (var k = 0; k < branches.length; k++) {
 				var maybeApplesWeCanUse = [];
 				var ourAppleFound = false;
+				
 				for (var m = 0; m < branches[k].length; m++) {
-					if (branches[k][m] === id) {
+					//console.log("e: " + branches[k][m]['id'] + "f: " + id);
+					if (branches[k][m]['id'] === id) {
+						//console.log("found!");
 						// Here: Apple found
 						// Push and break
 						ourAppleFound = true;
@@ -370,21 +372,22 @@ function mimbaw() {
 				}
 				if (ourAppleFound) {
 					// Here: All apples we found are legit
-					// Therefore: Add them to apple bunch
-					apples.push(maybeApplesWeCanUse);
+					// Therefore: Add them to apples bunch
+					apples = apples.concat(maybeApplesWeCanUse);
 				}
 			}
 			// ----------------------- same as giveMeTheNamesOfAllApplesOnTheBranchWithThisCommentAsAxePointHmmm end --------------------------
-			var answeredCorrectly = false;
+			var answeredAbsolutelyCorrectly = false;
 			for (var j = 0; j < apples.length; j++) {
 				if (allCommentsWithAllEntries[i]['id'] !== apples[j]['id']) {
 					// Here: Found other comment which is a reply to parent comment
 					// Therefore: Check if author is me, i.e. then the comment is maybe valide (if it's within the timespan)
 					if (allCommentsWithAllEntries[i]['author'] === apples[j]['author']) {
 						// Here: Found comment by redditor
-						// Therefore: Check if redditor has answered in the appropriate timespan in the branch of the parent comment
-						var timeUTCTagUsed =  allCommentsWithAllEntries['id']['created_utc'] * 1000;
-						var timeOfMyReply = allCommentsWithAllEntries[apples[j]['id']]['created_utc'] * 1000;
+						// Therefore: 1) Set flag. 2) Check if redditor has answered in the appropriate timespan in the branch of the parent comment.
+						firstPersonHasRepliedToHimOrHerself = true;
+						var timeUTCTagUsed =  allCommentsWithAllEntries[i]['created_utc'] * 1000;
+						var timeOfMyReply = apples[j]['created_utc'] * 1000;
 						var hoursGoneBy = ((timeOfMyReply - timeUTCTagUsed) / (60 * 60 * 1000));
 						if (hoursGoneBy < 24) {
 							// Here: Redditor answered too early
@@ -405,7 +408,7 @@ function mimbaw() {
 						else {
 							// Here: Redditor answered correctly
 							// Therefore: Make nice viewsetter
-							answeredCorrectly = true;
+							answeredAbsolutelyCorrectly = true;
 							var titleCursory = "";
 							var textCursory = "Won Awkward Karma";
 							var viewSetter = {tag: "reddit.awkward{interesting.will.write.more.in.a.few.days.time}", id: apples[j]['id'], text: textCursory, color: "green", title: titleCursory, garble: false, exclamation: "I won Awkward Karma for answering " + apples[j]['author'] + " like I said I would."};
@@ -414,21 +417,41 @@ function mimbaw() {
 					}
 				}
 			}
-			if (!answeredCorrectly) {
+			if (!answeredAbsolutelyCorrectly) {
 				// Here: Redditor didn't answer yet, as he/she said he/she would.
 				// Therefore: Check if the time has run out
 				var nowUTC = new Date().getTime();
-				var timeUTCTagUsed =  allCommentsWithAllEntries['id']['created_utc'] * 1000;
+				var timeUTCTagUsed =  allCommentsWithAllEntries[i]['created_utc'] * 1000;
 				var hoursGoneBy = (nowUTC - timeUTCTagUsed)/Math.floor(1000 * 60 *60);
-				if ($hoursGoneBy > 24 * 4) {
+				if (hoursGoneBy > 24 * 4) {
 					// Expired
 					// Garble
 					var titleCursory = "Redditor said he/she would answer in a few days time, but didn't answer within four days.";
 					var textCursory = "Didn't answer";
 					var viewSetter = {tag: "reddit.awkward{interesting.will.write.more.in.a.few.days.time}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally forgot to answer."};
 					viewSetterBunch.push(viewSetter);
-				}	
-			}		
+				}
+				else {
+					// Here: Redditor still has time to answer
+					// Therefore: Check if redditor has answered him-/herself
+					if (!firstPersonHasRepliedToHimOrHerself) {
+						// Here: First person didn't put additional answers into the second persons reply tree
+						// Therefore: Make still-waiting viewSetter
+						var titleCursory = "§1 Redditor must answer somewhere after parent comment within the timespan 24h - 4*24h";
+						var textCursory = "Waiting";
+						var viewSetter = {tag: "reddit.awkward{interesting.will.write.more.in.a.few.days.time}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "green", title: titleCursory, garble: false, exclamation: "I'm still waiting for myself to answer..."};
+						viewSetterBunch.push(viewSetter);
+					}
+					else {
+						// Here: First person did answer, but not within the rules
+						// Therefore: Garble original comment with reddit.awkward{interesting.will.write.more.in.a.few.days.time}
+						var titleCursory = "Redditor didn't answered before 24 hours";
+						var textCursory = "Answered too early";
+						var viewSetter = {tag: "reddit.awkward{interesting.will.write.more.in.a.few.days.time}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally answered too early."};
+						viewSetterBunch.push(viewSetter);
+					}
+				}
+			}
 		}
 	}
 
@@ -458,15 +481,16 @@ function mimbaw() {
 		if (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{i.consider.this.comment.definitive.and.consider.any.reply.inappropriate}") !== -1) {
 			var redditor = allCommentsWithAllEntries[i]['author'];
 			var id = allCommentsWithAllEntries[i]['id'];
-			/*var wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson = getWholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson(allCommentsWithAllEntries[i]);
-			for (var j = 0; j < wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson.length; j++) {
-				// ----------------------- same as giveMeTheNamesOfAllApplesOnTheBranchWithThisCommentAsAxePointHmmm start ------------------------*/
+			// ----------------------- same as giveMeTheNamesOfAllApplesOnTheBranchWithThisCommentAsAxePointHmmm start ------------------------
 			var apples = [];
 			for (var k = 0; k < branches.length; k++) {
 				var maybeApplesWeCanUse = [];
 				var ourAppleFound = false;
+				
 				for (var m = 0; m < branches[k].length; m++) {
-					if (branches[k][m] === id) {
+					//console.log("e: " + branches[k][m]['id'] + "f: " + id);
+					if (branches[k][m]['id'] === id) {
+						//console.log("found!");
 						// Here: Apple found
 						// Push and break
 						ourAppleFound = true;
@@ -480,8 +504,8 @@ function mimbaw() {
 				}
 				if (ourAppleFound) {
 					// Here: All apples we found are legit
-					// Therefore: Add them to apple bunch
-					apples.push(maybeApplesWeCanUse);
+					// Therefore: Add them to apples bunch
+					apples = apples.concat(maybeApplesWeCanUse);
 				}
 			}
 			// ----------------------- same as giveMeTheNamesOfAllApplesOnTheBranchWithThisCommentAsAxePointHmmm end --------------------------
@@ -1048,13 +1072,13 @@ function getWholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson(commentWith
 
 
 
-function dump(obj) {
+function dumpLocal(obj) {
     var out = '';
     for (var i in obj) {
         out += i + ": " + obj[i] + "\n";
     }
 
-   	//console.log(out);
+   	console.log(out);
 }
 
 
@@ -1064,7 +1088,7 @@ function constructBranch(k) {
 	var i = 1;
 	var c;
 	a.push(k);
-	while (c = getParent(a[i-1])) {
+	while ((c = getParent(a[i-1]))) {
 		if (c) a.push(c);	
 		i++;
 	}
@@ -1126,7 +1150,7 @@ function traverseH(x, level) {
     traverseArrayH(x, level);
   } else if ((typeof x === 'object') && (x !== null)) {
 		////console.log("obby found!");
-		//dump(x);
+		//dumpLocal(x);
 		if (x.parent_id) {
 			var parentIdPlain = x.parent_id.substring(3);
 			////console.log("obby parent: " + parentIdPlain);
@@ -1135,7 +1159,7 @@ function traverseH(x, level) {
     traverseObjectH(x, level);
   } else {
 		////console.log("plobby found!");
-		//dump(x);
+		//dumpLocal(x);
 
 
 		//if (x.id) { //console.log("plobby id: " + x.id); }

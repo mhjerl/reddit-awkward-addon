@@ -183,7 +183,7 @@ function initAsynchronous(redditurl) {
 
 
 
-			if (!serverJsonObj.accountType) { console.log("non!"); } else { console.log("oui!"); }
+			//if (!serverJsonObj.accountType) { console.log("non!"); } else { console.log("oui!"); }
 			dump(serverJsonObj.accountType);
 
 			var accountType = serverJsonObj.accountType;
@@ -290,7 +290,7 @@ function dump(obj) {
         out += i + ": " + obj[i] + "\n";
     }
 
-    //console.log(out);
+    console.log(out);
 }
 
 function extractDomain(url) {
