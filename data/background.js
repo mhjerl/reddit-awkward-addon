@@ -170,10 +170,10 @@ function initAsynchronous(redditurl) {
 			var versionError = serverJsonObj.versionError;
 			set("versionError", versionError);
 			
-			dump(serverJsonObj);
+			//dump(serverJsonObj);
 			var gifts = JSON.parse(serverJsonObj.gifts);
 			//console.log("");
-			dump(gifts);
+			//dump(gifts);
 			
 
 			//console.log("Klossk");
@@ -184,7 +184,7 @@ function initAsynchronous(redditurl) {
 
 
 			//if (!serverJsonObj.accountType) { console.log("non!"); } else { console.log("oui!"); }
-			dump(serverJsonObj.accountType);
+			//dump(serverJsonObj.accountType);
 
 			var accountType = serverJsonObj.accountType;
 			set("accountType", accountType);
@@ -198,7 +198,7 @@ function initAsynchronous(redditurl) {
 
 			var notifications = JSON.parse(serverJsonObj.notifications);
 			//console.log("");
-			dump(notifications);
+			//dump(notifications);
 			
 			//$mainPostId = $jsonObj[0]->data->children[0]->data->id;
 
@@ -215,7 +215,7 @@ function initAsynchronous(redditurl) {
 			var friends = JSON.parse(serverJsonObj.friends);
 			//console.log("");
 			set("friends", friends);
-			dump(friends);
+			//dump(friends);
 			
 
 			//console.log("Klossk");

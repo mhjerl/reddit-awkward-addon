@@ -123,7 +123,7 @@ function mimbaw() {
 
 	
 	
-	// Enforce general rule §1: No more than one tag on the same level of the comment tree, i.e. as an answer to a given comment.
+	// Enforce general rule §1: No more than one tag by the same redditor on the same level of the comment tree, i.e. as answer to any given comment.
 	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
 		if (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{") !== -1) {
 			var redditorInAllThisMess = allCommentsWithAllEntries[i]['author'];
@@ -132,15 +132,15 @@ function mimbaw() {
 				if (allCommentsWithAllEntries[j]['parent_id'] === secondPersonCommentWithAllEntriesYoobee['parent_id']) {
 					// Here: Found comment on the same level as mine
 					// Therefore: Be certain it isn't the one already known to the system
-					if (allCommentsWithAllEntries[j]['id'] !== secondPersonCommentWithAllEntriesYoobee['id']) {
+					if (allCommentsWithAllEntries[j]['id'] !== allCommentsWithAllEntries[i]['id']) {
 						// Here: Comment isn't identical with the one already known to the system
 						// Therefore: Check if it is indeed redditor, who is the author
-						if (allCommentsWithAllEntries[j]['author'] === secondPersonCommentWithAllEntriesYoobee['author']) {
+						if (allCommentsWithAllEntries[j]['author'] === allCommentsWithAllEntries[i]['author']) {
 							// Here: Redditor is author
 							// Therefore: Check for existence of Reddit Awkward tag
-							var commentBody = secondPersonCommentWithAllEntriesYoobee['body'];
+							var commentBody = allCommentsWithAllEntries[j]['body'];
 							if (commentBody.indexOf("reddit.awkward{") !== -1) {
-								// Here: Conclusion: Redditor used more than oneAwkward Tags on the same level
+								// Here: Conclusion: Redditor used more than one Awkward Tags on the same level
 								// Therefore: Garble all viewSetters on this spot
 								// Match text between {}
 								var matches = commentBody.match(/\{(.*?)\}/);
@@ -148,7 +148,7 @@ function mimbaw() {
 								var tag = "reddit.awkward{" + shortHandTag + "}";
 								var titleCursory = "General Rule §1 violated";
 								var textCursory = "General Rule §1: No more than one tag by the same redditor on the same level of the comment tree, i.e. as an answer to a given comment.";
-								var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "green", title: titleCursory, garble: true, exclamation: "I accidentally used more than one Awkward Tag in the same place."};
+								var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "green", title: titleCursory, garble: true, exclamation: "I used more than one Awkward Tag in the same place."};
 								viewSetterBunch.push(viewSetter);
 							}
 						}
@@ -171,7 +171,7 @@ function mimbaw() {
 			if (!tag in mustBeStandAloneTags) {
 				var titleCursory = "General Rule §2 No self-made tags";
 				var textCursory = "Bad tag!";
-				var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally made a tag up myself..."};
+				var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I made a tag up myself..."};
 				viewSetterBunch.push(viewSetter);
 			}
 			
@@ -194,7 +194,7 @@ function mimbaw() {
 				if (isStandAlone) {
 					var titleCursory = "Tag " + tag + " must not be stand-alone";
 					var textCursory = "Stand-alone violation!";
-					var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally forgot to add text to a non-stand-alone tag."};
+					var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I forgot to add text to a non-stand-alone tag."};
 				}
 			}
 			else if (mustBeStandAloneTags[shortHandTag] === "mustStandAlone") {
@@ -203,14 +203,14 @@ function mimbaw() {
 				if (!isStandAlone) {
 					var titleCursory = "Tag " + tag + " must be stand-alone";
 					var textCursory = "Stand-alone violation!";
-					var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally added text to a stand-alone tag."};
+					var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I added text to a stand-alone tag."};
 				}
 			}
 		}
 	}
 
 
-	// Enforce general rule §4: Redditors shouldn't talk to each other after A has used either reddit.awkward{i.will.not.reply.and.expect.apology} or reddit.awkward{doorslam}. When A has apologized they can talk to each other again.
+	// Enforce general rule §4: Redditors shouldn't talk to each other after A has used reddit.awkward{i.will.not.reply.and.expect.apology}. When A has apologized they can talk to each other again.
 	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
 		var redditor = allCommentsWithAllEntries[i]['author'];
 		var body = allCommentsWithAllEntries[i]['body'];
@@ -226,7 +226,7 @@ function mimbaw() {
 				var secondPersonName = conflictRedditorsOnPage[j]['angryRedditor'];
 				// Here: Our redditor needs to apologize before saying anything to the angry dude
 				// Therefore: Make garbled viewSetter
-				var titleCursory = "General Rule §4 Redditors shouldn't talk to each other after A has used either reddit.awkward{i.will.not.reply.and.expect.apology} or reddit.awkward{doorslam}. When A has apologized they can talk to each other again.";
+				var titleCursory = "General Rule §4 Redditors shouldn't talk to each other after A has used reddit.awkward{i.will.not.reply.and.expect.apology}. When A has apologized they can talk to each other again.";
 				var textCursory = "You need to apologize first!";
 				var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I should apologize to " + secondPersonName + ".", override: true};
 				viewSetterBunch.push(viewSetter);
@@ -235,7 +235,7 @@ function mimbaw() {
 				// Here: Our redditor needs to be apologized to before saying anything to the angry dude
 				// Therefore: Make garbled viewSetter
 				var culpritRedditorName = conflictRedditorsOnPage[j]['needsToApologizeRedditor'];
-				var titleCursory = "General Rule §4 Redditors shouldn't talk to each other after A has used either reddit.awkward{i.will.not.reply.and.expect.apology} or reddit.awkward{doorslam}. When A has apologized they can talk to each other again.";
+				var titleCursory = "General Rule §4 Redditors shouldn't talk to each other after A has used reddit.awkward{i.will.not.reply.and.expect.apology}. When A has apologized they can talk to each other again.";
 				var textCursory = culpritRedditorName + " needs to apologize first.";
 				var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: culpritRedditorName + " should apologize to me before speaking to me.", override: true};
 				viewSetterBunch.push(viewSetter);
@@ -257,7 +257,7 @@ function mimbaw() {
 					// Therefore: Garble
 					var titleCursory = "General Rule §5: §5: Nearly all Awkward tags are social in nature. Redditors can't direct any tags, besides reddit.awkward{no.i.mean.it}, towards their own comments.";
 					var textCursory = "Don't do that";
-					var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally used an Awkward tag in dialogue with myself!", override: true};
+					var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I used an Awkward tag in dialogue with myself!", override: true};
 					viewSetterBunch.push(viewSetter);
 				}
 			}
@@ -291,7 +291,7 @@ function mimbaw() {
 				// Garble
 				var titleCursory = "Redditor shouldn't talk to yourself here.";
 				var textCursory = "Talking to himself/herself";
-				var viewSetter = {tag: "reddit.awkward{er.hi.what.kind.of.strange.presentation.is.that}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally answered talked to myself too much."};
+				var viewSetter = {tag: "reddit.awkward{er.hi.what.kind.of.strange.presentation.is.that}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I talked to myself too much."};
 				viewSetterBunch.push(viewSetter);
 			}
 			else {
@@ -347,6 +347,7 @@ function mimbaw() {
 	// find (if it exists) comment with reddit.awkward{interesting.will.write.more.in.a.few.days.time} tag
 	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
 		if (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{interesting.will.write.more.in.a.few.days.time}") !== -1) {
+			var secondPersonCommentWithAllEntriesYoobee = getParent(allCommentsWithAllEntries[i]);
 			var firstPersonHasRepliedToHimOrHerself = false;
 			var id = allCommentsWithAllEntries[i]['id'];
 			// ----------------------- same as giveMeTheNamesOfAllApplesOnTheBranchWithThisCommentAsAxePointHmmm start ------------------------
@@ -394,7 +395,7 @@ function mimbaw() {
 							// Therefore: Garble
 							var titleCursory = "Redditor said he/she would answer in a few days time, but answered within 24 hours.";
 							var textCursory = "Answered too early";
-							var viewSetter = {tag: "reddit.awkward{interesting.will.write.more.in.a.few.days.time}", id: apples[j]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally answered too early."};
+							var viewSetter = {tag: "reddit.awkward{interesting.will.write.more.in.a.few.days.time}", id: apples[j]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I answered too soon."};
 							viewSetterBunch.push(viewSetter);
 						}
 						else if (hoursGoneBy > 24 * 4) {
@@ -402,7 +403,7 @@ function mimbaw() {
                             // Therefore: Garble
 							var titleCursory = "Redditor said he/she would answer in a few days time, but answered within after four days.";
 							var textCursory = "Answered too late";
-							var viewSetter = {tag: "reddit.awkward{interesting.will.write.more.in.a.few.days.time}", id: apples[j]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally answered too late."};
+							var viewSetter = {tag: "reddit.awkward{interesting.will.write.more.in.a.few.days.time}", id: apples[j]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I answered too late."};
 							viewSetterBunch.push(viewSetter);
 						}
 						else {
@@ -411,7 +412,7 @@ function mimbaw() {
 							answeredAbsolutelyCorrectly = true;
 							var titleCursory = "";
 							var textCursory = "Won Awkward Karma";
-							var viewSetter = {tag: "reddit.awkward{interesting.will.write.more.in.a.few.days.time}", id: apples[j]['id'], text: textCursory, color: "green", title: titleCursory, garble: false, exclamation: "I won Awkward Karma for answering " + apples[j]['author'] + " like I said I would."};
+							var viewSetter = {tag: "reddit.awkward{interesting.will.write.more.in.a.few.days.time}", id: apples[j]['id'], text: textCursory, color: "green", title: titleCursory, garble: false, exclamation: "I won Awkward Karma for answering " + secondPersonCommentWithAllEntriesYoobee['author'] + " like I said I would do."};
 							viewSetterBunch.push(viewSetter);
 						}
 					}
@@ -428,7 +429,7 @@ function mimbaw() {
 					// Garble
 					var titleCursory = "Redditor said he/she would answer in a few days time, but didn't answer within four days.";
 					var textCursory = "Didn't answer";
-					var viewSetter = {tag: "reddit.awkward{interesting.will.write.more.in.a.few.days.time}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally forgot to answer."};
+					var viewSetter = {tag: "reddit.awkward{interesting.will.write.more.in.a.few.days.time}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I forgot to answer."};
 					viewSetterBunch.push(viewSetter);
 				}
 				else {
@@ -447,7 +448,7 @@ function mimbaw() {
 						// Therefore: Garble original comment with reddit.awkward{interesting.will.write.more.in.a.few.days.time}
 						var titleCursory = "Redditor didn't answered before 24 hours";
 						var textCursory = "Answered too early";
-						var viewSetter = {tag: "reddit.awkward{interesting.will.write.more.in.a.few.days.time}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally answered too early."};
+						var viewSetter = {tag: "reddit.awkward{interesting.will.write.more.in.a.few.days.time}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I answered too early."};
 						viewSetterBunch.push(viewSetter);
 					}
 				}
@@ -468,7 +469,7 @@ function mimbaw() {
 				// Therefore: Garble
 				var titleCursory = "Redditor must only use this tag against a comment containing a Reddit Awkward tag. (Tag Rule §1)";
 				var textCursory = "Disallowed tag use";
-				var viewSetter = {tag: "reddit.awkward{youre.being.overly.ironic.and.are.violating.the.rules}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally used this tag at a comment without an Awkward Tag in it."};
+				var viewSetter = {tag: "reddit.awkward{youre.being.overly.ironic.and.are.violating.the.rules}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I used this tag at a comment without an Awkward Tag in it."};
 				viewSetterBunch.push(viewSetter);
 			}
 		}
@@ -476,7 +477,7 @@ function mimbaw() {
 
 
 	// reddit.awkward{i.consider.this.comment.definitive.and.consider.any.reply.inappropriate} tag:
-	// find (if it exists) comment with reddit.awkward{doorslam} tag
+	// find (if it exists) comment with reddit.awkward{i.consider.this.comment.definitive.and.consider.any.reply.inappropriate} tag
 	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
 		if (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{i.consider.this.comment.definitive.and.consider.any.reply.inappropriate}") !== -1) {
 			var redditor = allCommentsWithAllEntries[i]['author'];
@@ -509,10 +510,13 @@ function mimbaw() {
 				}
 			}
 			// ----------------------- same as giveMeTheNamesOfAllApplesOnTheBranchWithThisCommentAsAxePointHmmm end --------------------------
+			console.log("------------------------------>apples length: " + apples.length);
+			dumpLocal(apples);
 			for (var j = 0; j < apples.length; j++) {
+				console.log("------------------------------>apple id: " + apples[j]['id']);
 				var titleCursory = "Redditor must not comment following a comment with reddit.awkward{i.consider.this.comment.definitive.and.consider.any.reply.inappropriate}";
 				var textCursory = "Replies prohibited";
-				var viewSetter = {tag: "reddit.awkward{i.consider.this.comment.definitive.and.consider.any.reply.inappropriate}", id: apples[j], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally ignored reddit.awkward{i.consider.this.comment.definitive.and.consider.any.reply.inappropriate}"};
+				var viewSetter = {tag: "reddit.awkward{i.consider.this.comment.definitive.and.consider.any.reply.inappropriate}", id: apples[j]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I ignored the above tag."};
 				viewSetterBunch.push(viewSetter);
 			}
 		}
@@ -535,7 +539,7 @@ function mimbaw() {
 				var tag = "reddit.awkward{" + shortHandTag + "}";
 				var titleCursory = "This tag (" + tag + ") should only be used as direct answer to main post/link.";
 				var textCursory = tag + " tag misuse";
-				var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally used " + tag + " too deep into the comment tree."};
+				var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I should use this tag in direct reply to the main post or link."};
 				viewSetterBunch.push(viewSetter);
 			}
 		}
@@ -557,7 +561,7 @@ function mimbaw() {
 				var tag = "reddit.awkward{" + shortHandTag + "}";
 				var titleCursory = "You misused the tag " + tag + ". It should be directed against 'an overbearing act' i.e. either towards reddit.awkward{no.problem}, reddit.awkward{dont.mind.its.ok.lets.move.on} or reddit.awkward{its.fine.i.consider.the.case.closed}."
 				var textCursory = tag + " tag misuse";
-				var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally used " + tag + " where nobody was overbearing."};
+				var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I used this tag where nobody was overbearing."};
 				viewSetterBunch.push(viewSetter);
 			}
 			
@@ -584,7 +588,7 @@ function mimbaw() {
 				var tag = "reddit.awkward{" + shortHandTag + "}";
 				var titleCursory = "This tag (" + tag + ")should only be used towards an apology.";
 				var textCursory = tag + " tag misuse";
-				var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally used " + tag + " where nobody apologized."};
+				var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "Nobody apologized."};
 				viewSetterBunch.push(viewSetter);
 			}
 		}
@@ -592,32 +596,69 @@ function mimbaw() {
 
 
 
-	// reddit.awkward{doorslam} tag:
-	// find (if it exists) comment with reddit.awkward{doorslam} tag
+	// reddit.awkward{i.will.not.reply.and.expect.apology} tag:
+	// find (if it exists) comment with reddit.awkward{i.will.not.reply.and.expect.apology} tag
 	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
-		if (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{doorslam}") !== -1) {
+		if (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{i.will.not.reply.and.expect.apology}") !== -1) {
 			var secondPersonCommentWithAllEntriesYoobee = getParent(allCommentsWithAllEntries[i]);
 			for (var j = 0; j < conflictRedditorsOnPage.length; j++) {
 				if (conflictRedditorsOnPage[j]['needsToApologizeRedditor'] === redditor) {
 					var secondPersonName = conflictRedditorsOnPage[j]['angryRedditor'];
 					// Here: Our redditor needs to apologize before saying anything to the angry dude
 					// Therefore: Make garbled viewSetter
-					var titleCursory = "Doorslam Rule §2: You must only use this tag or reddit.awkward{i.will.not.reply.and.expect.apology} one time towards second person (" + secondPersonName + ") before he/she has apologized.";
+					var titleCursory = "Rule §2: You must only use this tag one time towards second person (" + secondPersonName + ") before he/she has apologized.";
 					var textCursory = secondPersonName + " needs to apologize first!";
-					var viewSetter = {tag: "reddit.awkward{doorslam}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I should apologize to " + secondPersonName + "."};
+					var viewSetter = {tag: "reddit.awkward{i.will.not.reply.and.expect.apology}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I should apologize to " + secondPersonName + "."};
 					viewSetterBunch.push(viewSetter);
 				}
 				else {
-					// Here: Redditor didn't use reddit.awkward{doorslam} or reddit.awkward{i.will.not.reply.and.expect.apology} towards second person without getting an apology. (Doorslam Rule §1)
-					// Therefore: Check if redditor obeys Doorslam Rule §1
+					// Here: Redditor didn't use reddit.awkward{i.will.not.reply.and.expect.apology} towards second person without getting an apology. (Rule §1)
+					// Therefore: Check if redditor obeys i.will.not.reply.and.expect.apology Rule §1
 					if (secondPersonCommentWithAllEntriesYoobee['body'].indexOf("reddit.awkward{") !== -1) {
-						// Here: Redditor is replying to a comment with at least one Awkward Tag, violating Doorslam Rule §2
+						// Here: Redditor is replying to a comment with at least one Awkward Tag, violating Rule §2
 						// Therefore: Give penalty.
-						var titleCursory = "Doorslam Rule §1: User mustn't use this in a reply to a comment with Awkward Tags.";
+						var titleCursory = "Rule §1: User mustn't use this in a reply to a comment with Awkward Tags.";
 						var textCursory = "Target comment contains Awkward Tags";
-						var viewSetter = {tag: "reddit.awkward{doorslam}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I shouldn't be doing this."};
+						var viewSetter = {tag: "reddit.awkward{i.will.not.reply.and.expect.apology}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I shouldn't be doing this."};
 						viewSetterBunch.push(viewSetter);
 					}
+				}
+			}
+			var id = allCommentsWithAllEntries[i]['id'];
+			// ----------------------- same as giveMeTheNamesOfAllApplesOnTheBranchWithThisCommentAsAxePointHmmm start ------------------------
+			var apples = [];
+			for (var k = 0; k < branches.length; k++) {
+				var maybeApplesWeCanUse = [];
+				var ourAppleFound = false;
+				
+				for (var m = 0; m < branches[k].length; m++) {
+					//console.log("e: " + branches[k][m]['id'] + "f: " + id);
+					if (branches[k][m]['id'] === id) {
+						//console.log("found!");
+						// Here: Apple found
+						// Push and break
+						ourAppleFound = true;
+						break;
+					}
+					else {
+						// Here: Apple not found yet and this is not our axepoint
+						// Therefore: Push
+						maybeApplesWeCanUse.push(branches[k][m]);
+					}
+				}
+				if (ourAppleFound) {
+					// Here: All apples we found are legit
+					// Therefore: Add them to apples bunch
+					apples = apples.concat(maybeApplesWeCanUse);
+				}
+			}
+			// ----------------------- same as giveMeTheNamesOfAllApplesOnTheBranchWithThisCommentAsAxePointHmmm end --------------------------
+			for (var j = 0; j < apples.length; j++) {
+				if (allCommentsWithAllEntries[i]['author'] !== apples[j]['author'] && secondPersonCommentWithAllEntriesYoobee['author'] !== apples[j]['author']) {
+					var titleCursory = "";
+					var textCursory = "Intrusion prohibited";
+					var viewSetter = {tag: "reddit.awkward{i.will.not.reply.and.expect.apology}", id: apples[j], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I intruded in a conflict"};
+					viewSetterBunch.push(viewSetter);
 				}
 			}
 		}
@@ -649,7 +690,7 @@ function mimbaw() {
 				// Therefore: Give penalty to first person
 				var titleCursory = "reddit.awkward{your.comment.inspired.me} tag violation: $1 May not be used in response to a comment with less than 20 words.";
 				var textCursory = "reddit.awkward{your.comment.inspired.me} tag violation";
-				var viewSetter = {tag: "reddit.awkward{your.comment.inspired.me}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally misused the tag: reddit.awkward{your.comment.inspired.me}"};
+				var viewSetter = {tag: "reddit.awkward{your.comment.inspired.me}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I misused this tag."};
 				viewSetterBunch.push(viewSetter);
 			}
 			var wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson = getWholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson(allCommentsWithAllEntries[i]);
@@ -723,7 +764,7 @@ function mimbaw() {
 				// Therefore: Make an appropriate viewsetter for this situation
 				var titleCursory = "reddit.awkward{awkward} tag violation: §1: Don't use after comment with Reddit Awkward tag.";
 				var textCursory = "reddit.awkward{awkward} tag violation";
-				var viewSetter = {tag: "reddit.awkward{awkward}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally misused the tag: reddit.awkward{awkward}"};
+				var viewSetter = {tag: "reddit.awkward{awkward}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I misused this tag."};
 				viewSetterBunch.push(viewSetter);
 			}
 			else {
@@ -732,7 +773,7 @@ function mimbaw() {
 					// Therefore: Garble
 					var titleCursory = "reddit.awkward{awkward} tag violation: §2 Must not be stand-alone (no other text in comment)";
 					var textCursory = "reddit.awkward{awkward} tag violation";
-					var viewSetter = {tag: "reddit.awkward{awkward}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally forgot the not-stand-alone rule for reddit.awkward{awkward}"};
+					var viewSetter = {tag: "reddit.awkward{awkward}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I forgot the not-stand-alone rule for this tag."};
 					viewSetterBunch.push(viewSetter);
 				}
 				else {
@@ -888,14 +929,16 @@ function mimbaw() {
 			var onlySecondAndThirdPersonsArray = [];
 			console.log("wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson.length: " + wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson.length);
 			for (var j = 0; j < wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson.length; j++) {
-				console.log("allCommentsWithAllEntries[i]['author']: " + allCommentsWithAllEntries[i]['author']);
+				console.log("allCommentsWithAllEntries[j]['author']: " + allCommentsWithAllEntries[j]['author']);
 				console.log("redditor: " + redditor);
+				console.log("wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson[j]['author']:" + wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson[j]['author']);
 				if (wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson[j]['author'] !== allCommentsWithAllEntries[i]['author']) {
 					// Here: Author of reply IS NOT equal with first person
 					// Therefore: Stuff possible direct second- and third-person answers into array
 					onlySecondAndThirdPersonsArray.push(wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson[j]);
 				}
 			}
+			console.log("onlySecondAndThirdPersonsArray.length " + onlySecondAndThirdPersonsArray.length);
 			if (onlySecondAndThirdPersonsArray.length == 0) {
 				// Here: There are no replies yet
 				// Therefore: Make a viewsetter for either firstperson, secondperson and thirdperson
@@ -945,7 +988,7 @@ function mimbaw() {
 							// Therefore: Make a garbled viewsetter for third person
 							var titleCursory = "reddit.awkward{waits.for.your.reply.only} tag violation";
 							var textCursory = "reddit.awkward{waits.for.your.reply.only} tag violation";
-							var viewSetter = {tag: "reddit.awkward{waits.for.your.reply.only}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally misused the tag: reddit.awkward{waits.for.your.reply.only}"};
+							var viewSetter = {tag: "reddit.awkward{waits.for.your.reply.only}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I misused this tag."};
 							viewSetterBunch.push(viewSetter);
 						}
 						else {
@@ -976,7 +1019,7 @@ function mimbaw() {
 			var shortHandTag = matches[1];
 			var tag = "reddit.awkward{" + shortHandTag + "}";
 
-			if ((secondPersonDudeAllEntriesInHere['body'].indexOf("reddit.awkward{doorslam}") !== -1) || (secondPersonDudeAllEntriesInHere['body'].indexOf("reddit.awkward{i.will.not.reply.and.expect.apology}") !== -1)) {
+			if (secondPersonDudeAllEntriesInHere['body'].indexOf("reddit.awkward{i.will.not.reply.and.expect.apology}") !== -1) {
 				var titleCursory = "I apologized to " + secondPersonName + ".";
 				if (redditor === firstPersonName) {
 					titleCursory = "You apologized to " + secondPersonName + ".";
@@ -986,9 +1029,9 @@ function mimbaw() {
 				viewSetterBunch.push(viewSetter);
 			}
 			else {
-				var titleCursory = tag + " tag misuse: Must be used right after reddit.awkward{doorslam} or reddit.awkward{i.will.not.reply.and.expect.apology}";
+				var titleCursory = tag + " tag misuse: Must be used right after reddit.awkward{i.will.not.reply.and.expect.apology}";
 				var textCursory = tag + " tag violation";
-				var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I accidentally misused the tag: " + tag};
+				var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I misused this tag."};
 				viewSetterBunch.push(viewSetter);
 			}
 		}
@@ -1391,7 +1434,6 @@ var mustBeStandAloneTags = {
     "explanation.why.i.was.angry" : "mayNotStandAlone",
     "dont.mind.its.ok.lets.move.on" : "noStandAloneRule",
     "i.was.being.careless" : "noStandAloneRule",
-    "doorslam" : "noStandAloneRule",
     "i.am.glad.you.said.that.to.me" : "noStandAloneRule",
     "its.fine.i.consider.the.case.closed" : "noStandAloneRule" ,
     "i.consider.this.comment.definitive.and.consider.any.reply.inappropriate" : "mayNotStandAlone",

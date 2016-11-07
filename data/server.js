@@ -177,16 +177,17 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 		console.log("allComments.length" + allComments.length);
 
 		for (var i = 0; i < allComments.length; i++) {
+			var color = "##F8F8FF"; // "GhostWhite"
+			if (redditor !== allComments[i]['author']) {
+				color = "white"; // getColorFromScheme(colorPointer);
+				colorPointer++;
+			}
 			for (var j = 0; j < membersOnPage.length; j++) {
 				if (membersOnPage[j]['member'] === allComments[i]['author']) {
 					var commentId = allComments[i]['id'];
 					var tname = "thing_t1_" + commentId;
 					//$('#' + tname).css("background", "green");
-					var color = "#FDF5E6"; // "OldLace"
-					if (redditor !== allComments[i]['author']) {
-						color = "#FAFAD2";  // "LightGoldenRodYellow"    //getColorFromScheme(colorPointer);
-						colorPointer++;
-					}
+					
 
 
 
@@ -362,11 +363,26 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 						var html3 = '<div class="wrapCommentWholeBox">';
 						var urlImgo = chrome.extension.getURL('/data/openquote1.gif');
 						html3 = html3 + '<div class="wrapCommentPartRedditText"><div class="md">' + html2 + '</div></div>';
-
-						html3 = html3 + '<div class="wrapCommentBubbleAndImage"><div class="wrapCommentPartBubble"><div class="wrapCommentPartImage">' + img + '</div><span class="triangle-border right">' + exclamation + '</span></div></div></div>';
-						//html3 = html3 + '<div class="wrapCommentBubbleAndImage"><div class="wrapCommentPartBubble"><span class="triangle-border right"><span style="font-size:18px;">“</span>' + exclamation + '<span style="font-size:18px;">“</span></span></div><div class="wrapCommentPartImage">' + img + '</div></div>';
 						
-						//html3 = html3 + '<div class="wrapCommentBubbleAndImage"><div class="wrapCommentPartBubble"><span class="blockquote.style1"><span style="font-size:18px;">“</span>' + exclamation + '<span style="font-size:18px;">“</span></span></div><div class="wrapCommentPartImage">' + img + '</div></div>';
+
+
+
+						//var bubble = '<span class="triangle-border right border_gray"><span class="border_gray">' + exclamation + '</span></span>';
+						var bubble = '<span class="triangle-border right border_gray">' + exclamation + '</span>';
+
+
+
+
+						if (color === "red") {
+							bubble = '<span class="triangle-border right border_red">' + exclamation + '</span>';
+						}
+						else if (color === "green") {
+							bubble = '<span class="triangle-border right border_green">' + exclamation + '</span>';
+						}
+						else if (color === "black") {
+							bubble = '<span class="triangle-border right border_black">' + exclamation + '</span>';
+						}
+						html3 = html3 + '<div class="wrapCommentBubbleAndImage"><div class="wrapCommentPartBubble"><div class="wrapCommentPartImage">' + img + '</div>' + bubble + '</div></div></div>';
 						html3 = html3 + '</div>';
 						//$('#' + tname).find(".usertext-body").find("p").first().append(img);
 						$('#' + tname).find(".usertext-body").first().empty();
@@ -406,13 +422,13 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 
 
 						if (viewSetterBunch[j]['tag'] === "reddit.awkward{waits.for.anyone}") {
-							$('#' + tname).find('.entry').first().css("border", "5px dotted "  + getColorFromScheme(0));
+							$('#' + tname).find('.entry').first().css("border", "5px dotted #DAA520"); // GoldenRod
 						}
-						else if (viewSetterBunch[j]['tag'] === "reddit.awkward{waits.for.anyone}") {
-							$('#' + tname).find('.entry').first().css("border", "5px dotted "  + getColorFromScheme(1));
+						else if (viewSetterBunch[j]['tag'] === "reddit.awkward{your.comment.inspired.me}") {
+							$('#' + tname).find('.entry').first().css("border", "5px dotted #F0E68C"); // Khaki
 						}
-						else if (viewSetterBunch[j]['tag'] === "reddit.awkward{waits.for.your.reply.only}") {
-							$('#' + tname).find('.entry').first().css("border", "5px dotted "  + getColorFromScheme(2));
+						else {
+							$('#' + tname).find('.entry').first().css("border", "5px dotted #800000"); // Maroon
 						}
 					}
 				}
@@ -455,7 +471,7 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 			//console.log();
 			//console.log(magicalFlatListULHtml);*/
 		}
-		sendResponse({msg: "kuk-kuk program?" });
+		sendResponse({msg: "blink ;-)" });
     }
 
 
@@ -464,7 +480,9 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 
 }
 
-var colorScheme = ["#DEB887", "#FFEBCD", "#FAEBD7", "#F0F8FF", "#00FFFF", "#F5F5DC", "#FFF8DC", "#FFFACD", "#ADD8E6", "#F08080", "#00FF00", "#66CDAA", "#FFE4E1", "#AFEEEE", "#FFEFD5", "#DDA0DD", "#FFF5EE"];
+
+// ("WhiteSmoke","MintCream","Gainsboro","GhostWhite","HoneyDew")
+var colorScheme = ["#F5F5F5","#F5FFFA","#DCDCDC","#F8F8FF","#F0FFF0"];
 
 function getColorFromScheme(n) {
 	var m = n;

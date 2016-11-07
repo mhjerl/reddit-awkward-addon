@@ -177,14 +177,49 @@ is to other properties or values in creating the effect */
 /* THE SPEECH BUBBLE
 ------------------------------------------------------------------------------------------------------------------------------- */
 
+
+.triangle-border.border_black  {
+	border-color: black;
+	border:5px solid black;
+}
+
+.triangle-border.right.border_black:before {
+	border-color: transparent black;
+}
+
+.triangle-border.border_red  {
+	border-color: orangered;
+	border:5px solid orangered;
+}
+
+.triangle-border.right.border_red:before {
+	border-color: transparent orangered;
+}
+
+.triangle-border.border_green  {
+	border-color: springgreen;
+	border:5px solid springgreen;
+}
+
+.triangle-border.right.border_green:before {
+	border-color: transparent springgreen;
+}
+
+.triangle-border.border_gray  {
+	border-color: aquamarine;
+	border:5px solid aquamarine;
+}
+
+.triangle-border.right.border_gray:before {
+	border-color: transparent aquamarine;
+}
+
+
 .triangle-border {
   display: inline-block; /* added by mhh */
   vertical-align: top; /* added by mhh */
   position:relative;
   padding:15px;
-  /*margin:1em 0 3em; removed by mhh */
-  border:5px solid gray;   /* mhh orig: border:5px solid #5a8f00; */
-  color:#333;
   background:#fff;
   /* css3 */
   -webkit-border-radius:10px;
@@ -202,12 +237,6 @@ is to other properties or values in creating the effect */
   float: right; /* added by mhh */
 }
 
-/* Variant : for left positioned triangle
------------------------------------------- */
-
-.triangle-border.left {
-  margin-left:30px;
-}
 
 /* Variant : for right positioned triangle
 ------------------------------------------ */
@@ -226,7 +255,16 @@ is to other properties or values in creating the effect */
   left:40px; /* controls horizontal position */
   border-width:20px 20px 0;
   border-style:solid;
-  border-color: gray transparent;  /* mhh orig: border-color:#5a8f00 transparent; */
+
+
+
+
+  /*border-color: darkmagenta transparent; */ /* mhh orig: border-color:#5a8f00 transparent; */
+
+
+
+
+
   /* reduce the damage in FF3.0 */
   display:block;
   width:0;
@@ -249,8 +287,7 @@ is to other properties or values in creating the effect */
 
 
 
-/* Variant : right
------------------------------------------- */
+/* Variant : right */
 
 /* creates the larger triangle */
 .triangle-border.right:before {
@@ -259,7 +296,25 @@ is to other properties or values in creating the effect */
   left:auto;
   right:-30px; /* value = - border-left-width - border-right-width */
   border-width:15px 0 15px 30px;
-  border-color:transparent gray; /* mhh orig: border-color:transparent #5a8f00;  */
+  
+
+
+
+
+
+
+
+
+  /*border-color:transparent yellow;*/ /* mhh orig: border-color:transparent #5a8f00;  */
+
+
+
+
+
+
+
+
+
 }
 
 /* creates the smaller  triangle */
