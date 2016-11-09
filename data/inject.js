@@ -3,7 +3,7 @@ $.fn.exists = function () {
 }
 
 $(document).ready(function() {
-	$( ".save" ).click(function() {
+	/*$( ".save" ).click(function() {
 		//alert( "Handler for .click() called." );
 		if (confirm('Reload now?')) {
 			setTimeout(function() {
@@ -12,7 +12,7 @@ $(document).ready(function() {
 		} else {
 			// Do nothing!
 		}
-	});
+	});*/
 	/*document.dispatchEvent(new CustomEvent("select_an_opt", {
 		detail: {
 			commentId: cid,
@@ -22,12 +22,16 @@ $(document).ready(function() {
 	}));*/
 });
 
-function rADropdownSelect(sel, cid) {
+function rADropdownSelect(sel, cid, isMainPost) {
 	var value = sel.value;
 	if (value !== "Please select a Reddit Awkward Tag:" && value !== "No Reddit Awkward Tags available") {
+		console.log();
 		var linkCheckboxId = "ra_link_chkbx_" + cid;
 		var chkbx = $( sel ).parent().parent().parent().find("#" + linkCheckboxId);
 		var ta = $( sel ).parent().parent().parent().parent().find("textarea");
+		if (isMainPost) {
+			ta = $( sel ).parent().parent().find("textarea").first();
+		}
 		var textAreaIsEmpty = false;
 		var yourCommentHere = "";
 		if (!$.trim( ta.val())) {
@@ -71,16 +75,28 @@ function rADropdownSelect(sel, cid) {
 
 $(document).ready(function() {
 	$( ".reply-button" ).click(function(event) {
+		var parentElementId = $( event.target ).parent().parent().parent().parent().attr( "id" );
+		var n = parentElementId.lastIndexOf("_") + 1;
+		var commentId = parentElementId.substring(n);
+		console.log("commentId------------------------------->" + commentId);
+		var selectId = "ra_select_" + commentId;
+		// Fix for BUG4_:
+		setTimeout(function() {
+			//$( "div" ).remove( ".ra_inserted_div" ); // BUG2_ FIX FAILED
+			document.dispatchEvent(new CustomEvent("bug4_fix_event", {
+				detail: {
+					commentId: commentId,
+					parentElementId: parentElementId
+				},
+				bubbles: true,
+				cancelable: true
+			}));
+		}, 0);
 		setTimeout( function() {
-			var parentElementId = $( event.target ).parent().parent().parent().parent().attr( "id" );
-			var n = parentElementId.lastIndexOf("_") + 1;
-			var commentId = parentElementId.substring(n);
-			console.log("commentId------------------------------->" + commentId);
-			var selectId = "ra_select_" + commentId;
+			
 			//if (!$( "#" + selectId ).exists()) {
 				setTimeout(function() {
 					//$( "div" ).remove( ".ra_inserted_div" ); // BUG2_ FIX FAILED
-					/* Example: Send data to your Chrome extension*/
 					document.dispatchEvent(new CustomEvent("small_reply_link_clicked", {
 						detail: {
 							commentId: commentId,
@@ -92,7 +108,7 @@ $(document).ready(function() {
 				}, 0);
 			//}
 		}, 2000);
-	}); 
+	});
 });
 
 var mustBeStandAloneTags = {
@@ -123,13 +139,7 @@ var mustBeStandAloneTags = {
     "er.hi.what.kind.of.strange.presentation.is.that" : "noStandAloneRule",
     "youre.being.overly.ironic.and.are.violating.the.rules" : "noStandAloneRule",
     "awkward" : "takenCareOfElsewhere",
-    "f**k.you" : "noStandAloneRule",
-    "haha" : "noStandAloneRule",
-    "wtf" : "noStandAloneRule",
     "watch.me.playing.soccer.with.myself.in.this.video" : "noStandAloneRule",
-    "how.are.things.old.chap" : "noStandAloneRule",
-    "reading.lagerlof" : "noStandAloneRule",
-    "reading.steinbeck" : "noStandAloneRule",
 	"no.i.mean.it" : "mustStandAlone",
 	"that.pissed.me.off.but.please.dont.mind" : "takenCareOfElsewhere"
 };

@@ -5,7 +5,6 @@ var serverJson;
 var codeOneURL = "";
 var codeOneTag = "";
 var activated = false;
-var mistillidPersonArray = [];
 var membersOnPage = [];
 var tagsAtYourDisposal;
 var conflictRedditorsOnPage;
@@ -167,6 +166,21 @@ function initAsynchronous(redditurl) {
 			set("redditor", redditor);
 			var serverJsonObj = JSON.parse(serverJson);
 			//console.log("Klopstockssisyy");
+			var blockedError = serverJsonObj.blockedError;
+			set("blockedError", blockedError);
+			if (blockedError !== "none" && typeof blockedError !== 'undefined') {
+				chrome.browserAction.setIcon({
+					path : "data/off1.png"
+				});
+				chrome.browserAction.setBadgeText({
+					'text': ''
+				});
+				console.log("Redditor is blocked. Returning");
+				return;
+			}
+
+		
+
 			var versionError = serverJsonObj.versionError;
 			set("versionError", versionError);
 			
@@ -295,7 +309,7 @@ function dump(obj) {
 
 function extractDomain(url) {
     var matches = url.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
-	var domain = matches && matches[1];  
+	var domain = matches && matches[1];
 	return domain;
 }
 
@@ -356,10 +370,11 @@ function processReddit11(url) {
 	}
 	if (loadCounter > 4) { */
 		////console.log("----------           ---------------         ------------ > processReddit url:"+url);
+		console.log("calling loadIt...");
 		loadIt();
-		
-        //console.log("arthurquonnosk");
-        //console.log("arthurguk");
+		console.log("calling loadIt...done");
+        console.log("arthurquonnosk: " + url);
+        console.log("arthurguk: "+codeOneURL);
 
 
 
@@ -377,7 +392,7 @@ function processReddit11(url) {
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4) {
                 pageJson = xhr.responseText;
-                //console.log("klabonk");
+                console.log("klabonk:");
                 initAsynchronous(url);
             }
         }
@@ -486,11 +501,14 @@ function processMainPage4() {
         xhr.send();
         permaHaarPointer++;
     }
-    else { // finished cycling!
+    else { // <--- means we've finished cycling!
         //console.log("boogy boogy boogy boogy boogy boogy boogy boogy ");
+/*
+deprecated
+
 
         runScriptP(arrayOfMainPagePostIds, jsonsOfCommentPagesArray);
-
+*/
     }
 }
 
@@ -506,10 +524,9 @@ function stripQueryString(url) {
   return url.split("?")[0];
 }
 
-function setVariablesCalledFromPopse(tag, ac, ma) {
+function setVariablesCalledFromPopse(tag, ac) {
     codeOneTag = tag;
     activated = ac;
-    mistillidPersonArray = ma;
 }
 
 
@@ -569,31 +586,7 @@ function loadIt() {
 
 		redditor = data.redditor;
 		semiSecretHash = data.semiSecretHash;
-
-
-
-
-
-
-
-
-        /*var e = document.getElementById('checkboxActive');
-        e.checked = activated;
-		*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-        mistillidPersonArray = data.mistillidPersonArray;
+		console.log("done loading from storage.");
 
     });
 }

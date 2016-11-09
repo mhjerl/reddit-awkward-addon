@@ -8,7 +8,7 @@ var codeOneTag = "";
 var activated = false;
 var authenticated;
 var versionError;
-
+var blockedError;
 
 function logStorage() {
 	if(chrome.storage) {
@@ -88,12 +88,13 @@ $( "#auth_subm" ).click(function(event) {
 			if (xhr.status == 200) {
 			    var responsoo = xhr.responseText;
 				var responsooObby = JSON.parse(responsoo);
+				$( "#blockederror_div" ).hide();
 				if (responsooObby.msg === "correcthash") {
 					$("auth_status").text("");
 					$( '#before_authenticated_div' ).fadeOut();
 					//$( '#after_authenticated_div' ).fadeIn();
 					$( "#statusSpanner" ).css( "color", "green" );
-					$( "#statusSpanner" ).text("Ready for action. Please reload the reddit page...");
+					$( "#statusSpanner" ).text("Ready for action. Please reload the reddit comment page...");
 					set("semiSecretHash", hash);
 					set("redditor", redditor);
 				}
@@ -149,33 +150,6 @@ function waitButtonHandler() {
 }
 
 
-function addDissappointmentHandler(t) {
-	var constructedUrl = codeOneURL + ".json";
-	console.log("constructedUrl:" + constructedUrl);
-	var xhr = new XMLHttpRequest();
-	xhr.open("GET", constructedUrl, true);
-	xhr.onreadystatechange = function() {
-		if (xhr.readyState == 4) {
-			//console.log("response from server: " + xhr.responseText.success);
-			pageJsonTemp = xhr.responseText;
-			addDissappointmentHandler2(t);
-		}
-	}
-	xhr.send();
-
-
-}
-
-function addDissappointmentHandler2(t) {
-	console.log("glufer! " + pageJsonTemp.length + " " + t);
-
-	// spændende, egentlig!
-	var backgroundPage = chrome.extension.getBackgroundPage();
-
-	backgroundPage.runScriptX(t, pageJsonTemp);
-}
-
-
 function containsObject(obj, list) {
 	var i;
 	for (i = 0; i < list.length; i++) {
@@ -208,19 +182,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 		codeOneURL = request.codeOneURL;
 		codeOneTag = request.codeOneTag;
 		console.log("setLoadedData tag:" + codeOneTag);
-
-
-
-
-
-
-		//mistillidPersonArray = JSON.parse(request.mistillidPersonArray);
-		//populateMistillidPersonSelect(mistillidPersonArray);
-
-
-
-
-
 	}
 });
 
@@ -255,35 +216,26 @@ function storeIt() {
 	if (codeOneTag && codeOneTag !== "") set("codeOneTag", codeOneTag);
 	set("activated", activated);
 
-
-	//logStorage();
-	//console.log("garnske51");
-	var c = mistillidPersonArray;
-	if (!c) {
-		c = [];
-		console.log("mistillidPersonArray was null")
-	}
-	else if (c=== "") {
-		c =  [];
-		console.log("mistillidPersonArray was empty string")
-	}
-	chrome.storage.local.set({
-		"mistillidPersonArray": c
-	});
 	// spændende, egentlig!
 	var backgroundPage = chrome.extension.getBackgroundPage();
-	backgroundPage.setVariablesCalledFromPopse(codeOneTag, activated, mistillidPersonArray);
+	backgroundPage.setVariablesCalledFromPopse(codeOneTag, activated);
 }
 
 function loadIt() {
 	console.log("loadIt 1");
 	// Chrome docs: "Pass in null to get the entire contents of storage."
 	chrome.storage.local.get(null, function(data) {
+		blockedError = data.blockedError;
+		console.log("------------------>blockedError: " + blockedError);
+		if (blockedError !== "none" && typeof blockedError !== 'undefined') {
+			$( '#blockederror_div' ).show();
+			return;
+		}
+
+
 		versionError = data.versionError;
 		console.log("------------------>versionError: " + versionError);
 		if (versionError !== "none" && typeof versionError !== 'undefined') {
-
-
 
 
 

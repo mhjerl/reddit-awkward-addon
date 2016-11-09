@@ -36,24 +36,56 @@ document.addEventListener('select_an_opt', function(data) {
 
 
 // Event listener: listens for messages from inject.js
-document.addEventListener('small_reply_link_clicked', function(data) {
-	var bugOneFixVarIsResponseToMyself = false;
+document.addEventListener('bug4_fix_event', function(data) {
 	//dump(data);
-	var commentId = data.detail.commentId;
-	var parentElementId = data.detail.parentElementId;
 	//console.log("Received message dispatched from inject.js: parentElementId: " + parentElementId);
 	//alert("Received message dispatched from inject.js: " + commentId);
+
+	var commentId = data.detail.commentId;
+	var parentElementId = data.detail.parentElementId;
+
+	console.log("removing ra_first_post_div from here. (BUG4_)");
+	for (var a = 0; a < 10; a++) {
+		$("[id^=ra_first_post_div" + a + "]").remove();
+	}
+	console.log("applied fix for BUG4_");
+});
+
+
+// Event listener: listens for messages from inject.js
+document.addEventListener('small_reply_link_clicked', function(data) {
+	//dump(data);
+	//console.log("Received message dispatched from inject.js: parentElementId: " + parentElementId);
+	//alert("Received message dispatched from inject.js: " + commentId);
+	$("[id^=ra_inserted_div_]").remove();
+	var commentId = data.detail.commentId;
+	var parentElementId = data.detail.parentElementId;
+	console.log("calling addControls from event handler...");
+	addControls(commentId, parentElementId);
+});
+
+
+function addControls(commentId, parentElementId) {
+	console.log("hello from addControls: " + commentId + " " + parentElementId);
+	var bugOneFixVarIsResponseToMyself = false;
+	
+	
 
 	var ruleSpannerId = "ra_rule_spanner_" + commentId;
 	var linkCheckboxId = "ra_link_chkbx_" + commentId;
 	var selectId = "ra_select_" + commentId;
 	var labelId = "ra_label_" + commentId;
 	var divId = "ra_inserted_div_" + commentId;
+	var isMainPost = false;
+	if (parentElementId === "usertext-buttons") {
+		divId = "ra_first_post_div";
+		isMainPost = true;
+	}
 	
 
 	var ruleSpanner = '<span style="color: green;" id="' + ruleSpannerId + '"></span>' +                                                '<br>';
 	var checkbox = '<label id="' + labelId + '"><input type="checkbox" checked id="' + linkCheckboxId  + '">Link</label>' +             '<br>';
-	var dropdown = '<select id="' + selectId + '" onchange="rADropdownSelect(this, \'' + commentId + '\')">';
+	var dropdown = '<select id="' + selectId + '" onchange="rADropdownSelect(this, \'' + commentId + '\', ' + isMainPost + ')">';
 	var html = '<div id="' + divId + '">' + ruleSpanner + checkbox + dropdown;
 	var optionTagsAtYourDisposal = getArrayOfNiceOptionTagsAtYourDisposal(commentId);
 	if (optionTagsAtYourDisposal) {
@@ -72,8 +104,90 @@ document.addEventListener('small_reply_link_clicked', function(data) {
 		// Therefore: Put "No Reddit Awkward Tags available
 		html += '<option id="ra_select_header_' + commentId + '">No Reddit Awkward Tags available</option>';
 	}
-	html += '</select></div><br>';
-	if (!$( "#" + parentElementId ).find( "#" + selectId ).exists()) {
+	html += '</select><br></div>';
+	if ($('#siteTable').find('#thing_t3_' + commentId).exists()) {
+		console.log("------------------------------->11exista");
+	}
+	else {
+		console.log("------------------------------->11no-no exista");
+	}	
+	if ($('#siteTable').find('#thing_t3_' + commentId).find( ".usertext-buttons" ).first().exists()) {
+		console.log("------------------------------->22exista");
+	}
+	else {
+		console.log("------------------------------->22no-no exista");
+	}
+	if ($('.usertext-buttons').first().exists()) {
+		console.log("------------------------------->3exista");
+	}
+	else {
+		console.log("------------------------------->3no-no exista");
+	}
+	if (parentElementId === "usertext-buttons") {
+		console.log("adding first control...." + divId);
+		if ($( "#" + divId).length == 0) { // here divId is always: "ra_first_post_div"
+			//console.log("------------------------->length of first" + $('.usertext-buttons').first().length());
+			//dump ($('.usertext-buttons').first());
+			console.log("---------------------------------> IMPORTANT: length of first: " + $('.usertext-buttons').first().length)
+			
+			$(".usertext-edit > div:nth-child(1)").after(html);
+
+
+			
+			//$('.usertext-buttons').first().prepend( html );
+			if (!$( "#" + divId).exists()) {
+				console.log("error: div not found. div not prepended. trying again...");
+				/*$( '#' + divId).find('.usertext-buttons').prepend( html );
+				if (!$( "#" + divId).exists()) {
+					console.log("error: div still not found. div still not prepended");
+				}
+				else {
+					console.log("found div. div prepended.");
+				}*/
+			}
+			else {
+				console.log("found div. div prepended.");
+			}
+		}
+		else {
+			console.log("------------------------->top select found!");
+		}
+
+
+
+
+
+
+
+
+
+
+		//$('.usertext-buttons').first().prepend( html );
+		//console.log("added dropdown for main post/link");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		// Fix for BUG3_:
+		/*if (!$("#" + divId).is(":visible")) { // BUG3_ FIX - FAILED
+			//console.log("applied BUG3_ FIX");
+			//$( ".usertext-buttons" ).prepend( html );
+		}*/
+	}
+	else if (!$( "#" + parentElementId ).find( "#" + selectId ).exists()) {
 		console.log("select doesn't exist. html: " + html);
 		if (!$( "#" + parentElementId ).find( ".usertext-buttons" ).first().exists()) {
 			console.log("Couldn't find 1");
@@ -109,11 +223,19 @@ document.addEventListener('small_reply_link_clicked', function(data) {
 	else {
 		console.log("select does exist. not adding: " + selectId);
 	}
-});
+
+
+
+
+
+}
+
+
+
 
 function getArrayOfNiceOptionTagsAtYourDisposal(cid) {
 	if (!tagsAtYourDisposal) { console.log("ERROR ERROR ERROR ERROR ERROR: no tags in here!"); }
-	console.log("tagsAtYourDisposal len: " + tagsAtYourDisposal.length + " cid: " + cid);
+	console.log("->tagsAtYourDisposal len: " + tagsAtYourDisposal.length + " cid: " + cid);
 	//dump(tagsAtYourDisposal);
 	for (var c = 0; c < tagsAtYourDisposal.length; c++) {
 		var tagAtYourDisposal = tagsAtYourDisposal[c];
@@ -162,7 +284,7 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 		$('head').append(scripto);*/
 		
 		tagsAtYourDisposal = request.tagsAtYourDisposal;
-		console.log("tagsAtYourDisposal len: " + tagsAtYourDisposal.length);
+		console.log("2tagsAtYourDisposal len: " + tagsAtYourDisposal.length);
 		
 		//console.log("Ready to make dary alterations. Length: " + request.allComments.length + " VS length: " + request.viewSetterBunch.length + " members length: " + request.membersOnPage.length);		
 		var subreddit = request.subreddit;
@@ -175,7 +297,10 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 		var colorPointer = 0;
 		console.log("viewSetterBunch.length" + viewSetterBunch.length);
 		console.log("allComments.length" + allComments.length);
-
+		//setTimeout( function() {
+			console.log("calling addControls from main...");
+			addControls(commentPageId, "usertext-buttons");
+		//}, 2000);
 		for (var i = 0; i < allComments.length; i++) {
 			var color = "##F8F8FF"; // "GhostWhite"
 			if (redditor !== allComments[i]['author']) {
@@ -268,7 +393,7 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 						}
 					
 	 					var html = '<li><span title="' + title + '" style="color: ' + color + '" class="' + circleCSS + 'tab">' + text  + '</span></li>';
-
+						
 						var gubbe = $('#' + tname);
 						//var sizegubbe = $('#' + tname).html().length;
 						$('#' + tname).find(".flat-list").first().append(html);

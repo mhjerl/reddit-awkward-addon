@@ -67,27 +67,15 @@ function mimbaw() {
 	////console.log("len: " + allCommentsWithAllEntries.length);
 	/*for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
 		var cid = allCommentsWithAllEntries[i]['id'];
-		//console.log("id:" + cid);
-		chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-			chrome.tabs.sendMessage(tabs[0].id, {funkodonko: "makeDaryAlterationsToView", cid: cid}, function(response) {
-				//console.log("response: " + response.msg);
-			});
-		});
+		var parid = allCommentsWithAllEntries[i]['parent_id'];
+		console.log("cid: " + cid + " parid: " + parid);
 	}*/
-
-
-
-
-
-
-
-
-
+	//return;
 	//console.log("count: " + allCommentsWithAllEntries.length);
 	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
 		allCommentsWithAllEntriesPointer = i;
 		////console.log("allCommentsWithAllEntries: " + allCommentsWithAllEntries[i]);
-		if (!isSomeOnesParent(allCommentsWithAllEntries[i])) {
+		if (!isSomeOnesParent(allCommentsWithAllEntries[i]) && commentPageId !== allCommentsWithAllEntries[i]['id']) {
 			leafs.push(allCommentsWithAllEntries[i]);
 		}
 		
@@ -128,33 +116,37 @@ function mimbaw() {
 		if (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{") !== -1) {
 			var redditorInAllThisMess = allCommentsWithAllEntries[i]['author'];
 			var secondPersonCommentWithAllEntriesYoobee = getParent(allCommentsWithAllEntries[i]);
-			for (var j = 0; j < allCommentsWithAllEntries.length; j++) {
-				if (allCommentsWithAllEntries[j]['parent_id'] === secondPersonCommentWithAllEntriesYoobee['parent_id']) {
-					// Here: Found comment on the same level as mine
-					// Therefore: Be certain it isn't the one already known to the system
-					if (allCommentsWithAllEntries[j]['id'] !== allCommentsWithAllEntries[i]['id']) {
-						// Here: Comment isn't identical with the one already known to the system
-						// Therefore: Check if it is indeed redditor, who is the author
-						if (allCommentsWithAllEntries[j]['author'] === allCommentsWithAllEntries[i]['author']) {
-							// Here: Redditor is author
-							// Therefore: Check for existence of Reddit Awkward tag
-							var commentBody = allCommentsWithAllEntries[j]['body'];
-							if (commentBody.indexOf("reddit.awkward{") !== -1) {
-								// Here: Conclusion: Redditor used more than one Awkward Tags on the same level
-								// Therefore: Garble all viewSetters on this spot
-								// Match text between {}
-								var matches = commentBody.match(/\{(.*?)\}/);
-								var shortHandTag = matches[1];
-								var tag = "reddit.awkward{" + shortHandTag + "}";
-								var titleCursory = "General Rule §1 violated";
-								var textCursory = "General Rule §1: No more than one tag by the same redditor on the same level of the comment tree, i.e. as an answer to a given comment.";
-								var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "green", title: titleCursory, garble: true, exclamation: "I used more than one Awkward Tag in the same place."};
-								viewSetterBunch.push(viewSetter);
+			console.log("cid: " + allCommentsWithAllEntries[i]['id']);
+			console.log("secondPersonCommentWithAllEntriesYoobee: " + secondPersonCommentWithAllEntriesYoobee);
+			//if (secondPersonCommentWithAllEntriesYoobee) {
+				for (var j = 0; j < allCommentsWithAllEntries.length; j++) {
+					if (allCommentsWithAllEntries[j]['parent_id'] === secondPersonCommentWithAllEntriesYoobee['id']) {
+						// Here: Found comment on the same level as mine
+						// Therefore: Be certain it isn't the one already known to the system
+						if (allCommentsWithAllEntries[j]['id'] !== allCommentsWithAllEntries[i]['id']) {
+							// Here: Comment isn't identical with the one already known to the system
+							// Therefore: Check if it is indeed redditor, who is the author
+							if (allCommentsWithAllEntries[j]['author'] === allCommentsWithAllEntries[i]['author']) {
+								// Here: Redditor is author
+								// Therefore: Check for existence of Reddit Awkward tag
+								var commentBody = allCommentsWithAllEntries[j]['body'];
+								if (commentBody.indexOf("reddit.awkward{") !== -1) {
+									// Here: Conclusion: Redditor used more than one Awkward Tags on the same level
+									// Therefore: Garble all viewSetters on this spot
+									// Match text between {}
+									var matches = commentBody.match(/\{(.*?)\}/);
+									var shortHandTag = matches[1];
+									var tag = "reddit.awkward{" + shortHandTag + "}";
+									var titleCursory = "General Rule §1 violated";
+									var textCursory = "General Rule §1: No more than one tag by the same redditor on the same level of the comment tree, i.e. as an answer to a given comment.";
+									var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "green", title: titleCursory, garble: true, exclamation: "I used more than one Awkward Tag in the same place."};
+									viewSetterBunch.push(viewSetter);
+								}
 							}
 						}
 					}
 				}
-			}
+			//}
 		}
 	}
 	
@@ -751,7 +743,9 @@ function mimbaw() {
 
 
 
-
+/*
+	alt: tagAwkward();
+*/
 
 
 	// reddit.awkward{awkward} tag:
@@ -796,8 +790,6 @@ function mimbaw() {
 			}
 		}
 	}
-	
-
 
 
 
@@ -1143,14 +1135,33 @@ var commentIdToLookFor;
 
 function getParent(k) {
 	commentIdToLookFor = k['parent_id'];
-	////console.log("looking for: " + commentIdToLookFor);
+	if (k['parent_id'] === allCommentsWithAllEntries[0]['id']) {
+		return allCommentsWithAllEntries[0];
+	}
+	console.log("looking for: " + commentIdToLookFor);
 	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
 		if (commentIdToLookFor === allCommentsWithAllEntries[i]['id']) {
+			console.log("Found!");
 			return allCommentsWithAllEntries[i];
 		}
 	}
 	////console.log("found: " + parentC);
-	return null;
+
+
+	console.log("Not found!");
+
+
+
+	//k['parent_id'] = k['id']; // <--- mhh: special situation: k is main post
+	return null; // <--- mhh: special situation: k is main post
+
+
+
+
+
+
+
+
 }
 
 var parentIdToLookFor;
@@ -1194,11 +1205,55 @@ function traverseH(x, level) {
   } else if ((typeof x === 'object') && (x !== null)) {
 		////console.log("obby found!");
 		//dumpLocal(x);
-		if (x.parent_id) {
+
+
+
+
+
+
+		if (x.id) {
+			var parentIdPlain = null;
+			var body = null;
+			if (x.selftext_html) { // selftext_html: only exists for main post/link
+				body = x.selftext_html;
+			}
+			else {
+				body = x.body;
+			}
+			if (x.parent_id) {
+				parentIdPlain = x.parent_id.substring(3);
+			}
+			////console.log("obby parent: " + parentIdPlain);
+			allCommentsWithAllEntries.push( { id: x.id, parent_id: parentIdPlain, created_utc: x.created_utc, created: x.created, body: body, edited: x.edited, ups: x.ups, downs: x.downs, author: x.author } );
+
+		}
+
+
+
+
+
+
+		/*if (x.parent_id) {
 			var parentIdPlain = x.parent_id.substring(3);
 			////console.log("obby parent: " + parentIdPlain);
 			allCommentsWithAllEntries.push( { id: x.id, parent_id: parentIdPlain, created_utc: x.created_utc, created: x.created, body: x.body, edited: x.edited, ups: x.ups, downs: x.downs, author: x.author } );
-		}
+
+		}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     traverseObjectH(x, level);
   } else {
 		////console.log("plobby found!");
