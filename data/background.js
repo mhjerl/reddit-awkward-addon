@@ -106,6 +106,7 @@ function initAsynchronous(redditurl) {
 	subreddit = getSegment(redditurl, 2);
 	commentPageId = getSegment(redditurl, 4);
 	pageName = getSegment(redditurl, 5);
+	pageName = encodeURIComponent(pageName); // BUG5_ fix
 	
 	if (!commentPageId) {
 		console.log("Not a reddit comment page. Returning");

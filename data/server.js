@@ -340,6 +340,13 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 				}
 			}
 			for (var j = 0; j < viewSetterBunch.length; j++) {
+				//dump(viewSetterBunch[j]);
+				//if (typeof viewSetterBunch[j]['id'] === 'undefined') {
+				//	console.log("u");
+				//}
+				//else {
+				//	console.log("d");
+				//}
 				if (viewSetterBunch[j]['id'] === allComments[i]['id']) {
 					var proceed = true;
 					var hasOverrideDupletOrIsItselfOverriding = false;
@@ -524,6 +531,7 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 					
 						if (viewSetterBunch[j]['garble']) {
 							console.log("this viewsetter is garbled:" + viewSetterBunch[j]['id']);
+							console.log("garble type" + typeof viewSetterBunch[j]['garble']);
 							var originalHtml = $('#' + tname).find(".md").first().html();
 							console.log("originalHtml:" + originalHtml);
 							var cleanText = $(originalHtml).text(); // Let jQuery strip the tags off the string

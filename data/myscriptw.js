@@ -113,6 +113,8 @@ function mimbaw() {
 	
 	// Enforce general rule §1: No more than one tag by the same redditor on the same level of the comment tree, i.e. as answer to any given comment.
 	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
+		dump(allCommentsWithAllEntries[i]);
+		console.log("id: " + allCommentsWithAllEntries[i]['id']);
 		if (allCommentsWithAllEntries[i]['body'].indexOf("reddit.awkward{") !== -1) {
 			var redditorInAllThisMess = allCommentsWithAllEntries[i]['author'];
 			var secondPersonCommentWithAllEntriesYoobee = getParent(allCommentsWithAllEntries[i]);
@@ -139,8 +141,10 @@ function mimbaw() {
 									var tag = "reddit.awkward{" + shortHandTag + "}";
 									var titleCursory = "General Rule §1 violated";
 									var textCursory = "General Rule §1: No more than one tag by the same redditor on the same level of the comment tree, i.e. as an answer to a given comment.";
-									var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "green", title: titleCursory, garble: true, exclamation: "I used more than one Awkward Tag in the same place."};
-									viewSetterBunch.push(viewSetter);
+									var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I used more than one Awkward Tag in the same place.", override: true};
+									if (!getFirstViewSetterById(allCommentsWithAllEntries[i]['id'])){
+										viewSetterBunch.push(viewSetter);
+									}
 								}
 							}
 						}
@@ -179,6 +183,7 @@ function mimbaw() {
 			var matches = body.match(/\{(.*?)\}/);
 			var shortHandTag = matches[1];
 			var tag = "reddit.awkward{" + shortHandTag + "}";
+			//console.log("tag: " + tag);
 			var isStandAlone = hasMoreWordsBesidesTheTagItselfDude(body, tag);
 			if (mustBeStandAloneTags[shortHandTag] === "mayNotStandAlone") {
 				// Here: Tag may not stand alone
@@ -734,7 +739,7 @@ function mimbaw() {
 					// Therefore: Garble first persons comment
 					var titleCursory = "Redditor took too long in posting reddit.awkward{no.i.mean.it} in reply to this comment: §3 Should always be followed by an answer to yourself, within 10 minutes, with a single, stand-alone reddit.awkward{no.i.mean.it} tag.";
 					var textCursory = "Expired!";
-					var viewSetter = {tag: "reddit.awkward{your.comment.inspired.me}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I do mean it. But I took too long in saying so."};
+					var viewSetter = {tag: "reddit.awkward{your.comment.inspired.me}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I actually mean what I say. But I took too long in saying so."};
 					viewSetterBunch.push(viewSetter);
 				}
 			}
@@ -783,7 +788,7 @@ function mimbaw() {
 						// Therefore: Everything is ok.
 						var titleCursory = "";
 						var textCursory = "reddit.awkward{awkward}";
-						var viewSetter = {tag: "reddit.awkward{awkward}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "green", title: titleCursory, garble: false, exclamation: "I used the reddit.awkward{awkward} tag", ruleViolationSpecification: '§4 Definition: \'An awkward text, low-key, honest, cautious, reticent, modest, unobstrusive, with exactly one low-key, non-provocative question and one typo\''};
+						var viewSetter = {tag: "reddit.awkward{awkward}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "green", title: titleCursory, exclamation: "I used the reddit.awkward{awkward} tag...", garble: false};
 						viewSetterBunch.push(viewSetter);
 					}
 				}
@@ -904,7 +909,7 @@ function mimbaw() {
 					var viewSetter = {tag: "reddit.awkward{waits.for.anyone}", id: oldestChildCommentIdCursory, text: pointsText, color: "red", title: "Answered question first and won p-karma", exclamation: "I answered first and won Awkward Karma."};
 					viewSetterBunch.push(viewSetter);
 				}
-				var viewSetter = {tag: "reddit.awkward{waits.for.anyone}", id: allCommentsWithAllEntries[i]['id'], text: "answered &#x2713;", color: "red", title: "Answered question first and won p-karma", exclamation: "I answered first and won Awkward Karma."};
+				var viewSetter = {tag: "reddit.awkward{waits.for.anyone}", id: allCommentsWithAllEntries[i]['id'], text: "answered", color: "black", title: "Answered question first and won p-karma", exclamation: "My comment was answered by " + oldestChildNameCursory};
 				viewSetterBunch.push(viewSetter);
 			}
 		}
@@ -967,30 +972,28 @@ function mimbaw() {
 				for (var h = 0; h < onlySecondAndThirdPersonsArray.length; h++) {
 					var milliSecondsAgeCursory = onlySecondAndThirdPersonsArray[h]['created_utc'] * 1000;
 					var minutesGoneBy = (nowUTC - milliSecondsAgeCursory)/Math.floor(1000 * 60);
-					if (onlySecondAndThirdPersonsArray[h]['author'] === redditor) {
-						// Here: First person found!
-						// Therefore: Make a viewsetter for first person
-						var titleCursory = "You are waiting for " + secondPersonDudeAllEntriesInHere['author'] + " to answer!";
-						var viewSetter = {tag: "reddit.awkward{waits.for.your.reply.only}", id: allCommentsWithAllEntries[i]['id'], text: "you are waiting", color: "black", title: titleCursory, exclamation: "I am waiting for " + secondPersonDudeAllEntriesInHere['author'] + " to answer..."};
+					if (secondPersonDudeAllEntriesInHere['author'] !== onlySecondAndThirdPersonsArray[h]['author']) {
+						// Here: Answerer is third person and is interfering in this
+						// Therefore: Garble this persons comment
+						var titleCursory = "Redditor interfered. " + secondPersonDudeAllEntriesInHere['author'] + " should answer and not " + onlySecondAndThirdPersonsArray[h]['author'] +".";
+						var viewSetter = {tag: "reddit.awkward{waits.for.your.reply.only}", id: onlySecondAndThirdPersonsArray[h]['id'], text: "interfered", color: "red", title: titleCursory, garble: true, exclamation: "I interfered."};
 						viewSetterBunch.push(viewSetter);
 					}
 					else {
-						if (redditor !== onlySecondAndThirdPersonsArray[h]['author']) {
-							// Here: Third person found!
-							// Therefore: Make a garbled viewsetter for third person
-							var titleCursory = "reddit.awkward{waits.for.your.reply.only} tag violation";
-							var textCursory = "reddit.awkward{waits.for.your.reply.only} tag violation";
-							var viewSetter = {tag: "reddit.awkward{waits.for.your.reply.only}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I misused this tag."};
-							viewSetterBunch.push(viewSetter);
-						}
-						else {
-							// Here: Second person found!
+						// Here: Second person answered
+						// Therefore: Make two glad ViewSetters
+						// Here: Second person found!
 							// Therefore: Make a nice viewsetter for him/her
-							var titleCursory = "You've answered the question from " + onlySecondAndThirdPersonsArray[h]['author'] + " just like you was expected to.";
-							var textCursory = "Thanks!";
-							var viewSetter = {tag: "reddit.awkward{waits.for.your.reply.only}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "green", title: titleCursory, exclamation: "I answered and won Awkward Karma."};
-							viewSetterBunch.push(viewSetter);
-						}
+						var titleCursory = "Redditor answered the comment from " + onlySecondAndThirdPersonsArray[h]['author'] + " just like he/she were requested to.";
+						var textCursory = "Answered comment";
+						var viewSetter = {tag: "reddit.awkward{waits.for.your.reply.only}", id: onlySecondAndThirdPersonsArray[h]['id'], text: textCursory, color: "green", title: titleCursory, exclamation: "I answered and won Awkward Karma."};
+						viewSetterBunch.push(viewSetter);
+						
+						var titleCursory = "Comment answered.";
+						var textCursory = "Answered comment";
+						var viewSetter = {tag: "reddit.awkward{waits.for.your.reply.only}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "green", title: titleCursory, exclamation: "My comment was answered."};
+						viewSetterBunch.push(viewSetter);
+						
 					}
 				}
 			}
@@ -1105,7 +1108,27 @@ function getWholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson(commentWith
 	return bunch;
 }
 
+function getViewSetterByIdAndTag(id, tag) {
+	for (var j = 0; j < viewSetterBunch.length; j++) {
+		console.log("------------------------>" + viewSetterBunch[j]['id'] + " ; " + id + " ; " + viewSetterBunch[j]['tag'] + " ; " + tag);
+		if (viewSetterBunch[j]['id'] === id && viewSetterBunch[j]['tag'] === tag) {
+			console.log("------------------------>FOUND");
+			return viewSetterBunch[j];
+		}
+	}
+	return null;
+}
 
+function getFirstViewSetterById(id) {
+	for (var j = 0; j < viewSetterBunch.length; j++) {
+		console.log("2------------------------>" + viewSetterBunch[j]['id'] + " ; " + id);
+		if (viewSetterBunch[j]['id'] === id) {
+			console.log("------------------------>FOUND2");
+			return viewSetterBunch[j];
+		}
+	}
+	return null;
+}
 
 function dumpLocal(obj) {
     var out = '';
@@ -1223,8 +1246,13 @@ function traverseH(x, level) {
 			if (x.parent_id) {
 				parentIdPlain = x.parent_id.substring(3);
 			}
+			if (!body || typeof body === "undefined") { // BUG7_ FIX
+				body="";			
+			}
 			////console.log("obby parent: " + parentIdPlain);
-			allCommentsWithAllEntries.push( { id: x.id, parent_id: parentIdPlain, created_utc: x.created_utc, created: x.created, body: body, edited: x.edited, ups: x.ups, downs: x.downs, author: x.author } );
+			if (x.id !== "_") { // BUG6_ FIX
+				allCommentsWithAllEntries.push( { id: x.id, parent_id: parentIdPlain, created_utc: x.created_utc, created: x.created, body: body, edited: x.edited, ups: x.ups, downs: x.downs, author: x.author } );
+			}
 
 		}
 
