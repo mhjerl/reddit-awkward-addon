@@ -24,7 +24,7 @@ $(document).ready(function() {
 
 function rADropdownSelect(sel, cid, isMainPost) {
 	var value = sel.value;
-	if (value !== "Please select a Reddit Awkward Tag:" && value !== "No Reddit Awkward Tags available") {
+	if (value !== "Please select a Comment Tag:" && value !== "No Comment Tag Tags available") {
 		console.log();
 		var linkCheckboxId = "ra_link_chkbx_" + cid;
 		var chkbx = $( sel ).parent().parent().parent().find("#" + linkCheckboxId);
@@ -44,9 +44,9 @@ function rADropdownSelect(sel, cid, isMainPost) {
 		if (mustBeStandAloneTags[value] === "mustStandAlone") {
 			lineBreaks = "";
 		}
-		var ins_text = yourCommentHere + lineBreaks + '[reddit.awkward{' + value + '}](https://redditawkward.com/rules/' + value + '.php)';
+		var ins_text = yourCommentHere + lineBreaks + '[comment-tag{' + value + '}](http://comment-tag.com/rules/' + value + '.php)';
 		if (!chkbx.prop('checked')) {
-			ins_text = yourCommentHere + lineBreaks + 'reddit.awkward{' + value + '}';
+			ins_text = yourCommentHere + lineBreaks + 'comment-tag{' + value + '}';
 		}
 		console.log("appended:" + ins_text);
 		ta.val( ta.val() + ins_text);
@@ -116,7 +116,7 @@ var mustBeStandAloneTags = {
     "waits.for.your.reply.only" : "mayNotStandAlone",
     "i.find.this.unworthy.for.discussion" : "noStandAloneRule",
     "i.find.the.subject.unworthy.for.discussion" : "noStandAloneRule",
-    "please.use.reddit.awkward.tags.from.here" : "noStandAloneRule",
+    "please.use.comment-tag.tags.from.here" : "noStandAloneRule",
     "i.will.not.reply.and.expect.apology" : "mustStandAlone",
     "i.apologize" : "mustStandAlone",
     "no.problem" : "mustStandAlone",

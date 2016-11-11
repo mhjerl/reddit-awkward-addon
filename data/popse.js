@@ -81,7 +81,7 @@ $( "#auth_subm" ).click(function(event) {
 	console.log("3a");
 
 	var xhr = new XMLHttpRequest();
-	var url = "https://redditawkward.com/server/authenticate.php?redditor=" + redditor + "&hash=" + hash;
+	var url = "http://comment-tag.com/server/authenticate.php?redditor=" + redditor + "&hash=" + hash;
 	xhr.open("GET", url, true);  // true indicates asynchronous
 	xhr.onreadystatechange = function() {
 	    if (xhr.readyState == 4) {
@@ -105,11 +105,11 @@ $( "#auth_subm" ).click(function(event) {
 					$( "#auth_status" ).text("Connection error. Please try again in 1 minute.");
 				}
 				else {
-					$( "#auth_status" ).text("Connection error: A. Please contact us at redditawkward@redditawkward.com Thanks. Message:" + responsooObby.msg);
+					$( "#auth_status" ).text("Connection error: A. Please contact us at redditawkward@comment-tag.com Thanks. Message:" + responsooObby.msg);
 				}
 			}
 			else {
-				$( "#auth_status" ).text("Connection error: B. Please contact us at redditawkward@redditawkward.com Thanks.");
+				$( "#auth_status" ).text("Connection error: B. Please contact us at redditawkward@comment-tag.com Thanks.");
 			}
 	    }
 	}
@@ -286,7 +286,7 @@ function loadIt() {
 		console.log("dat baand: " + JSON.stringify(data));
 		if (data.initError === "yes") {
 			var statusSpanner = document.getElementById('statusSpanner');
-			statusSpanner.innerHTML = "redditawkward.com is down. Please try again in a minute.";
+			statusSpanner.innerHTML = "comment-tag.com is down. Please try again in a minute.";
 			return;
 		}
 
@@ -379,11 +379,11 @@ function loadIt() {
 
 					if (points < 0) {		
 						minusOrPlus = 'minus';
-						minusOrPlusText = ' <span style="color: red;">' + points + ' <img src="https://redditawkward.com/images/categories/minus.png" width="14"></span>';
+						minusOrPlusText = ' <span style="color: red;">' + points + ' <img src="http://comment-tag.com/images/categories/minus.png" width="14"></span>';
 					}
 					else {
 						minusOrPlus = 'plus';
-						minusOrPlusText = ' <span>' + points + ' <img src="https://redditawkward.com/images/categories/plus.png" width="14"></span>';
+						minusOrPlusText = ' <span>' + points + ' <img src="http://comment-tag.com/images/categories/plus.png" width="14"></span>';
 						
 					}
 
@@ -394,7 +394,7 @@ function loadIt() {
 var html = '<div class="header_presentation">' +
     '<a href="#" class="toggle15">' +
     '<div class="icon_images">' +
-     	'<img class="icon_image1" src="https://redditawkward.com/images/categories/' + tagCategory + '.png" width="48"><img class="icon_image2" src="https://redditawkward.com/images/categories/' + minusOrPlus + '.png" width="20">' +
+     	'<img class="icon_image1" src="http://comment-tag.com/images/categories/' + tagCategory + '.png" width="48"><img class="icon_image2" src="http://comment-tag.com/images/categories/' + minusOrPlus + '.png" width="20">' +
     '</div>' +
     '</a>' +
     '<div class="giftornotif_action">' +
@@ -407,8 +407,8 @@ var html = '<div class="header_presentation">' +
 		    '<tr><td>Category</td><td>' + tagCategoryCapital + '</td></tr>' +
 		    '<tr><td>Subreddit</td><td><a target="_new" href="https://www.reddit.com/r/' + subreddit + '">' + subreddit + '</a></td></tr>' +
 		    '<tr><td>Reddit Links</td><td><a target="_new" href=https://www.reddit.com/r/' + subreddit + '/comments/' + pageid + '/' + pagename + '">thread</a>, <a target="_new" href=https://www.reddit.com/r/' + subreddit + '/comments/' + pageid + '/' + pagename + '/' + commentid + '">permalink</a></td></tr>' +
-		    '<tr><td>Redditor Addressed</td><td><a target="_new" href="https://redditawkward.com/user.php?redditor=landfast">???</a></td></tr>' +
-		    '<tr><td>Rule</td><td>??? <a target="_new" href="https://redditawkward.com/rules/' + tagShortHand + '.php">More...</a></td></tr>' +
+		    '<tr><td>Redditor Addressed</td><td><a target="_new" href="http://comment-tag.com/user.php?redditor=landfast">???</a></td></tr>' +
+		    '<tr><td>Rule</td><td>??? <a target="_new" href="http://comment-tag.com/rules/' + tagShortHand + '.php">More...</a></td></tr>' +
 		    '<tr><td>Action</td><td>???</td></tr>' +
 		  '</table>' +
 		'</div>' +
@@ -436,7 +436,7 @@ var html = '<div class="header_presentation">' +
 var html = '<div class="header_presentation">' +
     '<a href="#" class="toggle15">' +
 	'<div class="icon_images">' +
-     	'<img class="icon_image1" src="https://redditawkward.com/images/categories/browsericonandawkward.png" width="48">' +
+     	'<img class="icon_image1" src="http://comment-tag.com/images/categories/browsericonandawkward.png" width="48">' +
 	'</div>' +
     '</a>' +
     '<div class="giftornotif_action">' +
@@ -450,8 +450,8 @@ var html = '<div class="header_presentation">' +
 			'<tr><td> </td></tr>' +
 		    '<tr><td>Subreddit</td><td><a target="_new" href="https://www.reddit.com/r/' + subreddit + '">' + subreddit + '</a></td></tr>' +
 		    '<tr><td>Reddit Links</td><td><a target="_new" href=https://www.reddit.com/r/' + subreddit + '/comments/' + pageid + '/' + pagename + '">thread</a>, <a target="_new" href=https://www.reddit.com/r/' + subreddit + '/comments/' + pageid + '/' + pagename + '/' + commentid + '">permalink</a></td></tr>' +
-		    '<tr><td>Redditor Addressed</td><td><a target="_new" href="https://redditawkward.com/user.php?redditor=landfast">???</a></td></tr>' +
-		    '<tr><td>Rule</td><td>??? <a target="_new" href="https://redditawkward.com/rules/' + tagShortHand + '.php">More...</a></td></tr>' +
+		    '<tr><td>Redditor Addressed</td><td><a target="_new" href="http://comment-tag.com/user.php?redditor=landfast">???</a></td></tr>' +
+		    '<tr><td>Rule</td><td>??? <a target="_new" href="http://comment-tag.com/rules/' + tagShortHand + '.php">More...</a></td></tr>' +
 		    '<tr><td>Action</td><td>???</td></tr>' +
 		'</table>' +
       '</div>' +
@@ -499,21 +499,21 @@ var html = '<div class="header_presentation">' +
 				var friendName = friends[i].friend;
 				var img = null;
 				if (friends[i].imagetype === "man") {
-					img = '<img src="https://redditawkward.com/images/avatars/builderman.png" width="48">';
+					img = '<img src="http://comment-tag.com/images/avatars/builderman.png" width="48">';
 				}
 				else if (friends[i].imagetype === "woman") {
-					img = '<img src="https://redditawkward.com/images/avatars/builderwoman.png" width="48">';
+					img = '<img src="http://comment-tag.com/images/avatars/builderwoman.png" width="48">';
 				}
 				else if (friends[i].imagetype === "neutral") {
-					img = '<img src="https://redditawkward.com/images/avatars/astronaut.png" width="48">';
+					img = '<img src="http://comment-tag.com/images/avatars/astronaut.png" width="48">';
 				}
 				else if (friends[i].imagetype === "custom") {
-					img = '<img src="https://redditawkward.com/uplooood/' + friends[i].imagecustom +'" width="48">';
+					img = '<img src="http://comment-tag.com/uplooood/' + friends[i].imagecustom +'" width="48">';
 				}
 
 
 var html = '<div class="header_presentation">' +
-    '<a target="_new" href="https://redditawkward.com/user.php?redditor=' + friendName + '">' +
+    '<a target="_new" href="http://comment-tag.com/user.php?redditor=' + friendName + '">' +
 	'<div class="icon_images">' +
      	img +
 	'</div>' +

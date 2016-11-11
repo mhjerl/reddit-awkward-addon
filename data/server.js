@@ -90,7 +90,7 @@ function addControls(commentId, parentElementId) {
 	var optionTagsAtYourDisposal = getArrayOfNiceOptionTagsAtYourDisposal(commentId);
 	if (optionTagsAtYourDisposal) {
 		console.log("optionTagsAtYourDisposal isn't null");
-		html += '<option id="ra_select_header_' + commentId + '">Please select a Reddit Awkward Tag:</option>';
+		html += '<option id="ra_select_header_' + commentId + '">Please select a Comment Tag:</option>';
 		// Here: We can't be certain there are any tags at all at our disposal, but in this case there are
 		// Therefore: Create option list for select
 		for (var c = 0; c < optionTagsAtYourDisposal.length; c++) {
@@ -101,8 +101,8 @@ function addControls(commentId, parentElementId) {
 		bugOneFixVarIsResponseToMyself = true;
 		console.log("optionTagsAtYourDisposal is null");
 		// Here: No option tags for this cid
-		// Therefore: Put "No Reddit Awkward Tags available
-		html += '<option id="ra_select_header_' + commentId + '">No Reddit Awkward Tags available</option>';
+		// Therefore: Put "No Comment Tag Tags available
+		html += '<option id="ra_select_header_' + commentId + '">No Comment Tag Tags available</option>';
 	}
 	html += '</select><br></div>';
 	if ($('#siteTable').find('#thing_t3_' + commentId).exists()) {
@@ -244,7 +244,7 @@ function getArrayOfNiceOptionTagsAtYourDisposal(cid) {
 			var tagArray = tagAtYourDisposal.tagsAtYourDisposal;
 			if (tagArray == null) {
 				console.log("tagArray is null. returning null");
-				// Here: Special situation: No tags, because redditor is trying to reply to himself without replying to reddit.awkward{your.comment.inspired.me}
+				// Here: Special situation: No tags, because redditor is trying to reply to himself without replying to comment-tag{your.comment.inspired.me}
 				// Therefore: Simply return null
 				return null;
 			}
@@ -412,11 +412,11 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 
 					
 						if (!hideViolate) {
-							var ruleViolationSpecification2 = "Report Reddit Awkward rule violation!";
+							var ruleViolationSpecification2 = "Report Comment Tag rule violation!";
 							if (ruleViolationSpecification) {
 								ruleViolationSpecification2 = ruleViolationSpecification;
 							}
-							html = '<li><span title="' + ruleViolationSpecification2 + '" style="color: red" class="tab"><a target="_blank" href="https://redditawkward.com/report_rule_violation.php?subreddit=' + subreddit + '&commentid=' + commentId + '&tag=' + tag + '&redditor=' + redditor + '">violation!</a></span></li>';
+							html = '<li><span title="' + ruleViolationSpecification2 + '" style="color: red" class="tab"><a target="_blank" href="http://comment-tag.com/report_rule_violation.php?subreddit=' + subreddit + '&commentid=' + commentId + '&tag=' + tag + '&redditor=' + redditor + '">violation!</a></span></li>';
 
 							gubbe = $('#' + tname);
 							//var sizegubbe = $('#' + tname).html().length;
@@ -465,6 +465,7 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 						var imagecustom;
 						var imageurl;
 						for (var k = 0; k < membersOnPage.length; k++) {
+							console.log("membersOnPage[k]['member']: " + membersOnPage[k]['member'] + " --- allComments[i]['author']: " + allComments[i]['author']);
 							if (membersOnPage[k]['member'] === allComments[i]['author']) {
 								// Here: Found this comments author as member
 								// Therefore: Extract image data
@@ -476,22 +477,23 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 						
 						if (typeof imagetype !== 'undefined') {
 							if (imagetype === "man") {
-								imageurl = '<img class="friend_image_resize_fit_center " src="https://redditawkward.com/images/avatars/builderman.png" height="65"/>';
+								imageurl = '<img class="friend_image_resize_fit_center " src="http://comment-tag.com/images/avatars/builderman.png" height="65"/>';
 							}
 							else if (imagetype === "woman") {
-								imageurl = '<img class="friend_image_resize_fit_center " src="https://redditawkward.com/images/avatars/builderwoman.png" height="65"/>';
+								imageurl = '<img class="friend_image_resize_fit_center " src="http://comment-tag.com/images/avatars/builderwoman.png" height="65"/>';
 							}
 							else if (imagetype === "neutral") {
-								imageurl = '<img class="friend_image_resize_fit_center" src="https://redditawkward.com/images/avatars/astronaut.png" height="65"/>';
+								imageurl = '<img class="friend_image_resize_fit_center" src="http://comment-tag.com/images/avatars/astronaut.png" height="65"/>';
 							}
 							else if (imagetype === "custom") {
-								imageurl = '<img class="friend_image_resize_fit_center" src="https://redditawkward.com/uplooood/' + imagecustom + '"  height="65"/>';
+								imageurl = '<img class="friend_image_resize_fit_center" src="http://comment-tag.com/uplooood/' + imagecustom + '"  height="65"/>';
 							}
 						}
+						console.log("imageurl: " + imageurl);
 
 					
 						var html2 = $('#' + tname).find(".usertext-body").first().find(".md").first().html();
-						var img = '<a target="_new" href="https://redditawkward.com/user.php?redditor=' + allComments[i]['author'] + '">' + imageurl + '</a>';
+						var img = '<a target="_new" href="http://comment-tag.com/user.php?redditor=' + allComments[i]['author'] + '">' + imageurl + '</a>';
 						var html3 = '<div class="wrapCommentWholeBox">';
 						var urlImgo = chrome.extension.getURL('/data/openquote1.gif');
 						html3 = html3 + '<div class="wrapCommentPartRedditText"><div class="md">' + html2 + '</div></div>';
@@ -554,10 +556,10 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 
 
 
-						if (viewSetterBunch[j]['tag'] === "reddit.awkward{waits.for.anyone}") {
+						if (viewSetterBunch[j]['tag'] === "comment-tag{waits.for.anyone}") {
 							$('#' + tname).find('.entry').first().css("border", "5px dotted #DAA520"); // GoldenRod
 						}
-						else if (viewSetterBunch[j]['tag'] === "reddit.awkward{your.comment.inspired.me}") {
+						else if (viewSetterBunch[j]['tag'] === "comment-tag{your.comment.inspired.me}") {
 							$('#' + tname).find('.entry').first().css("border", "5px dotted #F0E68C"); // Khaki
 						}
 						else {

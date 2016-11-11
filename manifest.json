@@ -1,15 +1,16 @@
 {
   "description": "A browser extension adding new social features to discussions on Reddit.",
   "manifest_version": 2,
-  "name": "Reddit Awkward",
-  "version": "0.0.1",
-  "homepage_url": "https://redditawkward.com",
+  "name": "Comment Tag",
+  "version": "0.0.5",
+  "homepage_url": "http://comment-tag.com",
   "applications": {
     "gecko": {
-      "id": "beta@redditawkward.com",
+      "id": "beta@comment-tag.com",
       "strict_min_version": "45.0"
     }
   },
+  "author": "Morten Hjerl-Hansen",
   "permissions": [
 	"tabs",
 	"activeTab",
@@ -20,13 +21,13 @@
 	"webRequest",
 	"webRequestBlocking",
 	"https://www.reddit.com/*",
-	"https://redditawkward.com/*"
+	"http://comment-tag.com/*"
   ],
   "browser_action": {
       "default_icon": {
         "19": "data/on1.png"
       },
-    "default_title": "Reddit Awkward",
+    "default_title": "Comment Tag",
     "default_popup": "data/popup.html"
   },
   "icons": {

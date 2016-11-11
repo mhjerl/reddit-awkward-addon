@@ -41,7 +41,7 @@ chrome.runtime.onMessage.addListener(
     if (request.funkodonko == "authenticateFromPopseToBackground") {
 	console.log("b");
 		var xhr = new XMLHttpRequest();
-		var url = "https://redditawkward.com/server/authenticate.php?hash=" + request.hash;
+		var url = "http://comment-tag.com/server/authenticate.php?hash=" + request.hash;
 		xhr.open("GET", url, true);  // true indicates asynchronous
 		xhr.onreadystatechange = function() {
 		    if (xhr.readyState == 4) {
@@ -125,7 +125,7 @@ function initAsynchronous(redditurl) {
 	chrome.browserAction.setBadgeText({text: "Wait"});
 
 	
-	var url = "https://redditawkward.com/server/init.php?redditor=" + redditor + "&hash=" + semiSecretHash +  "&subreddit=" + subreddit +"&commentpageid=" + commentPageId +"&pagename=" + pageName + "&strictversion=1";
+	var url = "http://comment-tag.com/server/init.php?redditor=" + redditor + "&hash=" + semiSecretHash +  "&subreddit=" + subreddit +"&commentpageid=" + commentPageId +"&pagename=" + pageName + "&strictversion=1";
 	
 
 	console.log("init url: " + url);
@@ -330,7 +330,7 @@ function processDisqus(url) {
 		});
     });*/
 }
-// thread link:https://redditawkward.com/rules/your.comment.inspired.me.html
+// thread link:http://comment-tag.com/rules/your.comment.inspired.me.html
 function processReddit(url) {
 	console.log("-------------- k a b u t --------------" + url);
 	/*chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
@@ -537,7 +537,7 @@ function setVariablesCalledFromPopse(tag, ac) {
 	console.log("hash: " + hash);
 	set("authenticated", "connectionerror");
 	var xhr = new XMLHttpRequest();
-	var url = "https://redditawkward.com/server/authenticate.php?hash=" + hash;
+	var url = "http://comment-tag.com/server/authenticate.php?hash=" + hash;
     xhr.open("GET", url, true);  // true indicates asynchronous
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
