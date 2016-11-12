@@ -2,7 +2,7 @@
   "description": "A browser extension adding new social features to discussions on Reddit.",
   "manifest_version": 2,
   "name": "Comment Tag",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "homepage_url": "http://comment-tag.com",
   "applications": {
     "gecko": {
@@ -43,7 +43,7 @@
     }
   ],
   "background": {
-    "scripts": ["data/jquery.js", "data/tag-awkward.js", "data/myscriptw.js", "data/background.js"]
+    "scripts": ["data/jquery.js", "data/myscriptw.js", "data/background.js"]
   },
   "web_accessible_resources": [
     "data/inject.js",

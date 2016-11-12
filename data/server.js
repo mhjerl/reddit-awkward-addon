@@ -14,7 +14,7 @@ document.addEventListener('select_an_opt', function(data) {
 	var valuePlain = data.detail.value;
 	//alert("Received message dispatched from inject.js: " + commentId + " valuePlain: " + valuePlain);
 
-	var tagline = "Hello world!";
+	var tagline = ""; // "Hello world!";
 	if (valuePlain === "awkward") {
 		tagline = "An awkward text of at least 20 words, low-key, honest, cautious, reticent, modest, unobstrusive, with exactly one low-key, non-provocative question and one typo.";
 	}
