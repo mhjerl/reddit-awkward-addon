@@ -120,7 +120,7 @@ function mimbaw() {
 			var secondPersonCommentWithAllEntriesYoobee = getParent(allCommentsWithAllEntries[i]);
 			console.log("cid: " + allCommentsWithAllEntries[i]['id']);
 			console.log("secondPersonCommentWithAllEntriesYoobee: " + secondPersonCommentWithAllEntriesYoobee);
-			//if (secondPersonCommentWithAllEntriesYoobee) {
+			if (secondPersonCommentWithAllEntriesYoobee) {
 				for (var j = 0; j < allCommentsWithAllEntries.length; j++) {
 					if (allCommentsWithAllEntries[j]['parent_id'] === secondPersonCommentWithAllEntriesYoobee['id']) {
 						// Here: Found comment on the same level as mine
@@ -150,7 +150,7 @@ function mimbaw() {
 						}
 					}
 				}
-			//}
+			}
 		}
 	}
 	
@@ -246,16 +246,18 @@ function mimbaw() {
 		var redditor = allCommentsWithAllEntries[i]['author'];
 		var secondPersonCommentWithAllEntriesYoobee = getParent(allCommentsWithAllEntries[i]);
 		if (allCommentsWithAllEntries[i]['body'].indexOf("comment-tag{") !== -1) {
-			if (redditor === secondPersonCommentWithAllEntriesYoobee['author']) {
-				// Here: Redditor is responding to himself
-				// Test if he's using the comment-tag{no.i.mean.it} tag
-				if (allCommentsWithAllEntries[i]['body'].indexOf("comment-tag{no.i.mean.it}") === -1) {
-					// Here: He is not using the comment-tag{no.i.mean.it} tag
-					// Therefore: Garble
-					var titleCursory = "General Rule §5: §5: Nearly all Awkward tags are social in nature. Redditors can't direct any tags, besides comment-tag{no.i.mean.it}, towards their own comments.";
-					var textCursory = "Don't do that";
-					var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I used an Awkward tag in dialogue with myself!", override: true};
-					viewSetterBunch.push(viewSetter);
+			if (secondPersonCommentWithAllEntriesYoobee) {
+				if (redditor === secondPersonCommentWithAllEntriesYoobee['author']) {
+					// Here: Redditor is responding to himself
+					// Test if he's using the comment-tag{no.i.mean.it} tag
+					if (allCommentsWithAllEntries[i]['body'].indexOf("comment-tag{no.i.mean.it}") === -1) {
+						// Here: He is not using the comment-tag{no.i.mean.it} tag
+						// Therefore: Garble
+						var titleCursory = "General Rule §5: §5: Nearly all Awkward tags are social in nature. Redditors can't direct any tags, besides comment-tag{no.i.mean.it}, towards their own comments.";
+						var textCursory = "Don't do that";
+						var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I used an Awkward tag in dialogue with myself!", override: true};
+						viewSetterBunch.push(viewSetter);
+					}
 				}
 			}
 		}
@@ -283,30 +285,31 @@ function mimbaw() {
 	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
 		if (allCommentsWithAllEntries[i]['body'].indexOf("comment-tag{er.hi.what.kind.of.strange.presentation.is.that}") !== -1) {
 			var secondPersonCommentWithAllEntriesYoobee = getParent(allCommentsWithAllEntries[i]);
-			if (secondPersonCommentWithAllEntriesYoobee['author'] === allCommentsWithAllEntries[i]['author']) {
-				// Whoops. Redditor can't say this to himself/herself
-				// Garble
-				var titleCursory = "Redditor shouldn't talk to yourself here.";
-				var textCursory = "Talking to himself/herself";
-				var viewSetter = {tag: "comment-tag{er.hi.what.kind.of.strange.presentation.is.that}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I talked to myself too much."};
-				viewSetterBunch.push(viewSetter);
-			}
-			else {
-				if (secondPersonCommentWithAllEntriesYoobee['body'].indexOf("comment-tag{i.am.one.of.the.strangest.people.youll.ever.meet}") !== -1) {
-					// Here: Should be reply to a comment with comment-tag{i.am.one.of.the.strangest.people.youll.ever.meet}
-					var titleCursory = "";
-					var textCursory = "Won Awkward Karma";
-					var viewSetter = {tag: "comment-tag{er.hi.what.kind.of.strange.presentation.is.that}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "green", title: titleCursory, garble: false, exclamation: "I am one of the strangest people you'll ever meet."};
+			if (secondPersonCommentWithAllEntriesYoobee) {
+				if (secondPersonCommentWithAllEntriesYoobee['author'] === allCommentsWithAllEntries[i]['author']) {
+					// Whoops. Redditor can't say this to himself/herself
+					// Garble
+					var titleCursory = "Redditor shouldn't talk to yourself here.";
+					var textCursory = "Talking to himself/herself";
+					var viewSetter = {tag: "comment-tag{er.hi.what.kind.of.strange.presentation.is.that}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I talked to myself too much."};
 					viewSetterBunch.push(viewSetter);
 				}
 				else {
-					var titleCursory = "Redditor shouldn't only say such things in reply to a comment with comment-tag{i.am.one.of.the.strangest.people.youll.ever.meet} in it.";
-					var textCursory = "Don't say here!";
-					var viewSetter = {tag: "comment-tag{er.hi.what.kind.of.strange.presentation.is.that}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "Er."};
-					viewSetterBunch.push(viewSetter);
+					if (secondPersonCommentWithAllEntriesYoobee['body'].indexOf("comment-tag{i.am.one.of.the.strangest.people.youll.ever.meet}") !== -1) {
+						// Here: Should be reply to a comment with comment-tag{i.am.one.of.the.strangest.people.youll.ever.meet}
+						var titleCursory = "";
+						var textCursory = "Won Awkward Karma";
+						var viewSetter = {tag: "comment-tag{er.hi.what.kind.of.strange.presentation.is.that}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "green", title: titleCursory, garble: false, exclamation: "I am one of the strangest people you'll ever meet."};
+						viewSetterBunch.push(viewSetter);
+					}
+					else {
+						var titleCursory = "Redditor shouldn't only say such things in reply to a comment with comment-tag{i.am.one.of.the.strangest.people.youll.ever.meet} in it.";
+						var textCursory = "Don't say here!";
+						var viewSetter = {tag: "comment-tag{er.hi.what.kind.of.strange.presentation.is.that}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "Er."};
+						viewSetterBunch.push(viewSetter);
+					}
 				}
 			}
-			
 		}
 	}
 
@@ -316,7 +319,6 @@ function mimbaw() {
 	// find (if it exists) comment with comment-tag{watch.me.playing.soccer.with.myself.in.this.video} tag
 	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
 		if (allCommentsWithAllEntries[i]['body'].indexOf("comment-tag{watch.me.playing.soccer.with.myself.in.this.video}") !== -1) {
-			var secondPersonCommentWithAllEntriesYoobee = getParent(allCommentsWithAllEntries[i]);
 			var body = allCommentsWithAllEntries[i]['body'].toLowerCase()
 			if (body.indexOf("youtube") === -1) {
 				// Here: No YouTube links in here
@@ -460,7 +462,6 @@ function mimbaw() {
 	// find (if it exists) comment with comment-tag{youre.being.overly.ironic.and.are.violating.the.rules} tag
 	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
 		if (allCommentsWithAllEntries[i]['body'].indexOf("comment-tag{youre.being.overly.ironic.and.are.violating.the.rules}") !== -1) {
-			var secondPersonCommentWithAllEntriesYoobee = getParent(allCommentsWithAllEntries[i]);
 			if (allCommentsWithAllEntries[i]['body'].indexOf("comment-tag{youre.being.overly.ironic.and.are.violating.the.rules}")         ===        -1) {
 				// Here: Disobeyed §1 Must be a reply to a comment with a Comment Tag tag in it.
 				// Therefore: Garble
@@ -477,6 +478,12 @@ function mimbaw() {
 	// find (if it exists) comment with comment-tag{i.consider.this.comment.definitive.and.consider.any.reply.inappropriate} tag
 	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
 		if (allCommentsWithAllEntries[i]['body'].indexOf("comment-tag{i.consider.this.comment.definitive.and.consider.any.reply.inappropriate}") !== -1) {
+			// Here: Found tag
+			// Therefore: Make nice viewsetter
+			var titleCursory = "Redditor wanted to express something freely and won't have anybody replying.";
+			var textCursory = "Please don't reply";
+			var viewSetter = {tag: "comment-tag{i.consider.this.comment.definitive.and.consider.any.reply.inappropriate}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "green", title: titleCursory, garble: false, exclamation: "I wanted to express this."};
+			viewSetterBunch.push(viewSetter);
 			var redditor = allCommentsWithAllEntries[i]['author'];
 			var id = allCommentsWithAllEntries[i]['id'];
 			// ----------------------- same as giveMeTheNamesOfAllApplesOnTheBranchWithThisCommentAsAxePointHmmm start ------------------------
@@ -527,17 +534,19 @@ function mimbaw() {
 	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
 		if ((allCommentsWithAllEntries[i]['body'].indexOf("comment-tag{no.problem}") !== -1) || (allCommentsWithAllEntries[i]['body'].indexOf("comment-tag{i.dont.think.the.original.post.has.been.taken.seriously.yet}") !== -1)  |(allCommentsWithAllEntries[i]['body'].indexOf("comment-tag{i.dont.think.the.original.post.has.been.treated.respectfully}") !== -1)) {
 			var secondPersonCommentWithAllEntriesYoobee = getParent(allCommentsWithAllEntries[i]);
-			if (secondPersonCommentWithAllEntriesYoobee['id'] !== allCommentsWithAllEntries   [0]    ) {
-				// Here: Parent isn't main comment
-				// Therefore: Garble!
-				// Match text between {}
-				var matches = body.match(/\{(.*?)\}/);
-				var shortHandTag = matches[1];
-				var tag = "comment-tag{" + shortHandTag + "}";
-				var titleCursory = "This tag (" + tag + ") should only be used as direct answer to main post/link.";
-				var textCursory = tag + " tag misuse";
-				var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I should use this tag in direct reply to the main post or link."};
-				viewSetterBunch.push(viewSetter);
+			if (secondPersonCommentWithAllEntriesYoobee) {
+				if (secondPersonCommentWithAllEntriesYoobee['id'] !== allCommentsWithAllEntries   [0]    ) {
+					// Here: Parent isn't main comment
+					// Therefore: Garble!
+					// Match text between {}
+					var matches = body.match(/\{(.*?)\}/);
+					var shortHandTag = matches[1];
+					var tag = "comment-tag{" + shortHandTag + "}";
+					var titleCursory = "This tag (" + tag + ") should only be used as direct answer to main post/link.";
+					var textCursory = tag + " tag misuse";
+					var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I should use this tag in direct reply to the main post or link."};
+					viewSetterBunch.push(viewSetter);
+				}
 			}
 		}
 	}
@@ -547,21 +556,22 @@ function mimbaw() {
 	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
 		if ((allCommentsWithAllEntries[i]['body'].indexOf("comment-tag{thanks}") !== -1) || (allCommentsWithAllEntries[i]['body'].indexOf("comment-tag{explanation.why.i.was.angry}") !== -1)  |(allCommentsWithAllEntries[i]['body'].indexOf("comment-tag{i.was.being.careless}") !== -1)) {
 			var secondPersonCommentWithAllEntriesYoobee = getParent(allCommentsWithAllEntries[i]);
-			if ((secondPersonCommentWithAllEntriesYoobee['body'].indexOf("comment-tag{no.problem}") === -1) && (secondPersonCommentWithAllEntriesYoobee['body'].indexOf("comment-tag{dont.mind.its.ok.lets.move.on}") === -1) || (secondPersonCommentWithAllEntriesYoobee['body'].indexOf("comment-tag{its.fine.i.consider.the.case.closed}") === -1)) {
-				// Here: Tag is not used towards an overbearing act of kindness
-				// Therefore: Garble
+			if (secondPersonCommentWithAllEntriesYoobee) {
+				if ((secondPersonCommentWithAllEntriesYoobee['body'].indexOf("comment-tag{no.problem}") === -1) && (secondPersonCommentWithAllEntriesYoobee['body'].indexOf("comment-tag{dont.mind.its.ok.lets.move.on}") === -1) || (secondPersonCommentWithAllEntriesYoobee['body'].indexOf("comment-tag{its.fine.i.consider.the.case.closed}") === -1)) {
+					// Here: Tag is not used towards an overbearing act of kindness
+					// Therefore: Garble
 
-				// Match text between {}
-				var body = allCommentsWithAllEntries[i]['body'];
-				var matches = body.match(/\{(.*?)\}/);
-				var shortHandTag = matches[1];
-				var tag = "comment-tag{" + shortHandTag + "}";
-				var titleCursory = "You misused the tag " + tag + ". It should be directed against 'an overbearing act' i.e. either towards comment-tag{no.problem}, comment-tag{dont.mind.its.ok.lets.move.on} or comment-tag{its.fine.i.consider.the.case.closed}."
-				var textCursory = tag + " tag misuse";
-				var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I used this tag where nobody was overbearing."};
-				viewSetterBunch.push(viewSetter);
+					// Match text between {}
+					var body = allCommentsWithAllEntries[i]['body'];
+					var matches = body.match(/\{(.*?)\}/);
+					var shortHandTag = matches[1];
+					var tag = "comment-tag{" + shortHandTag + "}";
+					var titleCursory = "You misused the tag " + tag + ". It should be directed against 'an overbearing act' i.e. either towards comment-tag{no.problem}, comment-tag{dont.mind.its.ok.lets.move.on} or comment-tag{its.fine.i.consider.the.case.closed}."
+					var textCursory = tag + " tag misuse";
+					var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I used this tag where nobody was overbearing."};
+					viewSetterBunch.push(viewSetter);
+				}
 			}
-			
 		}
 	}
 
@@ -575,18 +585,20 @@ function mimbaw() {
 	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
 		if ((allCommentsWithAllEntries[i]['body'].indexOf("comment-tag{no.problem}") !== -1) || (allCommentsWithAllEntries[i]['body'].indexOf("comment-tag{dont.mind.its.ok.lets.move.on}") !== -1)  |(allCommentsWithAllEntries[i]['body'].indexOf("comment-tag{its.fine.i.consider.the.case.closed}") !== -1)) {
 			var secondPersonCommentWithAllEntriesYoobee = getParent(allCommentsWithAllEntries[i]);
-			if ((secondPersonCommentWithAllEntriesYoobee['body'].indexOf("comment-tag{i.apologize}") === -1) && (secondPersonCommentWithAllEntriesYoobee['body'].indexOf("comment-tag{guarded.apology}") === -1)) {
-				// Here: Tag is not used towards apology
-				// Therefore: Garble
+			if (secondPersonCommentWithAllEntriesYoobee) {
+				if ((secondPersonCommentWithAllEntriesYoobee['body'].indexOf("comment-tag{i.apologize}") === -1) && (secondPersonCommentWithAllEntriesYoobee['body'].indexOf("comment-tag{guarded.apology}") === -1)) {
+					// Here: Tag is not used towards apology
+					// Therefore: Garble
 
-				// Match text between {}
-				var matches = body.match(/\{(.*?)\}/);
-				var shortHandTag = matches[1];
-				var tag = "comment-tag{" + shortHandTag + "}";
-				var titleCursory = "This tag (" + tag + ")should only be used towards an apology.";
-				var textCursory = tag + " tag misuse";
-				var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "Nobody apologized."};
-				viewSetterBunch.push(viewSetter);
+					// Match text between {}
+					var matches = body.match(/\{(.*?)\}/);
+					var shortHandTag = matches[1];
+					var tag = "comment-tag{" + shortHandTag + "}";
+					var titleCursory = "This tag (" + tag + ")should only be used towards an apology.";
+					var textCursory = tag + " tag misuse";
+					var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "Nobody apologized."};
+					viewSetterBunch.push(viewSetter);
+				}
 			}
 		}
 	}
@@ -1533,7 +1545,11 @@ var mustBeStandAloneTags = {
     "reading.lagerlof" : "noStandAloneRule",
     "reading.steinbeck" : "noStandAloneRule",
 	"no.i.mean.it" : "mustStandAlone",
-	"that.pissed.me.off.but.please.dont.mind" : "takenCareOfElsewhere"
+	"that.pissed.me.off.but.please.dont.mind" : "takenCareOfElsewhere",
+	"thanks.but.a.bit.off.topic" : "noStandAloneRule",
+	"your.post.inspired.me" : "noStandAloneRule",
+	"your.link.inspired.me" : "noStandAloneRule",
+	"a.warning.from.one.intellectual.to.another" : "noStandAloneRule"
 };
 
 

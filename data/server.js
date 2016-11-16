@@ -293,7 +293,15 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 		var viewSetterBunch = request.viewSetterBunch;
 		var allComments = request.allComments;
 		var membersOnPage = request.membersOnPage;
+		var imagetypeRedditor = request.imagetype;
+		var imagecustomRedditor = request.imagecustom;
 		var redditor = request.redditor;
+		var onScreenRedditor = getOnScreenRedditor();
+		console.log("onScreenRedditor: " + onScreenRedditor + " redditor ra: " + redditor);
+		if (onScreenRedditor !== redditor) {
+			sendResponse({msg: "pli" });
+			return;
+		}
 		var colorPointer = 0;
 		console.log("viewSetterBunch.length" + viewSetterBunch.length);
 		console.log("allComments.length" + allComments.length);
@@ -449,29 +457,31 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 
 
 
-
-						/*var html2 = $('#' + tname).find(".usertext-body").find(".md").first().html();
-						var img = '<img src="https://denandenavis.dk/primalanding2/images/preview/team-member1.jpg" height="65">';
-						var html3 = '<div class="wrapComment">';
-						html3 = html3 + '<div class="wrapCommentPartLeft"><div class="md">' + html2 + '</div></div>';
-						html3 = html3 + '<div class="wrapCommentPartRight">' + img + '</div>';
-						html3 = html3 + '</div>';
-						//$('#' + tname).find(".usertext-body").find("p").first().append(img);
-						$('#' + tname).find(".usertext-body").empty();
-						$('#' + tname).find(".usertext-body").append(html3);
-						//$('#' + tname).append(img);*/
 						
 						var imagetype;
 						var imagecustom;
 						var imageurl;
-						for (var k = 0; k < membersOnPage.length; k++) {
-							console.log("membersOnPage[k]['member']: " + membersOnPage[k]['member'] + " --- allComments[i]['author']: " + allComments[i]['author']);
-							if (membersOnPage[k]['member'] === allComments[i]['author']) {
-								// Here: Found this comments author as member
-								// Therefore: Extract image data
-								imagetype = membersOnPage[k]['imagetype'];
-								imagecustom = membersOnPage[k]['imagecustom'];
-								break;
+						console.log("redditor: " + redditor + " comment author: " + allComments[i]['author']);
+						console.log("imagetypeRedditor->" + imagetypeRedditor);
+						console.log("imageurlRedditor->" + imagecustomRedditor);
+						if (redditor === allComments[i]['author']) {
+							// Here: This comments author is the redditor who is logged in with Comment Tag
+							// Therefore: Set image
+							imagetype = imagetypeRedditor;
+							imagecustom = imagecustomRedditor;
+						}
+						else {
+							// Here: This comments author is differend from the redditor who is logged in with Comment Tag, but still a member
+							// Therefore: Find member
+							for (var k = 0; k < membersOnPage.length; k++) {
+								console.log("membersOnPage[k]['member']: " + membersOnPage[k]['member'] + " --- allComments[i]['author']: " + allComments[i]['author']);
+								if (membersOnPage[k]['member'] === allComments[i]['author']) {
+									// Here: Found this comments author as member
+									// Therefore: Extract image data
+									imagetype = membersOnPage[k]['imagetype'];
+									imagecustom = membersOnPage[k]['imagecustom'];
+									break;
+								}
 							}
 						}
 						
@@ -606,7 +616,7 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 			//console.log();
 			//console.log(magicalFlatListULHtml);*/
 		}
-		sendResponse({msg: "blink ;-)" });
+		sendResponse({msg: "done" });
     }
 
 
@@ -645,4 +655,22 @@ function dump(obj) {
  */
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getOnScreenRedditor() {
+	var redditorOnScreen = "---";
+    var longString = $("span.user").html();
+    console.log("span: " + longString);
+    var i = longString.indexOf('>');
+    var i2 = longString.substring(i+1,longString.indexOf("</span>"));
+    console.log("i2:" + i2);
+    if (longString.indexOf('class="login-required"') !== -1) {
+        console.log("not logged in");
+    }
+    else {
+        var j = i2.indexOf("</a>");
+        redditorOnScreen = i2.substring(0,j);
+        console.log("redditorOnScreen: " + redditorOnScreen);
+    }
+	return redditorOnScreen;
 }

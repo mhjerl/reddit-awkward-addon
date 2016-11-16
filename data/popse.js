@@ -1,6 +1,3 @@
-//fra manifest.json:   , "https://www.reddit.com/*", "https://denandenavis.dk/*"
-
-
 var pageJsonTemp;
 
 var codeOneURL = "";
@@ -54,7 +51,22 @@ function logStorage() {
 
 
 
+
+
+
 document.addEventListener("DOMContentLoaded", function(event) {
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -105,11 +117,11 @@ $( "#auth_subm" ).click(function(event) {
 					$( "#auth_status" ).text("Connection error. Please try again in 1 minute.");
 				}
 				else {
-					$( "#auth_status" ).text("Connection error: A. Please contact us at redditawkward@comment-tag.com Thanks. Message:" + responsooObby.msg);
+					$( "#auth_status" ).text("Connection error: A. Please contact us at mortenhh@gmail.com. Thanks. Message:" + responsooObby.msg);
 				}
 			}
 			else {
-				$( "#auth_status" ).text("Connection error: B. Please contact us at redditawkward@comment-tag.com Thanks.");
+				$( "#auth_status" ).text("Connection error: B. Please contact us at mortenhh@gmail.com. Thanks.");
 			}
 	    }
 	}
@@ -164,19 +176,7 @@ function containsObject(obj, list) {
 // Listen for a "drawBorder"
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 	console.log("dimle fra popse.js");
-	if (request.funkodonko === "daaadddisttext") {
-            console.log("daaadddisttext");
-            var constructedUrl = "https://denandenavis.dk/primaserver/adddistext.php?author=" + request.lookOutForAuthorName + "&text=" + 				request.commentBodyToLookFor + "&mainpostid=" + request.mainPostId + "&commentid=" + request.commentBodyToLookForId;
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", constructedUrl, true);
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4) {
-                    console.log("response from server: " + xhr.responseText.success);
-                }
-            }
-            xhr.send();
-    }
-    else if (request.funkodonko === "setLoadedDataaaaa") {
+	if (request.funkodonko === "setLoadedDataaaaa") {
 		console.log("setLoadedData .......................");
 		activated = request.activated;
 		codeOneURL = request.codeOneURL;
@@ -225,6 +225,7 @@ function loadIt() {
 	console.log("loadIt 1");
 	// Chrome docs: "Pass in null to get the entire contents of storage."
 	chrome.storage.local.get(null, function(data) {
+		var redditor = data.redditor;
 		blockedError = data.blockedError;
 		console.log("------------------>blockedError: " + blockedError);
 		if (blockedError !== "none" && typeof blockedError !== 'undefined') {
@@ -272,6 +273,13 @@ function loadIt() {
 			$( '#versionerror_div' ).show();
 			return;
 		}
+		var pleaseLogInOnRealRedditPage = data.pleaseLogInOnRealRedditPage;
+		if (pleaseLogInOnRealRedditPage === "true") {
+			$( '#logged_in_with_dif_usernames_error_div' ).show();
+			$( '#real_un' ).text("You need to be logged into reddit (in the browser window) with the username: " + redditor);
+		}
+
+
 		var semiSecretHash = data.semiSecretHash;
 		if(typeof semiSecretHash === 'undefined' || semiSecretHash === '<loggedout>') {
 			authenticated = false;
@@ -290,7 +298,7 @@ function loadIt() {
 			return;
 		}
 
-		var redditor = data.redditor;
+		
 		var redditorSpanner = document.getElementById('redditorSpanner');
 		redditorSpanner.innerHTML = "" + redditor;
 	

@@ -2,7 +2,7 @@
   "description": "A browser extension adding new social features to discussions on Reddit.",
   "manifest_version": 2,
   "name": "Comment Tag",
-  "version": "0.0.8",
+  "version": "0.3.6",
   "homepage_url": "http://comment-tag.com",
   "applications": {
     "gecko": {
@@ -14,12 +14,8 @@
   "permissions": [
 	"tabs",
 	"activeTab",
-	"notifications",
 	"storage",
-	"background",
 	"webNavigation",
-	"webRequest",
-	"webRequestBlocking",
 	"https://www.reddit.com/*",
 	"http://comment-tag.com/*"
   ],

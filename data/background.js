@@ -2,6 +2,8 @@
 var redditor;
 var pageJson;
 var serverJson;
+var imagetype;
+var imagecustom;
 var codeOneURL = "";
 var codeOneTag = "";
 var activated = false;
@@ -242,7 +244,8 @@ function initAsynchronous(redditurl) {
 
 
 
-
+			imagetype = serverJsonObj.imagetype;
+			imagecustom = serverJsonObj.imagecustom;
 
 
 
@@ -419,7 +422,14 @@ function processReddit3() {
 			//console.log("id:" + cid);
 		}*/
 		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-			chrome.tabs.sendMessage(tabs[0].id, {funkodonko: "makeDaryAlterationsToView", allComments: allCommentsWithAllEntries, viewSetterBunch: viewSetterBunch, membersOnPage: membersOnPage, tagsAtYourDisposal: tagsAtYourDisposal, redditor: redditor, subreddit: subreddit, commentPageId: commentPageId}, function(response) {
+			chrome.tabs.sendMessage(tabs[0].id, {funkodonko: "makeDaryAlterationsToView", allComments: allCommentsWithAllEntries, viewSetterBunch: viewSetterBunch, membersOnPage: membersOnPage, tagsAtYourDisposal: tagsAtYourDisposal, redditor: redditor, subreddit: subreddit, commentPageId: commentPageId, imagetype: imagetype, imagecustom: imagecustom}, function(response) {
+				console.log("resp from server.js: " + response.msg);
+				if (response.msg === "pli") {
+					set("pleaseLogInOnRealRedditPage", "true");
+				}
+				else {
+					set("pleaseLogInOnRealRedditPage", "false");
+				}
 				//console.log("response: " + response.msg);
 			});
 		});
