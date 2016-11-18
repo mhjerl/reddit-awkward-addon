@@ -4,6 +4,7 @@ var commentsMarkedForRemoval = [];
 var codeOneTag;
 var dimba;
 var conflictRedditorsOnPage;
+var mainPostId;
 
 //https://addons.mozilla.org/en-US/developers/addon/primadonnakoder/versions/1930302
 
@@ -18,6 +19,15 @@ function listenOListenMyFriendW(request, sender, sendResponse) {
 		codeOneTag = request.codeOneTag;
 		////console.log("::::::::::----------::::::::::::::"+codeOneTag);
 		dimba = JSON.parse(request.pageJson);
+
+		//$mainPostId = $jsonObj->data->children[0]->data->id;
+
+
+		var a1 = dimba[0]['data'];
+		dump(a1);
+		mainPostId = dimba[0]['data']['children'][0]['data']['id'];
+		console.log("------------------------>mainPostId: " + mainPostId);
+		
 		////console.log(":::::::::::++++++++++:::::::::::::");
 		mimbaw();
 		waitButtonHandler2();
@@ -34,6 +44,12 @@ function runScriptW(codeOneTag1, pageJson1, conflictRedditorsOnPage2) {
 	pageJson = pageJson1;
 	//console.log("::::::::::------ blir ----::::::::::::::"+codeOneTag);
 	dimba = JSON.parse(pageJson);
+
+	//$mainPostId = $jsonObj->data->children[0]->data->id;
+	mainPostId = dimba[0]['data']['children'][0]['data']['id'];
+	console.log("------------------------>mainPostId: " + mainPostId);
+
+
 	//console.log(":::::::::::++++ kr aa ge ++++++:::::::::::::"+pageJson.length);
 	mimbaw();
 	waitButtonHandler2();
@@ -253,9 +269,9 @@ function mimbaw() {
 					if (allCommentsWithAllEntries[i]['body'].indexOf("comment-tag{no.i.mean.it}") === -1) {
 						// Here: He is not using the comment-tag{no.i.mean.it} tag
 						// Therefore: Garble
-						var titleCursory = "General Rule §5: §5: Nearly all Awkward tags are social in nature. Redditors can't direct any tags, besides comment-tag{no.i.mean.it}, towards their own comments.";
+						var titleCursory = "General Rule §5: Nearly all Comment Tags are social in nature. Redditors can't direct any tags, besides comment-tag{no.i.mean.it}, towards their own comments.";
 						var textCursory = "Don't do that";
-						var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I used an Awkward tag in dialogue with myself!", override: true};
+						var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I used a Comment Tag in dialogue with myself!", override: true};
 						viewSetterBunch.push(viewSetter);
 					}
 				}
@@ -535,7 +551,7 @@ function mimbaw() {
 		if ((allCommentsWithAllEntries[i]['body'].indexOf("comment-tag{no.problem}") !== -1) || (allCommentsWithAllEntries[i]['body'].indexOf("comment-tag{i.dont.think.the.original.post.has.been.taken.seriously.yet}") !== -1)  |(allCommentsWithAllEntries[i]['body'].indexOf("comment-tag{i.dont.think.the.original.post.has.been.treated.respectfully}") !== -1)) {
 			var secondPersonCommentWithAllEntriesYoobee = getParent(allCommentsWithAllEntries[i]);
 			if (secondPersonCommentWithAllEntriesYoobee) {
-				if (secondPersonCommentWithAllEntriesYoobee['id'] !== allCommentsWithAllEntries   [0]    ) {
+				if (secondPersonCommentWithAllEntriesYoobee['id'] !== mainPostId) {
 					// Here: Parent isn't main comment
 					// Therefore: Garble!
 					// Match text between {}
@@ -627,7 +643,7 @@ function mimbaw() {
 						// Here: Redditor is replying to a comment with at least one Comment Tag, violating Rule §2
 						// Therefore: Give penalty.
 						var titleCursory = "Rule §1: User mustn't use this in a reply to a comment with Comment Tags.";
-						var textCursory = "Target comment contains Awkward Tags";
+						var textCursory = "Target comment contains a Comment Tag";
 						var viewSetter = {tag: "comment-tag{i.will.not.reply.and.expect.apology}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I shouldn't be doing this."};
 						viewSetterBunch.push(viewSetter);
 					}

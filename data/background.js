@@ -119,7 +119,7 @@ function initAsynchronous(redditurl) {
 		chrome.browserAction.setIcon({
 			path : "data/off1.png"
 		});
-		console.log("No hash. Returning");
+		console.log("No password. Returning");
 		return;
 	}
 

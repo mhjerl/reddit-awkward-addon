@@ -366,7 +366,7 @@ function loadIt() {
 				var pointsText = "";
 				
 				if (obby.type === "gift") {
-
+					var redditorAddressed = obby.obby.redditorAddressed;
 					var pageid = obby.obby.pageid;
 					var commentid = obby.obby.commentid;
 					var when = obby.obby.when;
@@ -415,9 +415,8 @@ var html = '<div class="header_presentation">' +
 		    '<tr><td>Category</td><td>' + tagCategoryCapital + '</td></tr>' +
 		    '<tr><td>Subreddit</td><td><a target="_new" href="https://www.reddit.com/r/' + subreddit + '">' + subreddit + '</a></td></tr>' +
 		    '<tr><td>Reddit Links</td><td><a target="_new" href=https://www.reddit.com/r/' + subreddit + '/comments/' + pageid + '/' + pagename + '">thread</a>, <a target="_new" href=https://www.reddit.com/r/' + subreddit + '/comments/' + pageid + '/' + pagename + '/' + commentid + '">permalink</a></td></tr>' +
-		    '<tr><td>Redditor Addressed</td><td><a target="_new" href="http://comment-tag.com/user.php?redditor=landfast">???</a></td></tr>' +
+		    '<tr><td>Redditor Addressed</td><td><a target="_new" href="http://comment-tag.com/user.php?redditor=' + redditorAddressed + '">' + redditorAddressed + '</a></td></tr>' +
 		    '<tr><td>Rule</td><td>??? <a target="_new" href="http://comment-tag.com/rules/' + tagShortHand + '.php">More...</a></td></tr>' +
-		    '<tr><td>Action</td><td>???</td></tr>' +
 		  '</table>' +
 		'</div>' +
 	'</div>' +
@@ -459,8 +458,7 @@ var html = '<div class="header_presentation">' +
 		    '<tr><td>Subreddit</td><td><a target="_new" href="https://www.reddit.com/r/' + subreddit + '">' + subreddit + '</a></td></tr>' +
 		    '<tr><td>Reddit Links</td><td><a target="_new" href=https://www.reddit.com/r/' + subreddit + '/comments/' + pageid + '/' + pagename + '">thread</a>, <a target="_new" href=https://www.reddit.com/r/' + subreddit + '/comments/' + pageid + '/' + pagename + '/' + commentid + '">permalink</a></td></tr>' +
 		    '<tr><td>Redditor Addressed</td><td><a target="_new" href="http://comment-tag.com/user.php?redditor=landfast">???</a></td></tr>' +
-		    '<tr><td>Rule</td><td>??? <a target="_new" href="http://comment-tag.com/rules/' + tagShortHand + '.php">More...</a></td></tr>' +
-		    '<tr><td>Action</td><td>???</td></tr>' +
+		    '<tr><td>Rule</td><td>Link<a target="_new" href="http://comment-tag.com/rules/' + tagShortHand + '.php">More...</a></td></tr>' +
 		'</table>' +
       '</div>' +
     '</div>' +

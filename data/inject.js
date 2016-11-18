@@ -43,6 +43,7 @@ function rADropdownSelect(sel, cid, isMainPost) {
 		var lineBreaks = "\n\n";
 		if (mustBeStandAloneTags[value] === "mustStandAlone") {
 			lineBreaks = "";
+			yourCommentHere = "";
 		}
 		var ins_text = yourCommentHere + lineBreaks + '[comment-tag{' + value + '}](http://comment-tag.com/rules/' + value + '.php)';
 		if (!chkbx.prop('checked')) {
@@ -65,10 +66,12 @@ function rADropdownSelect(sel, cid, isMainPost) {
 		}, 0);
 		ta.focus();
 		if (textAreaIsEmpty) {
-			ta.prop({
-				'selectionStart': 0,
-				'selectionEnd': 19
-			});
+			if (mustBeStandAloneTags[value] !== "mustStandAlone") {
+				ta.prop({
+					'selectionStart': 0,
+					'selectionEnd': 19
+				});
+			}
 		}
 	}
 }
