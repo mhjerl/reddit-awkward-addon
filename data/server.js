@@ -465,6 +465,7 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 						console.log("imagetypeRedditor->" + imagetypeRedditor);
 						console.log("imageurlRedditor->" + imagecustomRedditor);
 						if (redditor === allComments[i]['author']) {
+							console.log("schnooft!");
 							// Here: This comments author is the redditor who is logged in with Comment Tag
 							// Therefore: Set image
 							imagetype = imagetypeRedditor;
@@ -484,8 +485,12 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 								}
 							}
 						}
-						
-						if (typeof imagetype !== 'undefined') {
+						if (typeof imagetype === 'undefined') {
+							con
+							imagetype = "neutral";
+							imageurl = '<img class="friend_image_resize_fit_center" src="http://comment-tag.com/images/avatars/astronaut.png" height="65"/>';
+						}
+						else {
 							if (imagetype === "man") {
 								imageurl = '<img class="friend_image_resize_fit_center " src="http://comment-tag.com/images/avatars/builderman.png" height="65"/>';
 							}

@@ -126,8 +126,10 @@ function initAsynchronous(redditurl) {
 	chrome.browserAction.setBadgeBackgroundColor({color: "#ff0000"}); // purple
 	chrome.browserAction.setBadgeText({text: "Wait"});
 
+	var visitortime = new Date();
+	var visitortimezone = "" + -visitortime.getTimezoneOffset()/60;
 	
-	var url = "http://comment-tag.com/server/init.php?redditor=" + redditor + "&hash=" + semiSecretHash +  "&subreddit=" + subreddit +"&commentpageid=" + commentPageId +"&pagename=" + pageName + "&strictversion=1";
+	var url = "http://comment-tag.com/server/init.php?redditor=" + redditor + "&hash=" + semiSecretHash +  "&subreddit=" + subreddit +"&commentpageid=" + commentPageId +"&pagename=" + pageName + "&visitortimezone=" + visitortimezone + "&strictversion=2";
 	
 
 	console.log("init url: " + url);

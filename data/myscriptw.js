@@ -180,10 +180,10 @@ function mimbaw() {
 			var matches = body.match(/\{(.*?)\}/);
 			var shortHandTag = matches[1];
 			var tag = "comment-tag{" + shortHandTag + "}";
-			if (!tag in mustBeStandAloneTags) {
-				var titleCursory = "General Rule §2 No self-made tags";
-				var textCursory = "Bad tag!";
-				var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I made a tag up myself..."};
+			if (typeof mustBeStandAloneTags[shortHandTag] === 'undefined') {
+				var titleCursory = "Unrecognized tag";
+				var textCursory = "" + allCommentsWithAllEntries[i]['author'] + " made this tag up";
+				var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "green", title: titleCursory, garble: false, exclamation: "I made up a tag myself..."};
 				viewSetterBunch.push(viewSetter);
 			}
 			
@@ -257,7 +257,7 @@ function mimbaw() {
 	}
 
 
-	// Enforce general rule §5: Nearly all Awkward tags are social in nature. Redditors can't direct any tags, besides comment-tag{no.i.mean.it}, towards their own comments.
+	// Enforce general rule §5: Nearly all Awkward tags are social in nature. Redditors can't direct any tags towards their own comments.
 	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
 		var redditor = allCommentsWithAllEntries[i]['author'];
 		var secondPersonCommentWithAllEntriesYoobee = getParent(allCommentsWithAllEntries[i]);
@@ -265,21 +265,28 @@ function mimbaw() {
 			if (secondPersonCommentWithAllEntriesYoobee) {
 				if (redditor === secondPersonCommentWithAllEntriesYoobee['author']) {
 					// Here: Redditor is responding to himself
-					// Test if he's using the comment-tag{no.i.mean.it} tag
-					if (allCommentsWithAllEntries[i]['body'].indexOf("comment-tag{no.i.mean.it}") === -1) {
-						// Here: He is not using the comment-tag{no.i.mean.it} tag
-						// Therefore: Garble
-						var titleCursory = "General Rule §5: Nearly all Comment Tags are social in nature. Redditors can't direct any tags, besides comment-tag{no.i.mean.it}, towards their own comments.";
-						var textCursory = "Don't do that";
-						var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I used a Comment Tag in dialogue with myself!", override: true};
-						viewSetterBunch.push(viewSetter);
-					}
+					// Therefore: Garble
+					var titleCursory = "General Rule §5: Nearly all Comment Tags are social in nature. Redditors can't direct any tags towards their own comments.";
+					var textCursory = "Don't do that";
+					var viewSetter = {tag: tag, id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I used a Comment Tag in dialogue with myself!", override: true};
+					viewSetterBunch.push(viewSetter);
 				}
 			}
 		}
 	}
 
 
+	// comment-tag{i.wont.comment.for.personal.reasons} tag:
+	// find (if it exists) comment with comment-tag{i.wont.comment.for.personal.reasons} tag
+	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
+		if (allCommentsWithAllEntries[i]['body'].indexOf("comment-tag{i.wont.comment.for.personal.reasons}") !== -1) {
+			var tag = "comment-tag{" + shortHandTag + "}";
+			var titleCursory = "";
+			var textCursory = "Won't comment";
+			var viewSetter = {tag: "comment-tag{i.wont.comment.for.personal.reasons}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "green", title: titleCursory, garble: false, exclamation: "I won't comment for personal reasons."};
+			viewSetterBunch.push(viewSetter);
+		}
+	}
 
 
 	// comment-tag{i.am.one.of.the.strangest.people.youll.ever.meet} tag:
@@ -717,59 +724,6 @@ function mimbaw() {
 				var textCursory = "comment-tag{your.comment.inspired.me} tag violation";
 				var viewSetter = {tag: "comment-tag{your.comment.inspired.me}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I misused this tag."};
 				viewSetterBunch.push(viewSetter);
-			}
-			var wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson = getWholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson(allCommentsWithAllEntries[i]);
-			var foundValidIMeanItTag = false;
-			for (var j = 0; j < wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson.length; j++) {
-				//console.log("allCommentsWithAllEntries[i]['author']: " + allCommentsWithAllEntries[i]['author']);
-				//console.log("redditor: " + redditor);
-				if (wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson[j]['author'] === allCommentsWithAllEntries[i]['author']) {
-					// Here: Second person = first person.
-					// Therefore: Find out if the reply has been correctly answered with a stand-alone comment-tag{no.i.mean.it} tag
-					if (wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson[j]['body'].indexOf("comment-tag{no.i.mean.it}") !== -1) {
-						// Here: First person answered himself with a comment-tag{no.i.mean.it} tag, the way he should do
-						// Therefore: Find out if it is stand-alone
-						if (hasMoreWordsBesidesTheTagItselfDude(wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson[j]['body'], "comment-tag{no.i.mean.it}")) {
-							// Here: It was stand-alone
-							// Therefore: Lastly: Find out if more than 10 minutes has gone by and garble if it is so.
-							var nowUTC = new Date().getTime();
-							var thenUTC = allCommentsWithAllEntries[i]['created_utc'] * 1000;
-							var minutesGoneBy = (nowUTC - thenUTC)/Math.floor(1000 * 60);
-							if (minutesGoneBy <= 10) {
-								// Here: Everything is ok
-								// Make successful viewsetter for first/second person in second persons comment
-								var titleCursory = "Used correctly";
-								var textCursory = "Well done!";
-								var viewSetter = {tag: "comment-tag{no.i.mean.it}", id: wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson[j]['id'], text: textCursory, color: "green", title: titleCursory, garble: false, exclamation: "I do mean it."};
-								viewSetterBunch.push(viewSetter);
-								foundValidIMeanItTag = true;
-							}
-							else {
-								// Here: Alas! It has expired
-								// Therefore: Garble second persons (=first persons) reply!
-								var titleCursory = "Took too long in answering: §3 Should always be followed by an answer to yourself, within 10 minutes, with a single, stand-alone comment-tag{no.i.mean.it} tag.";
-								var textCursory = "Expired!";
-								var viewSetter = {tag: "comment-tag{no.i.mean.it}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I meant what I said. But I didn't confirm it."};
-								viewSetterBunch.push(viewSetter);
-							}
-						}
-					}
-				}
-			}
-			if (!foundValidIMeanItTag) {
-				// Here: No valid no.i.mean.it tag found
-				// Therefore: See if too long time has gone by and, in this case, give a penalty
-				var nowUTC = new Date().getTime();
-				var thenUTC = allCommentsWithAllEntries[i]['created_utc'] * 1000;
-				var minutesGoneBy = (nowUTC - thenUTC)/Math.floor(1000 * 60);
-				if (minutesGoneBy > 10) {
-					// Here: Too long time has really surpassed
-					// Therefore: Garble first persons comment
-					var titleCursory = "Redditor took too long in posting comment-tag{no.i.mean.it} in reply to this comment: §3 Should always be followed by an answer to yourself, within 10 minutes, with a single, stand-alone comment-tag{no.i.mean.it} tag.";
-					var textCursory = "Expired!";
-					var viewSetter = {tag: "comment-tag{your.comment.inspired.me}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I actually mean what I say. But I took too long in saying so."};
-					viewSetterBunch.push(viewSetter);
-				}
 			}
 		}
 	}
@@ -1553,20 +1507,12 @@ var mustBeStandAloneTags = {
     "er.hi.what.kind.of.strange.presentation.is.that" : "noStandAloneRule",
     "youre.being.overly.ironic.and.are.violating.the.rules" : "noStandAloneRule",
     "awkward" : "takenCareOfElsewhere",
-    "f**k.you" : "noStandAloneRule",
-    "haha" : "noStandAloneRule",
-    "wtf" : "noStandAloneRule",
     "watch.me.playing.soccer.with.myself.in.this.video" : "noStandAloneRule",
-    "how.are.things.old.chap" : "noStandAloneRule",
-    "reading.lagerlof" : "noStandAloneRule",
-    "reading.steinbeck" : "noStandAloneRule",
-	"no.i.mean.it" : "mustStandAlone",
 	"that.pissed.me.off.but.please.dont.mind" : "takenCareOfElsewhere",
 	"thanks.but.a.bit.off.topic" : "noStandAloneRule",
 	"your.post.inspired.me" : "noStandAloneRule",
 	"your.link.inspired.me" : "noStandAloneRule",
-	"a.warning.from.one.intellectual.to.another" : "noStandAloneRule"
+	"a.warning.from.one.intellectual.to.another" : "noStandAloneRule",
+	"i.wont.comment.for.personal.reasons" : "mayNotStandAlone",
+	"a.warm.welcome.to.my.world.without.a.naive.invitation.to.be.my.friend": "mayNotStandAlone"
 };
-
-
-
