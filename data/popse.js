@@ -74,6 +74,7 @@ $( "#logout_subm" ).click(function(event) {
 	set("semiSecretHash", "<loggedout>");
 	$( '#after_authenticated_div' ).fadeOut();
 	$( '#before_authenticated_div' ).fadeIn();
+	$( '#real_un' ).fadeOut();
 	$( "#statusSpanner" ).text("You are now logged out");
 });
 

@@ -348,8 +348,9 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 		console.log("viewSetterBunch.length" + viewSetterBunch.length);
 		console.log("allComments.length" + allComments.length);
 		//setTimeout( function() {
-			console.log("calling addControls from main...");
+			console.log("calling addControls from main...1");
 			addControls(commentPageId, "usertext-buttons");
+			console.log("calling addControls from main...Done..." + allComments.length);
 		//}, 2000);
 		for (var i = 0; i < allComments.length; i++) {
 			var color = "##F8F8FF"; // "GhostWhite"
@@ -453,6 +454,9 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 						
 						var gubbe = $('#' + tname);
 						//var sizegubbe = $('#' + tname).html().length;
+						/*console.log("Before1: " + html);
+						html = safeResponse(html);
+						console.log("After1: " + html);*/
 						$('#' + tname).find(".flat-list").first().append(html);
 
 
@@ -470,6 +474,9 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 
 							gubbe = $('#' + tname);
 							//var sizegubbe = $('#' + tname).html().length;
+							/*console.log("Before2: " + html);
+							html = safeResponse(html);
+							console.log("After2: " + html);*/
 							$('#' + tname).find(".flat-list").first().append(html);
 							//console.log("lengo: " + sizegubbe);
 						}
@@ -577,6 +584,9 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 						html3 = html3 + '</div>';
 						//$('#' + tname).find(".usertext-body").find("p").first().append(img);
 						$('#' + tname).find(".usertext-body").first().empty();
+						/*console.log("Before3: " + html);
+						html = safeResponse(html);
+						console.log("After3: " + html);*/
 						$('#' + tname).find(".usertext-body").first().append(html3);
 						//$('#' + tname).append(img);
 					
@@ -608,6 +618,9 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 								colorPointer++;
 							}
 							//var garbledHtml = '<span style="color: ' + color + '" class="' + circleCSS + 'tab">' + text  + '</span></li>';
+							/*console.log("Before4: " + garbledHtml);
+							garbledHtml = safeResponse(garbledHtml);
+							console.log("After4: " + garbledHtml);*/
 							$('#' + tname).find(".md").first().append(garbledHtml);
 						}
 
@@ -758,3 +771,55 @@ var intuitiveTagNames = {
 	"i.wont.comment.for.personal.reasons" : "I won't comment for personal reasons",
 	"a.warm.welcome.to.my.world.without.a.naive.invitation.to.be.my.friend" : "A warm welcome to my world, without a naive invitation to be my friend"
 };
+
+safeResponse = function(){
+
+    var validAttrs = [ "class", "id", "href", "style" ];
+    
+    this.__removeInvalidAttributes = function(target) {
+        var attrs = target.attributes, currentAttr;
+
+        for (var i = attrs.length - 1; i >= 0; i--) {
+            currentAttr = attrs[i].name;
+
+            if (attrs[i].specified && validAttrs.indexOf(currentAttr) === -1) {
+                target.removeAttribute(currentAttr);
+            }
+
+            if (
+                currentAttr === "href" &&
+                /^(#|javascript[:])/gi.test(target.getAttribute("href"))
+            ) {
+                target.parentNode.removeChild(target);
+            }
+        }
+    }
+    
+    this.__cleanDomString = function(data) {
+        var parser = new DOMParser;
+        var tmpDom = parser.parseFromString(data, "text/html").body;
+
+        var list, current, currentHref;
+
+        list = tmpDom.querySelectorAll("script,img");
+
+        for (var i = list.length - 1; i >= 0; i--) {
+            current = list[i];
+            current.parentNode.removeChild(current);
+        }
+
+        list = tmpDom.getElementsByTagName("*");
+
+        for (i = list.length - 1; i >= 0; i--) {
+            parent.__removeInvalidAttributes(list[i]);
+        }
+
+        return tmpDom.innerHTML;
+    }
+    
+    return{
+        cleanDomString: function(html){
+            return parent.__cleanDomString(html)
+        }
+    }
+}();

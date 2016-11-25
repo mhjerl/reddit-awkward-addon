@@ -55,9 +55,9 @@ function rADropdownSelect(sel, cid, isMainPost) {
 			yourCommentHere = "";
 		}
 		
-		var ins_text = yourCommentHere + lineBreaks + '[Comment tag: ' + value + '](http://comment-tag.com/rules/' + nonIntuitiveValue + '.php)';
+		var ins_text = yourCommentHere + lineBreaks + '[Ye-Ye Youbeeya: ' + value + '](http://comment-tag.com/rules/' + nonIntuitiveValue + '.php)';
 		if (!chkbx.prop('checked')) {
-			ins_text = yourCommentHere + lineBreaks + 'Comment tag: ' + value + '';
+			ins_text = yourCommentHere + lineBreaks + 'Ye-Ye Youbeeya: ' + value + '';
 		}
 		console.log("appended:" + ins_text);
 		ta.val( ta.val() + ins_text);
