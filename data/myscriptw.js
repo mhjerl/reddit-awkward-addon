@@ -109,15 +109,63 @@ function mimbaw() {
 		}
 	}
 	
+
+
+
+	// Replace intuitive values in body with non-intuitive (I)
+	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
+		var body = allCommentsWithAllEntries[i]['body'];
+		console.log("len------------------------------------------------------------------------> " + Object.keys(intuitiveTagNames).length);
+		for (var a = 0; a < tagsKnownToWoman.length; a++) {
+			var nonIntuitiveTagName = tagsKnownToWoman[a];
+			var intuitiveTagName = intuitiveTagNames[nonIntuitiveTagName];
+
+			var searchString = "Comment tag: " + intuitiveTagName;
+			var replaceString = "comment-tag{" + nonIntuitiveTagName + "}";
+			console.log("Body: " + body + " search: " + searchString + " replace: " + replaceString);
+			if (body.indexOf(intuitiveTagName) !== -1) {
+				console.log("Found Brumblebee-tag: " + intuitiveTagName);
+				body = body.replace(searchString, replaceString);
+				allCommentsWithAllEntries[i]['body'] = body;
+			}
+		}
+		
+	}
+
+
+
+	// Replace intuitive values in body with non-intuitive (II)
+	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
+		var body = allCommentsWithAllEntries[i]['body'];
+		console.log("len------------------------------------------------------------------------> " + Object.keys(intuitiveTagNames).length);
+		for (var a = 0; a < tagsKnownToWoman.length; a++) {
+			var nonIntuitiveTagName = tagsKnownToWoman[a];
+			var intuitiveTagName = intuitiveTagNames[nonIntuitiveTagName];
+
+			var searchString = "Ye-Ye Youbeeya: " + intuitiveTagName;
+			var replaceString = "comment-tag{" + nonIntuitiveTagName + "}";
+			console.log("Body: " + body + " search: " + searchString + " replace: " + replaceString);
+			if (body.indexOf(intuitiveTagName) !== -1) {
+				console.log("Found Brumblebee-tag: " + intuitiveTagName);
+				body = body.replace(searchString, replaceString);
+				allCommentsWithAllEntries[i]['body'] = body;
+			}
+		}
+		
+	}
+
+
+
+
+
+
 	
-	
-
-
-
-
-
-
-
+	console.log("-----------------------------------------------------------------------------------------------------1.");
+	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
+		console.log("" + i);
+		dump(allCommentsWithAllEntries[i]);
+	}
+	console.log("-------------------------------------------------------------------------------------------------2.");
 
 
 
@@ -129,8 +177,8 @@ function mimbaw() {
 	
 	// Enforce general rule §1: No more than one tag by the same redditor on the same level of the comment tree, i.e. as answer to any given comment.
 	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
-		dump(allCommentsWithAllEntries[i]);
-		console.log("id: " + allCommentsWithAllEntries[i]['id']);
+		//dump(allCommentsWithAllEntries[i]);
+		//console.log("id: " + allCommentsWithAllEntries[i]['id']);
 		if (allCommentsWithAllEntries[i]['body'].indexOf("comment-tag{") !== -1) {
 			var redditorInAllThisMess = allCommentsWithAllEntries[i]['author'];
 			var secondPersonCommentWithAllEntriesYoobee = getParent(allCommentsWithAllEntries[i]);
@@ -272,6 +320,19 @@ function mimbaw() {
 					viewSetterBunch.push(viewSetter);
 				}
 			}
+		}
+	}
+
+
+	// comment-tag{your.post.inspired.me} tag:
+	// find (if it exists) comment with comment-tag{your.post.inspired.me} tag
+	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
+		if (allCommentsWithAllEntries[i]['body'].indexOf("comment-tag{your.post.inspired.me}") !== -1) {
+			var tag = "comment-tag{" + shortHandTag + "}";
+			var titleCursory = "";
+			var textCursory = "Was inspired";
+			var viewSetter = {tag: "comment-tag{your.post.inspired.me}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "green", title: titleCursory, garble: false, exclamation: "I was inspired."};
+			viewSetterBunch.push(viewSetter);
 		}
 	}
 
@@ -1139,6 +1200,7 @@ var parentC;
 var commentIdToLookFor;
 
 function getParent(k) {
+	console.log("base for search: " + k['id']);
 	commentIdToLookFor = k['parent_id'];
 	if (k['parent_id'] === allCommentsWithAllEntries[0]['id']) {
 		return allCommentsWithAllEntries[0];
@@ -1219,8 +1281,8 @@ function traverseH(x, level) {
 		if (x.id) {
 			var parentIdPlain = null;
 			var body = null;
-			if (x.selftext_html) { // selftext_html: only exists for main post/link
-				body = x.selftext_html;
+			if (x.selftext) { // selftext: only exists for main post/link
+				body = x.selftext;
 			}
 			else {
 				body = x.body;
@@ -1229,7 +1291,7 @@ function traverseH(x, level) {
 				parentIdPlain = x.parent_id.substring(3);
 			}
 			if (!body || typeof body === "undefined") { // BUG7_ FIX
-				body="";			
+				body="";
 			}
 			////console.log("obby parent: " + parentIdPlain);
 			if (x.id !== "_") { // BUG6_ FIX
@@ -1479,7 +1541,6 @@ function doLastOfWait() {
 	//console.log("Dunno. I dunno.");
 }
 
-
 var mustBeStandAloneTags = {
 	"waits.for.anyone" : "mayNotStandAlone",
     "waits.for.your.reply.only" : "mayNotStandAlone",
@@ -1516,3 +1577,76 @@ var mustBeStandAloneTags = {
 	"i.wont.comment.for.personal.reasons" : "mayNotStandAlone",
 	"a.warm.welcome.to.my.world.without.a.naive.invitation.to.be.my.friend": "mayNotStandAlone"
 };
+
+
+var intuitiveTagNames = {
+	"waits.for.anyone" : "Waits for anyone...",
+    "waits.for.your.reply.only" : "Waits for your reply only...",
+    "i.find.this.unworthy.for.discussion" : "I find this unworthy for discussion",
+    "i.find.the.subject.unworthy.for.discussion" : "I find the subject unworthy for discussion",
+    "i.will.not.reply.and.expect.apology" : "I will not reply and expect an apology",
+    "i.apologize" : "I apologize",
+    "no.problem" : "No problem",
+    "your.comment.inspired.me" : "Your comment inspired me...",
+	"thanks" : "Thanks!",
+	"youre.welcome" : "You're welcome",
+    "i.dont.think.the.original.post.has.been.addressed.yet" : "I don't think the original post has been addressed yet",
+    "i.dont.think.the.original.post.has.been.taken.seriously.yet" : "I don't think the original post has been taken seriously yet",
+    "i.dont.think.the.original.post.has.been.treated.respectfully" : "I don't think the original post has been treated respectfully",
+    "guarded.apology" : "Guarded apology",
+    "explanation.why.i.was.angry" : "Explanation why I was angry",
+    "dont.mind.its.ok.lets.move.on" : "Don't mind. It's ok. Let's move on...",
+    "i.was.being.careless" : "I was being careless",
+    "i.am.glad.you.said.that.to.me" : "I'm glad you said that to me",
+    "its.fine.i.consider.the.case.closed" : "It's fine. I consider the case closed" ,
+    "i.consider.this.comment.definitive.and.consider.any.reply.inappropriate" : "I consider this comment definitive and consider any reply inappropriate",
+    "interesting.will.write.more.in.a.few.days.time" : "Interesting. Will write more in a few days time",
+    "i.am.one.of.the.strangest.people.youll.ever.meet" : "I am one of the strangest people you'll ever meet",
+    "er.hi.what.kind.of.strange.presentation.is.that" : "Er. What kind of strange presentation is that...",
+    "youre.being.overly.ironic.and.are.violating.the.rules" : "You're being overly ironic and are violating the rules",
+    "awkward" : "The famous awkward tag",
+    "watch.me.playing.soccer.with.myself.in.this.video" : "Watch me playing soccer with myself in this video",
+	"that.pissed.me.off.but.please.dont.mind" : "That pissed me off, but please don't mind",
+	"thanks.but.a.bit.off.topic" : "Thanks. But a bit off-topic...",
+	"your.post.inspired.me" : "Your post inspired me",
+	"your.link.inspired.me" : "Your link inspired me",
+	"a.warning.from.one.intellectual.to.another" : "A warning from one intellectual to another",
+	"i.wont.comment.for.personal.reasons" : "I won't comment for personal reasons",
+	"a.warm.welcome.to.my.world.without.a.naive.invitation.to.be.my.friend" : "A warm welcome to my world, without a naive invitation to be my friend"
+};
+
+var tagsKnownToWoman = [
+	"waits.for.anyone",
+    "waits.for.your.reply.only",
+    "i.find.this.unworthy.for.discussion",
+    "i.find.the.subject.unworthy.for.discussion",
+    "i.will.not.reply.and.expect.apology",
+    "i.apologize",
+    "no.problem",
+    "your.comment.inspired.me",
+	"thanks",
+	"youre.welcome",
+    "i.dont.think.the.original.post.has.been.addressed.yet",
+    "i.dont.think.the.original.post.has.been.taken.seriously.yet",
+    "i.dont.think.the.original.post.has.been.treated.respectfully",
+    "guarded.apology",
+    "explanation.why.i.was.angry",
+    "dont.mind.its.ok.lets.move.on",
+    "i.was.being.careless",
+    "i.am.glad.you.said.that.to.me",
+    "its.fine.i.consider.the.case.closed",
+    "i.consider.this.comment.definitive.and.consider.any.reply.inappropriate",
+    "interesting.will.write.more.in.a.few.days.time",
+    "i.am.one.of.the.strangest.people.youll.ever.meet",
+    "er.hi.what.kind.of.strange.presentation.is.that",
+    "youre.being.overly.ironic.and.are.violating.the.rules",
+    "awkward",
+    "watch.me.playing.soccer.with.myself.in.this.video",
+	"that.pissed.me.off.but.please.dont.mind",
+	"thanks.but.a.bit.off.topic",
+	"your.post.inspired.me",
+	"your.link.inspired.me",
+	"a.warning.from.one.intellectual.to.another",
+	"i.wont.comment.for.personal.reasons",
+	"a.warm.welcome.to.my.world.without.a.naive.invitation.to.be.my.friend"
+];

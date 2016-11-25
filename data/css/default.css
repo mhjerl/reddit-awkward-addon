@@ -278,7 +278,7 @@ is to other properties or values in creating the effect */
   left:47px; /* value = (:before left) + (:before border-left) - (:after border-left) */
   border-width:13px 13px 0;
   border-style:solid;
-  border-color:#fff transparent;
+  border-color: #fff transparent; /* mhh actually: #fff transparent*/;
   /* reduce the damage in FF3.0 */
   display:block;
   width:0;
@@ -322,7 +322,7 @@ is to other properties or values in creating the effect */
   top:16px; /* value = (:before top) + (:before border-top) - (:after border-top) */
   bottom:auto;
   left:auto;
-  right:-21px; /* value = - border-left-width - border-right-width */
+  right:-20px; /* mhh before (was a bug by the author): -21px; */ /* value = - border-left-width - border-right-width */
   border-width:9px 0 9px 21px;
-  border-color:transparent #fff;
+  border-color: transparent #fff; /* mhh actually: transparent #fff; */
 }

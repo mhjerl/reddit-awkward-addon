@@ -37,34 +37,6 @@ chrome.tabs.onUpdated.addListener(function(tabId, info, tab) {
 });
 
 
-chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-	console.log("a");
-    if (request.funkodonko == "authenticateFromPopseToBackground") {
-	console.log("b");
-		var xhr = new XMLHttpRequest();
-		var url = "http://comment-tag.com/server/authenticate.php?hash=" + request.hash;
-		xhr.open("GET", url, true);  // true indicates asynchronous
-		xhr.onreadystatechange = function() {
-		    if (xhr.readyState == 4) {
-		        var responsoo = xhr.responseText;
-				var responsooObby = JSON.parse(responsoo);
-				if (responsooObby.msg === "correcthash") {
-					sendResponse({
-						auth: true
-					});
-				}
-				else {
-					sendResponse({
-						auth: false
-					});
-				}
-		    }
-		}
-		xhr.send();
-	}
-});
-
 function initCalledFromInjectScript() {
 	console.log("initCalledFromInjectScript");
 	processReddit(codeOneURL);

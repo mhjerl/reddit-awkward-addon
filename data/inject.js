@@ -2,6 +2,14 @@ $.fn.exists = function () {
 	return this.length !== 0;
 }
 
+function getKeyByValueRA(arr, value) {
+    for (var key in arr) {
+        if (arr[key] == value) return key;
+    }
+    return false;
+}
+
+
 $(document).ready(function() {
 	/*$( ".save" ).click(function() {
 		//alert( "Handler for .click() called." );
@@ -41,13 +49,15 @@ function rADropdownSelect(sel, cid, isMainPost) {
 			textAreaIsEmpty = true;
 		}
 		var lineBreaks = "\n\n";
-		if (mustBeStandAloneTags[value] === "mustStandAlone") {
+		var nonIntuitiveValue = getKeyByValueRA(intuitiveTagNames, value);
+		if (mustBeStandAloneTags[nonIntuitiveValue] === "mustStandAlone") {
 			lineBreaks = "";
 			yourCommentHere = "";
 		}
-		var ins_text = yourCommentHere + lineBreaks + '[comment-tag{' + value + '}](http://comment-tag.com/rules/' + value + '.php)';
+		
+		var ins_text = yourCommentHere + lineBreaks + '[Comment tag: ' + value + '](http://comment-tag.com/rules/' + nonIntuitiveValue + '.php)';
 		if (!chkbx.prop('checked')) {
-			ins_text = yourCommentHere + lineBreaks + 'comment-tag{' + value + '}';
+			ins_text = yourCommentHere + lineBreaks + 'Comment tag: ' + value + '';
 		}
 		console.log("appended:" + ins_text);
 		ta.val( ta.val() + ins_text);
@@ -58,7 +68,7 @@ function rADropdownSelect(sel, cid, isMainPost) {
 			document.dispatchEvent(new CustomEvent("select_an_opt", {
 				detail: {
 					commentId: cid,
-					value: value
+					value: nonIntuitiveValue
 				},
 				bubbles: true,
 				cancelable: true
@@ -66,7 +76,7 @@ function rADropdownSelect(sel, cid, isMainPost) {
 		}, 0);
 		ta.focus();
 		if (textAreaIsEmpty) {
-			if (mustBeStandAloneTags[value] !== "mustStandAlone") {
+			if (mustBeStandAloneTags[nonIntuitiveValue] !== "mustStandAlone") {
 				ta.prop({
 					'selectionStart': 0,
 					'selectionEnd': 19
@@ -76,13 +86,28 @@ function rADropdownSelect(sel, cid, isMainPost) {
 	}
 }
 
-$(document).ready(function() {
-	$( ".reply-button" ).click(function(event) {
+function addEventHandlersForSmallReplyButtons() {
+$( ".reply-button" ).click(function(event) {
 		var parentElementId = $( event.target ).parent().parent().parent().parent().attr( "id" );
+		if (!parentElementId) { // FIX for BUG8_
+			parentElementId = $( event.target ).parent().parent().parent().attr( "id" );
+			console.log("Applied FIX for BUG8_ (1)");
+		}
+		if (!parentElementId) { // FIX for BUG8_
+			parentElementId = $( event.target ).parent().parent().parent().parent().parent().attr( "id" );
+			console.log("Applied FIX for BUG8_ (2)");
+		}
+		if (!parentElementId) { // FIX for BUG8_
+			console.log("BUG8_ FIX failed.");
+		}
+		else {
+			console.log("BUG8_ FIX apparently worked.");
+		}
 		var n = parentElementId.lastIndexOf("_") + 1;
 		var commentId = parentElementId.substring(n);
 		console.log("commentId------------------------------->" + commentId);
 		var selectId = "ra_select_" + commentId;
+
 		// Fix for BUG4_:
 		setTimeout(function() {
 			//$( "div" ).remove( ".ra_inserted_div" ); // BUG2_ FIX FAILED
@@ -95,11 +120,10 @@ $(document).ready(function() {
 				cancelable: true
 			}));
 		}, 0);
+
 		setTimeout( function() {
-			
 			//if (!$( "#" + selectId ).exists()) {
 				setTimeout(function() {
-					//$( "div" ).remove( ".ra_inserted_div" ); // BUG2_ FIX FAILED
 					document.dispatchEvent(new CustomEvent("small_reply_link_clicked", {
 						detail: {
 							commentId: commentId,
@@ -112,8 +136,22 @@ $(document).ready(function() {
 			//}
 		}, 2000);
 	});
+}
+
+
+
+$(document).ready(function() {
+	addEventHandlersForSmallReplyButtons();
+	$( "[id^=more_]" ).click(function(event) { // FIX for BUG8_
+		console.log("Applying fix for BUG8_ (1)");
+		setTimeout(function() {
+			console.log("Applying fix for BUG8_ (2)");
+			addEventHandlersForSmallReplyButtons();
+		}, 3000);
+	});
 });
 
+// Copied from myscriptw.js:
 var mustBeStandAloneTags = {
 	"waits.for.anyone" : "mayNotStandAlone",
     "waits.for.your.reply.only" : "mayNotStandAlone",
@@ -133,7 +171,6 @@ var mustBeStandAloneTags = {
     "explanation.why.i.was.angry" : "mayNotStandAlone",
     "dont.mind.its.ok.lets.move.on" : "noStandAloneRule",
     "i.was.being.careless" : "noStandAloneRule",
-    "doorslam" : "noStandAloneRule",
     "i.am.glad.you.said.that.to.me" : "noStandAloneRule",
     "its.fine.i.consider.the.case.closed" : "noStandAloneRule" ,
     "i.consider.this.comment.definitive.and.consider.any.reply.inappropriate" : "mayNotStandAlone",
@@ -143,6 +180,48 @@ var mustBeStandAloneTags = {
     "youre.being.overly.ironic.and.are.violating.the.rules" : "noStandAloneRule",
     "awkward" : "takenCareOfElsewhere",
     "watch.me.playing.soccer.with.myself.in.this.video" : "noStandAloneRule",
-	"no.i.mean.it" : "mustStandAlone",
-	"that.pissed.me.off.but.please.dont.mind" : "takenCareOfElsewhere"
+	"that.pissed.me.off.but.please.dont.mind" : "takenCareOfElsewhere",
+	"thanks.but.a.bit.off.topic" : "noStandAloneRule",
+	"your.post.inspired.me" : "noStandAloneRule",
+	"your.link.inspired.me" : "noStandAloneRule",
+	"a.warning.from.one.intellectual.to.another" : "noStandAloneRule",
+	"i.wont.comment.for.personal.reasons" : "mayNotStandAlone",
+	"a.warm.welcome.to.my.world.without.a.naive.invitation.to.be.my.friend": "mayNotStandAlone"
+};
+
+// Copied from myscriptw.js:
+var intuitiveTagNames = {
+	"waits.for.anyone" : "Waits for anyone...",
+    "waits.for.your.reply.only" : "Waits for your reply only...",
+    "i.find.this.unworthy.for.discussion" : "I find this unworthy for discussion",
+    "i.find.the.subject.unworthy.for.discussion" : "I find the subject unworthy for discussion",
+    "i.will.not.reply.and.expect.apology" : "I will not reply and expect an apology",
+    "i.apologize" : "I apologize",
+    "no.problem" : "No problem",
+    "your.comment.inspired.me" : "Your comment inspired me...",
+	"thanks" : "Thanks!",
+	"youre.welcome" : "You're welcome",
+    "i.dont.think.the.original.post.has.been.addressed.yet" : "I don't think the original post has been addressed yet",
+    "i.dont.think.the.original.post.has.been.taken.seriously.yet" : "I don't think the original post has been taken seriously yet",
+    "i.dont.think.the.original.post.has.been.treated.respectfully" : "I don't think the original post has been treated respectfully",
+    "guarded.apology" : "Guarded apology",
+    "explanation.why.i.was.angry" : "Explanation why I was angry",
+    "dont.mind.its.ok.lets.move.on" : "Don't mind. It's ok. Let's move on...",
+    "i.was.being.careless" : "I was being careless",
+    "i.am.glad.you.said.that.to.me" : "I'm glad you said that to me",
+    "its.fine.i.consider.the.case.closed" : "It's fine. I consider the case closed" ,
+    "i.consider.this.comment.definitive.and.consider.any.reply.inappropriate" : "I consider this comment definitive and consider any reply inappropriate",
+    "interesting.will.write.more.in.a.few.days.time" : "Interesting. Will write more in a few days time",
+    "i.am.one.of.the.strangest.people.youll.ever.meet" : "I am one of the strangest people you'll ever meet",
+    "er.hi.what.kind.of.strange.presentation.is.that" : "Er. What kind of strange presentation is that...",
+    "youre.being.overly.ironic.and.are.violating.the.rules" : "You're being overly ironic and are violating the rules",
+    "awkward" : "The famous awkward tag",
+    "watch.me.playing.soccer.with.myself.in.this.video" : "Watch me playing soccer with myself in this video",
+	"that.pissed.me.off.but.please.dont.mind" : "That pissed me off, but please don't mind",
+	"thanks.but.a.bit.off.topic" : "Thanks. But a bit off-topic...",
+	"your.post.inspired.me" : "Your post inspired me",
+	"your.link.inspired.me" : "Your link inspired me",
+	"a.warning.from.one.intellectual.to.another" : "A warning from one intellectual to another",
+	"i.wont.comment.for.personal.reasons" : "I won't comment for personal reasons",
+	"a.warm.welcome.to.my.world.without.a.naive.invitation.to.be.my.friend" : "A warm welcome to my world, without a naive invitation to be my friend"
 };

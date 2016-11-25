@@ -4,6 +4,7 @@
 
 var serverJsonObj;
 var tagsAtYourDisposal;
+var commentPageId;
 $.fn.exists = function () {
 	return this.length !== 0;
 }
@@ -65,6 +66,21 @@ document.addEventListener('small_reply_link_clicked', function(data) {
 });
 
 
+// Event listener: listens for messages from inject.js
+document.addEventListener('load_more_clicked', function(data) {
+	//dump(data);
+	//console.log("Received message dispatched from inject.js: parentElementId: " + parentElementId);
+	//alert("Received message dispatched from inject.js: " + commentId);
+	$("[id^=ra_inserted_div_]").remove();
+	var commentId = data.detail.commentId;
+	var parentElementId = data.detail.parentElementId;
+	console.log("calling addControls from event handler...");
+	addControls(commentId, parentElementId);
+});
+
+
+
+
 function addControls(commentId, parentElementId) {
 	console.log("hello from addControls: " + commentId + " " + parentElementId);
 	var bugOneFixVarIsResponseToMyself = false;
@@ -102,7 +118,12 @@ function addControls(commentId, parentElementId) {
 		console.log("optionTagsAtYourDisposal is null");
 		// Here: No option tags for this cid
 		// Therefore: Put "No Comment Tag Tags available
-		html += '<option id="ra_select_header_' + commentId + '">No Comment Tag Tags available</option>';
+		html += '<option id="ra_select_header_' + commentId + '">Please select a Comment Tag:</option>';
+		html += '<option>' + intuitiveTagNames['your.comment.inspired.me'] + '</option>';
+		html += '<option>' + intuitiveTagNames['waits.for.anyone'] + '</option>';
+		html += '<option>' + intuitiveTagNames['waits.for.your.reply.only'] + '</option>';
+		html += '<option>' + intuitiveTagNames['i.consider.this.comment.definitive.and.consider.any.reply.inappropriate'] + '</option>';
+		html += '<option>' + intuitiveTagNames['a.warm.welcome.to.my.world.without.a.naive.invitation.to.be.my.friend'] + '</option>';	
 	}
 	html += '</select><br></div>';
 	if ($('#siteTable').find('#thing_t3_' + commentId).exists()) {
@@ -218,13 +239,14 @@ function addControls(commentId, parentElementId) {
 		if (!$("#" + divId).is(":visible")) { // BUG2_ FIX
 			console.log("applied BUG2_ FIX");
 			$( "#" + parentElementId ).find( ".usertext-buttons" ).prepend( html );
+			console.log(html);
 		}
 	}
 	else {
 		console.log("select does exist. not adding: " + selectId);
 	}
 
-
+	console.log("Tubbilup!");
 
 
 
@@ -248,12 +270,14 @@ function getArrayOfNiceOptionTagsAtYourDisposal(cid) {
 				// Therefore: Simply return null
 				return null;
 			}
-			//console.log("tagArray len: " + tagArray.length);
+			console.log("tagArray len: " + tagArray.length);
 			var optionElements = [];
 			for (var j = 0; j < tagArray.length; j++) {
 				var tag = tagArray[j].tag;
 				var innerTag = tag.match(/\{([^)]+)\}/)[1];
-				var optionElement = '<option id="ra_select_option_' + cid + '">' + innerTag + '</option>';
+				var intuitiveTagName = intuitiveTagNames[innerTag];
+				var optionElement = '<option>' + intuitiveTagName + '</option>';
+				console.log("------------------------------------------------------------>" + optionElement);
 				optionElements[j] = optionElement;
 			}
 			return optionElements;
@@ -278,7 +302,25 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 		s.onload = function() {
 			this.remove();
 		};
+
+
+
+
+
+
+
+
 		(document.head || document.documentElement).appendChild(s);
+
+
+
+
+
+
+
+
+
+
 		
 		/*var scripto = '<script type="text/javascript">$(document).ready(function() { $( ".save" ).click(function() { alert( "Handler for .click() called." ); }); });</script>';
 		$('head').append(scripto);*/
@@ -288,7 +330,7 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 		
 		//console.log("Ready to make dary alterations. Length: " + request.allComments.length + " VS length: " + request.viewSetterBunch.length + " members length: " + request.membersOnPage.length);		
 		var subreddit = request.subreddit;
-		var commentPageId = request.commentPageId;
+		commentPageId = request.commentPageId;
 		console.log("aaaaaaaaaaaaaaaaaaaaab subreddit: " + subreddit + " commentPageId: " + commentPageId);
 		var viewSetterBunch = request.viewSetterBunch;
 		var allComments = request.allComments;
@@ -679,3 +721,40 @@ function getOnScreenRedditor() {
     }
 	return redditorOnScreen;
 }
+
+// Copied from myscriptw.js:
+var intuitiveTagNames = {
+	"waits.for.anyone" : "Waits for anyone...",
+    "waits.for.your.reply.only" : "Waits for your reply only...",
+    "i.find.this.unworthy.for.discussion" : "I find this unworthy for discussion",
+    "i.find.the.subject.unworthy.for.discussion" : "I find the subject unworthy for discussion",
+    "i.will.not.reply.and.expect.apology" : "I will not reply and expect an apology",
+    "i.apologize" : "I apologize",
+    "no.problem" : "No problem",
+    "your.comment.inspired.me" : "Your comment inspired me...",
+	"thanks" : "Thanks!",
+	"youre.welcome" : "You're welcome",
+    "i.dont.think.the.original.post.has.been.addressed.yet" : "I don't think the original post has been addressed yet",
+    "i.dont.think.the.original.post.has.been.taken.seriously.yet" : "I don't think the original post has been taken seriously yet",
+    "i.dont.think.the.original.post.has.been.treated.respectfully" : "I don't think the original post has been treated respectfully",
+    "guarded.apology" : "Guarded apology",
+    "explanation.why.i.was.angry" : "Explanation why I was angry",
+    "dont.mind.its.ok.lets.move.on" : "Don't mind. It's ok. Let's move on...",
+    "i.was.being.careless" : "I was being careless",
+    "i.am.glad.you.said.that.to.me" : "I'm glad you said that to me",
+    "its.fine.i.consider.the.case.closed" : "It's fine. I consider the case closed" ,
+    "i.consider.this.comment.definitive.and.consider.any.reply.inappropriate" : "I consider this comment definitive and consider any reply inappropriate",
+    "interesting.will.write.more.in.a.few.days.time" : "Interesting. Will write more in a few days time",
+    "i.am.one.of.the.strangest.people.youll.ever.meet" : "I am one of the strangest people you'll ever meet",
+    "er.hi.what.kind.of.strange.presentation.is.that" : "Er. What kind of strange presentation is that...",
+    "youre.being.overly.ironic.and.are.violating.the.rules" : "You're being overly ironic and are violating the rules",
+    "awkward" : "The famous awkward tag",
+    "watch.me.playing.soccer.with.myself.in.this.video" : "Watch me playing soccer with myself in this video",
+	"that.pissed.me.off.but.please.dont.mind" : "That pissed me off, but please don't mind",
+	"thanks.but.a.bit.off.topic" : "Thanks. But a bit off-topic...",
+	"your.post.inspired.me" : "Your post inspired me",
+	"your.link.inspired.me" : "Your link inspired me",
+	"a.warning.from.one.intellectual.to.another" : "A warning from one intellectual to another",
+	"i.wont.comment.for.personal.reasons" : "I won't comment for personal reasons",
+	"a.warm.welcome.to.my.world.without.a.naive.invitation.to.be.my.friend" : "A warm welcome to my world, without a naive invitation to be my friend"
+};
