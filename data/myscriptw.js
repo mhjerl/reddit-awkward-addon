@@ -115,16 +115,16 @@ function mimbaw() {
 	// Replace intuitive values in body with non-intuitive (I)
 	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
 		var body = allCommentsWithAllEntries[i]['body'];
-		console.log("len------------------------------------------------------------------------> " + Object.keys(intuitiveTagNames).length);
+		//console.log("len------------------------------------------------------------------------> " + Object.keys(intuitiveTagNames).length);
 		for (var a = 0; a < tagsKnownToWoman.length; a++) {
 			var nonIntuitiveTagName = tagsKnownToWoman[a];
 			var intuitiveTagName = intuitiveTagNames[nonIntuitiveTagName];
 
 			var searchString = "Comment tag: " + intuitiveTagName;
 			var replaceString = "comment-tag{" + nonIntuitiveTagName + "}";
-			console.log("Body: " + body + " search: " + searchString + " replace: " + replaceString);
+			//console.log("Body: " + body + " search: " + searchString + " replace: " + replaceString);
 			if (body.indexOf(intuitiveTagName) !== -1) {
-				console.log("Found Brumblebee-tag: " + intuitiveTagName);
+				//console.log("Found Brumblebee-tag: " + intuitiveTagName);
 				body = body.replace(searchString, replaceString);
 				allCommentsWithAllEntries[i]['body'] = body;
 			}
@@ -137,16 +137,16 @@ function mimbaw() {
 	// Replace intuitive values in body with non-intuitive (II)
 	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
 		var body = allCommentsWithAllEntries[i]['body'];
-		console.log("len------------------------------------------------------------------------> " + Object.keys(intuitiveTagNames).length);
+		//console.log("len------------------------------------------------------------------------> " + Object.keys(intuitiveTagNames).length);
 		for (var a = 0; a < tagsKnownToWoman.length; a++) {
 			var nonIntuitiveTagName = tagsKnownToWoman[a];
 			var intuitiveTagName = intuitiveTagNames[nonIntuitiveTagName];
 
 			var searchString = "Ye-Ye Youbeeya: " + intuitiveTagName;
 			var replaceString = "comment-tag{" + nonIntuitiveTagName + "}";
-			console.log("Body: " + body + " search: " + searchString + " replace: " + replaceString);
+			//console.log("Body: " + body + " search: " + searchString + " replace: " + replaceString);
 			if (body.indexOf(intuitiveTagName) !== -1) {
-				console.log("Found Brumblebee-tag: " + intuitiveTagName);
+				//console.log("Found Brumblebee-tag: " + intuitiveTagName);
 				body = body.replace(searchString, replaceString);
 				allCommentsWithAllEntries[i]['body'] = body;
 			}

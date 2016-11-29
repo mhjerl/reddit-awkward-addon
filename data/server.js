@@ -454,9 +454,9 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 						
 						var gubbe = $('#' + tname);
 						//var sizegubbe = $('#' + tname).html().length;
-						/*console.log("Before1: " + html);
-						html = safeResponse(html);
-						console.log("After1: " + html);*/
+						//console.log("Before1.->: " + html);
+						html = cleanDomString(html);
+						//console.log("After1: " + html);
 						$('#' + tname).find(".flat-list").first().append(html);
 
 
@@ -474,9 +474,9 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 
 							gubbe = $('#' + tname);
 							//var sizegubbe = $('#' + tname).html().length;
-							/*console.log("Before2: " + html);
-							html = safeResponse(html);
-							console.log("After2: " + html);*/
+							//console.log("Before2: " + html);
+							html = cleanDomString(html);
+							//console.log("After2: " + html);
 							$('#' + tname).find(".flat-list").first().append(html);
 							//console.log("lengo: " + sizegubbe);
 						}
@@ -521,7 +521,7 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 							imagecustom = imagecustomRedditor;
 						}
 						else {
-							// Here: This comments author is differend from the redditor who is logged in with Comment Tag, but still a member
+							// Here: This comments author is different from the redditor who is logged in with Comment Tag, but still a member
 							// Therefore: Find member
 							for (var k = 0; k < membersOnPage.length; k++) {
 								console.log("membersOnPage[k]['member']: " + membersOnPage[k]['member'] + " --- allComments[i]['author']: " + allComments[i]['author']);
@@ -535,7 +535,6 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 							}
 						}
 						if (typeof imagetype === 'undefined') {
-							con
 							imagetype = "neutral";
 							imageurl = '<img class="friend_image_resize_fit_center" src="http://comment-tag.com/images/avatars/astronaut.png" height="65"/>';
 						}
@@ -584,9 +583,9 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 						html3 = html3 + '</div>';
 						//$('#' + tname).find(".usertext-body").find("p").first().append(img);
 						$('#' + tname).find(".usertext-body").first().empty();
-						/*console.log("Before3: " + html);
-						html = safeResponse(html);
-						console.log("After3: " + html);*/
+						//console.log("Before3: " + html);
+						html = cleanDomString(html);
+						//console.log("After3: " + html);
 						$('#' + tname).find(".usertext-body").first().append(html3);
 						//$('#' + tname).append(img);
 					
@@ -618,9 +617,9 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 								colorPointer++;
 							}
 							//var garbledHtml = '<span style="color: ' + color + '" class="' + circleCSS + 'tab">' + text  + '</span></li>';
-							/*console.log("Before4: " + garbledHtml);
-							garbledHtml = safeResponse(garbledHtml);
-							console.log("After4: " + garbledHtml);*/
+							//console.log("Before4: " + garbledHtml);
+							garbledHtml = cleanDomString(garbledHtml);
+							//console.log("After4: " + garbledHtml);
 							$('#' + tname).find(".md").first().append(garbledHtml);
 						}
 
@@ -772,54 +771,37 @@ var intuitiveTagNames = {
 	"a.warm.welcome.to.my.world.without.a.naive.invitation.to.be.my.friend" : "A warm welcome to my world, without a naive invitation to be my friend"
 };
 
-safeResponse = function(){
-
-    var validAttrs = [ "class", "id", "href", "style" ];
     
-    this.__removeInvalidAttributes = function(target) {
-        var attrs = target.attributes, currentAttr;
-
-        for (var i = attrs.length - 1; i >= 0; i--) {
-            currentAttr = attrs[i].name;
-
-            if (attrs[i].specified && validAttrs.indexOf(currentAttr) === -1) {
-                target.removeAttribute(currentAttr);
-            }
-
-            if (
-                currentAttr === "href" &&
-                /^(#|javascript[:])/gi.test(target.getAttribute("href"))
-            ) {
-                target.parentNode.removeChild(target);
-            }
+function removeInvalidAttributes(target) {
+	var validAttrs = [ "class", "id", "href", "style" ];
+    var attrs = target.attributes, currentAttr;
+    for (var i = attrs.length - 1; i >= 0; i--) {
+        currentAttr = attrs[i].name;
+        if (attrs[i].specified && validAttrs.indexOf(currentAttr) === -1) {
+            target.removeAttribute(currentAttr);
+        }
+        if (
+            currentAttr === "href" &&
+            /^(#|javascript[:])/gi.test(target.getAttribute("href"))
+        ) {
+            target.parentNode.removeChild(target);
         }
     }
-    
-    this.__cleanDomString = function(data) {
-        var parser = new DOMParser;
-        var tmpDom = parser.parseFromString(data, "text/html").body;
+}
 
-        var list, current, currentHref;
-
-        list = tmpDom.querySelectorAll("script,img");
-
-        for (var i = list.length - 1; i >= 0; i--) {
-            current = list[i];
-            current.parentNode.removeChild(current);
-        }
-
-        list = tmpDom.getElementsByTagName("*");
-
-        for (i = list.length - 1; i >= 0; i--) {
-            parent.__removeInvalidAttributes(list[i]);
-        }
-
-        return tmpDom.innerHTML;
+function cleanDomString(data) {
+    var parser = new DOMParser;
+	var tmpDom = parser.parseFromString(data, "text/html").body;
+    var list, current, currentHref;
+	
+    list = tmpDom.querySelectorAll("script,img");
+    for (var i = list.length - 1; i >= 0; i--) {
+        current = list[i];
+        current.parentNode.removeChild(current);
     }
-    
-    return{
-        cleanDomString: function(html){
-            return parent.__cleanDomString(html)
-        }
+    list = tmpDom.getElementsByTagName("*");
+    for (i = list.length - 1; i >= 0; i--) {
+        removeInvalidAttributes(list[i]);
     }
-}();
+    return tmpDom.innerHTML;
+}

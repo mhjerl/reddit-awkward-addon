@@ -6,6 +6,7 @@ var activated = false;
 var authenticated;
 var versionError;
 var blockedError;
+SCF = {};
 
 function logStorage() {
 	if(chrome.storage) {
@@ -45,6 +46,84 @@ function logStorage() {
 });*/
 
 
+(function() {
+function Checkbox(element) {
+    this.element = element;
+}
+
+var klass = Checkbox.prototype;
+var self = Checkbox;
+SCF.Checkbox = Checkbox;
+
+klass.init = function() {
+    this.bindEvents();
+};
+
+klass.bindEvents = function() {
+    var _this = this;
+
+    $(this.element).click(function() {
+        $(this).toggleClass("checked");
+    });
+}
+
+}());
+
+
+
+
+
+
+(function() {
+function Tabbox(element) {
+    this.element = element;
+    this.tabboxStuff = this.element + " .tabbox-stuff";
+    this.tabboxTabs = this.element + " .tabbox-tabs";
+    this.tabboxTab = this.tabboxTabs + " li";
+    this.activeTabIndex = null;
+}
+
+var klass = Tabbox.prototype;
+var self = Tabbox;
+SCF.Tabbox = Tabbox;
+
+klass.init = function() {
+    this.storeActiveTabIndex();
+    this.openCorrectTabContent();
+    this.bindEvents();
+};
+
+klass.bindEvents = function() {
+    var _this = this;
+
+    $(this.tabboxTab).click(function() {
+        _this.switchTabs(this);
+    });
+};
+
+klass.openCorrectTabContent = function() {
+    $(this.tabboxStuff).addClass("hidden");
+    $(this.tabboxStuff).eq(this.activeTabIndex).removeClass("hidden");
+};
+
+klass.storeActiveTabIndex = function() {
+    var _this = this;
+
+    $(this.tabboxTab).each(function(index) {
+        if ($(this).hasClass("active")) {
+            _this.activeTabIndex = index;
+        }
+    });
+};
+
+klass.switchTabs = function(tab) {
+    $(this.tabboxTab).removeClass("active");
+    $(tab).addClass("active");
+    this.storeActiveTabIndex();
+    this.openCorrectTabContent();
+}
+
+}());
 
 
 
@@ -64,6 +143,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
 
+
+
+// Custom checkboxes
+var checkbox = new SCF.Checkbox(".js-checkbox");
+checkbox.init();
+
+// Init tabbox
+var tabBox = new SCF.Tabbox(".tabbox");
+tabBox.init();
+$(".tabbox-stuff").tabs();
 
 
 
@@ -227,6 +316,7 @@ function loadIt() {
 	// Chrome docs: "Pass in null to get the entire contents of storage."
 	chrome.storage.local.get(null, function(data) {
 		var redditor = data.redditor;
+		$('#redditor_inp').val(redditor);
 		blockedError = data.blockedError;
 		console.log("------------------>blockedError: " + blockedError);
 		if (blockedError !== "none" && typeof blockedError !== 'undefined') {
@@ -238,39 +328,6 @@ function loadIt() {
 		versionError = data.versionError;
 		console.log("------------------>versionError: " + versionError);
 		if (versionError !== "none" && typeof versionError !== 'undefined') {
-
-
-
-
-
-
-
-
-
-
-
-			//$( '#before_authenticated_div' ).hide();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 			$( '#versionerror_div' ).show();
 			return;
 		}
