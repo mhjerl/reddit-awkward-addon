@@ -773,7 +773,7 @@ var intuitiveTagNames = {
 
     
 function removeInvalidAttributes(target) {
-	var validAttrs = [ "class", "id", "href", "style" ];
+	var validAttrs = [ "class", "id", "href", "style", "src", "height", "width"]; // mhh originally: 	var validAttrs = [ "class", "id", "href", "style" ];
     var attrs = target.attributes, currentAttr;
     for (var i = attrs.length - 1; i >= 0; i--) {
         currentAttr = attrs[i].name;
@@ -794,7 +794,7 @@ function cleanDomString(data) {
 	var tmpDom = parser.parseFromString(data, "text/html").body;
     var list, current, currentHref;
 	
-    list = tmpDom.querySelectorAll("script,img");
+    list = tmpDom.querySelectorAll("script"); // mhh originally: list = tmpDom.querySelectorAll("script", "img");
     for (var i = list.length - 1; i >= 0; i--) {
         current = list[i];
         current.parentNode.removeChild(current);

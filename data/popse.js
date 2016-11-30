@@ -469,6 +469,7 @@ var html = '<div class="header_presentation">' +
 	  '</div>' +
 	  '<div class="giftornotif_content_section_ra">' +
 		  '<table>' +
+		    '<tr><td style="width: 150px">Time</td><td>' + when + '</td></tr>' +
 		    '<tr><td style="width: 150px">Motivation</td><td>"' + motivation + '"</td></tr>' +
 		    '<tr><td>Category</td><td>' + tagCategoryCapital + '</td></tr>' +
 		    '<tr><td>Subreddit</td><td><a target="_new" href="https://www.reddit.com/r/' + subreddit + '">' + subreddit + '</a></td></tr>' +
@@ -479,8 +480,10 @@ var html = '<div class="header_presentation">' +
 		'</div>' +
 	'</div>' +
   '</div>';
-
-
+					
+					console.log("Beforex1" + html);
+					html = cleanDomString(html);
+					console.log("Afterx1" + html);
 					$('#notificationsandgifts-container').append(html);
 
 				}
@@ -510,6 +513,7 @@ var html = '<div class="header_presentation">' +
       '</div>' +
 	  '<div class="giftornotif_content_section_ra">' +
 		  '<table>' +
+		    '<tr><td style="width: 150px">Time</td><td>' + when + '</td></tr>' +
 		    '<tr><td style="width: 150px">Motivation</td><td>"' + motivation + '"</td></tr>' +
 		    '<tr><td>Category</td><td>' + tagCategoryCapital + '</td></tr>' +
 			'<tr><td> </td></tr>' +
@@ -521,7 +525,9 @@ var html = '<div class="header_presentation">' +
       '</div>' +
     '</div>' +
   '</div>';
-
+					console.log("Beforex2" + html);
+					html = cleanDomString(html);
+					console.log("Afterx2" + html);
 					$('#notificationsandgifts-container').append(html);
 
 
@@ -589,7 +595,9 @@ var html = '<div class="header_presentation">' +
     '</div>' +
   '</div>';
 
-
+				console.log("Beforex3" + html);
+				html = cleanDomString(html);
+				console.log("Afterx3" + html);
 				$('#friends-container').append(html);
 
 
@@ -750,3 +758,38 @@ var tagCategories = {
 	"that.pissed.me.off.but.please.dont.mind" : "Anger"
 };
 
+// Copied from server.js:
+function removeInvalidAttributes(target) {
+	var validAttrs = [ "class", "id", "href", "style", "src", "height", "width"]; // mhh originally: 	var validAttrs = [ "class", "id", "href", "style" ];
+    var attrs = target.attributes, currentAttr;
+    for (var i = attrs.length - 1; i >= 0; i--) {
+        currentAttr = attrs[i].name;
+        if (attrs[i].specified && validAttrs.indexOf(currentAttr) === -1) {
+            target.removeAttribute(currentAttr);
+        }
+        /*if (
+            currentAttr === "href" &&
+            /^(#|javascript[:])/gi.test(target.getAttribute("href"))
+        ) {
+            target.parentNode.removeChild(target);
+        }*/
+    }
+}
+
+// Copied from server.js:
+function cleanDomString(data) {
+    var parser = new DOMParser;
+	var tmpDom = parser.parseFromString(data, "text/html").body;
+    var list, current, currentHref;
+	
+    list = tmpDom.querySelectorAll("script", "img"); // mhh originally: list = tmpDom.querySelectorAll("script", "img");
+    for (var i = list.length - 1; i >= 0; i--) {
+        current = list[i];
+        current.parentNode.removeChild(current);
+    }
+    list = tmpDom.getElementsByTagName("*");
+    for (i = list.length - 1; i >= 0; i--) {
+        removeInvalidAttributes(list[i]);
+    }
+    return tmpDom.innerHTML;
+}
