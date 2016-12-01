@@ -156,7 +156,12 @@ $(".tabbox-stuff").tabs();
 
 
 
-
+$('body').on('click', 'a', function(){
+ if (this.getAttribute("href").charAt(0) !== "#") {
+ 	chrome.tabs.create({url: $(this).attr('href')});
+ }
+ return false;
+});
 
 
 $( "#logout_subm" ).click(function(event) {
@@ -315,7 +320,7 @@ function loadIt() {
 	console.log("loadIt 1");
 	// Chrome docs: "Pass in null to get the entire contents of storage."
 	chrome.storage.local.get(null, function(data) {
-		var redditor = data.redditor;
+		var redditor = stripHTML(data.redditor);
 		$('#redditor_inp').val(redditor);
 		blockedError = data.blockedError;
 		console.log("------------------>blockedError: " + blockedError);
@@ -360,7 +365,7 @@ function loadIt() {
 		var redditorSpanner = document.getElementById('redditorSpanner');
 		redditorSpanner.innerHTML = "" + redditor;
 	
-		var totalPKarma = data.totalPKarma;
+		var totalPKarma = stripHTML("" + data.totalPKarma);
 		console.log("loadIt totalPKarma: " + totalPKarma);
 		var pKarmaSpanner = document.getElementById('pKarmaSpanner');
 		pKarmaSpanner.innerHTML = "" + totalPKarma + "!";
@@ -424,17 +429,17 @@ function loadIt() {
 				var pointsText = "";
 				
 				if (obby.type === "gift") {
-					var redditorAddressed = obby.obby.redditorAddressed;
-					var pageid = obby.obby.pageid;
-					var commentid = obby.obby.commentid;
-					var when = obby.obby.when;
-					var utc = obby.obby.utc;
-					var points = obby.obby.points;
-					var motivation = obby.obby.motivation;
-					var rule = obby.obby.rule;
-					var subreddit = obby.obby.subreddit;
-					var pagename = obby.obby.pagename;
-					var tag = obby.obby.tag;
+					var redditorAddressed = stripHTML(obby.obby.redditorAddressed);
+					var pageid = stripHTML(obby.obby.pageid);
+					var commentid = stripHTML(obby.obby.commentid);
+					var when = stripHTML(obby.obby.when);
+					var utc = stripHTML(obby.obby.utc);
+					var points = stripHTML(obby.obby.points);
+					var motivation = stripHTML(obby.obby.motivation);
+					var rule = stripHTML(obby.obby.rule);
+					var subreddit = stripHTML(obby.obby.subreddit);
+					var pagename = stripHTML(obby.obby.pagename);
+					var tag = stripHTML(obby.obby.tag);
 					
 					var tagShortHand = tag.match(/\{([^)]+)\}/)[1];
 					var tagCategoryCapital = tagCategories[tagShortHand];
@@ -458,7 +463,7 @@ function loadIt() {
 
 
 var html = '<div class="header_presentation">' +
-    '<a href="#" class="toggle15">' +
+    '<a style="cursor: pointer;" class="toggle15">' +
     '<div class="icon_images">' +
      	'<img class="icon_image1" src="http://comment-tag.com/images/categories/' + tagCategory + '.png" width="48"><img class="icon_image2" src="http://comment-tag.com/images/categories/' + minusOrPlus + '.png" width="20">' +
     '</div>' +
@@ -488,21 +493,21 @@ var html = '<div class="header_presentation">' +
 
 				}
 				else if (obby.type === "notification") {
-					var pageid = obby.obby.pageid;
-					var commentid = obby.obby.commentid;
-					var when = obby.obby.when;
-					var utc = obby.obby.utc;
-					var motivation = obby.obby.motivation;
-					var rule = obby.obby.rule;
-					var subreddit = obby.obby.subreddit;
-					var pagename = obby.obby.pagename;
-					var tag = obby.obby.tag;
+					var pageid = stripHTML(obby.obby.pageid);
+					var commentid = stripHTML(obby.obby.commentid);
+					var when = stripHTML(obby.obby.when);
+					var utc = stripHTML(obby.obby.utc);
+					var motivation = stripHTML(obby.obby.motivation);
+					var rule = stripHTML(obby.obby.rule);
+					var subreddit = stripHTML(obby.obby.subreddit);
+					var pagename = stripHTML(obby.obby.pagename);
+					var tag = stripHTML(obby.obby.tag);
 					var tagShortHand = tag.match(/\{([^)]+)\}/)[1];
 					var tagCategoryCapital = tagCategories[tagShortHand];
 
 
 var html = '<div class="header_presentation">' +
-    '<a href="#" class="toggle15">' +
+    '<a style="cursor: pointer;" class="toggle15">' +
 	'<div class="icon_images">' +
      	'<img class="icon_image1" src="http://comment-tag.com/images/categories/browsericonandawkward.png" width="48">' +
 	'</div>' +
@@ -767,12 +772,12 @@ function removeInvalidAttributes(target) {
         if (attrs[i].specified && validAttrs.indexOf(currentAttr) === -1) {
             target.removeAttribute(currentAttr);
         }
-        /*if (
+        if (
             currentAttr === "href" &&
             /^(#|javascript[:])/gi.test(target.getAttribute("href"))
         ) {
             target.parentNode.removeChild(target);
-        }*/
+        }
     }
 }
 
@@ -782,7 +787,7 @@ function cleanDomString(data) {
 	var tmpDom = parser.parseFromString(data, "text/html").body;
     var list, current, currentHref;
 	
-    list = tmpDom.querySelectorAll("script", "img"); // mhh originally: list = tmpDom.querySelectorAll("script", "img");
+    list = tmpDom.querySelectorAll("script"); // mhh originally: list = tmpDom.querySelectorAll("script, img");
     for (var i = list.length - 1; i >= 0; i--) {
         current = list[i];
         current.parentNode.removeChild(current);
@@ -792,4 +797,8 @@ function cleanDomString(data) {
         removeInvalidAttributes(list[i]);
     }
     return tmpDom.innerHTML;
+}
+
+function stripHTML(html_in){
+	return html_in.replace(/<[^>]*>?/g, '');
 }

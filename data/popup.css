@@ -5,7 +5,7 @@
   font-size: 1em; }
 
 body, html {
-	height: 500px;
+	height: 700px;
 	width: 600px;
     overflow-y: hidden;
 	color: #dddddd;
@@ -184,6 +184,10 @@ th, h1, h2, h3, h4, h5, h6 {
 .pll, .phl, .pal {
   padding-left: 20px; }
 
+.dan { /* mhh :-) */
+  margin-top: -5px; }
+}
+
 .mtn, .mvn, .man {
   margin-top: 0px; }
 
@@ -287,7 +291,8 @@ h6, .h6 {
   float: left; }
 
 .dataset table {
-  width: 100%; }
+  width: 100%;
+}
 .dataset td {
   padding-bottom: 5px;
   padding-top: 5px; }
@@ -760,6 +765,37 @@ input[type='password'] {
       -webkit-box-shadow: 8px 3px 5px -3px rgba(0, 0, 0, 0.4);
       -moz-box-shadow: 8px 3px 5px -3px rgba(0, 0, 0, 0.4);
       box-shadow: 8px 3px 5px -3px rgba(0, 0, 0, 0.4); }
+
+
+	.tabbox-navigation li.salutation {
+      background-image: url("elegant-man-saluting.png"); }
+
+	.tabbox-navigation li.friends {
+      background-image: url("group-of-people.png"); }
+
+	.tabbox-navigation li.hashtag {
+      background-image: url("hashtag.png"); }
+
+	.tabbox-navigation li.questionmark {
+      background-image: url("question-mark.png"); }
+
+	.tabbox-navigation li.scales {
+      background-image: url("scales.png"); }
+
+	.tabbox-navigation li.settings {
+      background-image: url("settings.png"); }
+
+	.tabbox-navigation li.archive {
+      background-image: url("navigation-archive.png"); }
+
+	.tabbox-navigation li.home {
+      background-image: url("home.png"); }
+
+	.tabbox-navigation li.dollar {
+      background-image: url("dollar-symbol.png"); }
+
+
+
     .tabbox-navigation li.archive {
       background-image: url("navigation-archive.png"); }
     .tabbox-navigation li.messages {
@@ -774,7 +810,7 @@ input[type='password'] {
 
 .tabbox-content {
   background-color: white;
-  min-height: 144px;
+  min-height: 384px;
   padding: 24px 29px;
   position: relative;
   z-index: 3;
@@ -1014,7 +1050,7 @@ table td {
 
 .header_sct {
 	width: 100%;
-	height: 180px;
+	height: 50px;
 	position:absolute;
 	top: 0;
 	margin: 0 auto;
@@ -1029,7 +1065,7 @@ table td {
     bottom: 0;
 	/*background: white;*/
 	padding-top: 30px;
-	margin-top: 100px;
+	margin-top: 50px;
 	/*padding-left: 50px;*/
 }
 

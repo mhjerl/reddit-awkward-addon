@@ -22,7 +22,6 @@
 
 
 
-
 <!-- <link rel="stylesheet" media="screen" href="bundle.css"/> -->
 <link rel="stylesheet" media="screen" href="popup.css"/>
 
@@ -31,9 +30,7 @@
 <div class="header_sct">
 	<div class="mbl">
 		<div class="popup_top_status_bar">
-			<img src="Logomakr_5H4mAL.png">
-			<h2><span class="h2-span" id="redditorSpanner"></span></h2>
-			<center><span style="color:red;" id="statusSpanner"></span></center>
+			<div class="left"><img src="Logomakr_5H4mAL.png" height="18"></div>
 		</div>
 	</div>
 </div>
@@ -90,111 +87,52 @@
 		<div class="mbl pbl">
 		  <div class="tabbox">
 		    <ul class="tabbox-tabs">
-		      <li class="active">Option 1</li>
-		      <li>Option 2</li>
+		      <li class="active">You</li>
+			  <li>Events</li>
+		      <li>Comment Tag</li>
 		    </ul>
+
 		    <div class="tabbox-stuff clearfix">
 		      <ul class="tabbox-navigation">
-		        <li class="archive">
-		          <a href="#tabbox-archive"></a>
+		        <li class="home">
+		          <a href="#tabbox-home"></a>
 		        </li>
-		        <li class="messages">
-		          <a href="#tabbox-messages"></a>
+		        <li class="friends">
+		          <a href="#tabbox-friends"></a>
 		        </li>
-		        <li class="cloud">
-		          <a href="#tabbox-cloud"></a>
+				<li class="dollar">
+		          <a href="#tabbox-dollar"></a>
 		        </li>
 		      </ul>
 		      <div class="last-col">
 		        <div class="tabbox-content">
-		          <div id="tabbox-archive">
+		          <div id="tabbox-home">
 		            <div class="heading">
 		              <h2 class="heading-col">
-		                Heading 1
+		                Home
 		              </h2>
-		              <h3 class="heading-col">
-		                Heading 2
-		              </h3>
-		              <h4 class="heading-col">
-		                Heading 3
-		                <span class="status-message negative">No connection</span>
-		              </h4>
-		              <div class="preloader"></div>
+					  <div class="right dan">
+					  	<input id="logout_subm" class="button positive" type="submit" value="Log Out">
+					  </div>
 		            </div>
 		            <div class="clearfix">
-		              <div class="col2of5 mrl prl">
+		              <div class="col1of2 mrl prl">
 		                <div class="dataset">
 		                  <table>
 		                    <tr>
 		                      <td class="dataset-entity">
-		                        RAM
+		                        <h3>redditor:</h3>
 		                      </td>
-		                      <td class="dataset-number">
-		                        2 GB
-		                      </td>
-		                      <td width="50%">
-		                        <div class="dataset-bar" style="width: 50%"></div>
+							  <td class="dataset-entity">
+								<h3><span id="redditorSpanner"></span></h3>
 		                      </td>
 		                    </tr>
 		                    <tr>
 		                      <td class="dataset-entity">
-		                        CPU
+		                        <h3>status:</h3>
 		                      </td>
-		                      <td class="dataset-number">
-		                        5 GHz
-		                      </td>
-		                      <td>
-		                        <div class="dataset-bar" style="width: 100%"></div>
-		                      </td>
-		                    </tr>
-		                    <tr>
 		                      <td class="dataset-entity">
-		                        HDD
-		                      </td>
-		                      <td class="dataset-number">
-		                        500 GB
-		                      </td>
-		                      <td>
-		                        <div class="dataset-bar" style="width: 66%"></div>
-		                      </td>
-		                    </tr>
-		                  </table>
-		                </div>
-		              </div>
-		              <div class="col2of5">
-		                <div class="dataset">
-		                  <table>
-		                    <tr>
-		                      <td class="dataset-entity">
-		                        RAM
-		                      </td>
-		                      <td class="dataset-number">
-		                        2 GB
-		                      </td>
-		                      <td width="50%">
-		                        <div class="dataset-bar" style="width: 50%"></div>
-		                      </td>
-		                    </tr>
-		                    <tr>
-		                      <td class="dataset-entity">
-		                        CPU
-		                      </td>
-		                      <td class="dataset-number">
-		                        5 GHz
-		                      </td>
-		                      <td>
-		                        <div class="dataset-bar" style="width: 100%"></div>
-		                      </td>
-		                    </tr>
-		                    <tr>
-		                      <td class="dataset-entity">
-		                        HDD
-		                      </td>
-		                      <td class="dataset-number">
-		                        500 GB
-		                      </td>
-		                      <td>
-		                        <div class="dataset-bar" style="width: 66%"></div>
+		                        <h3><span style="color:red;" id="statusSpanner"></span></h3>
 		                      </td>
 		                    </tr>
 		                  </table>
@@ -202,95 +140,23 @@
 		              </div>
 		            </div>
 		          </div>
-		          <div id="tabbox-messages">
+		          <div id="tabbox-friends" style="overflow-y: auto;">
 		            <div class="heading">
 		              <h2>
-		                Inbox messages
-		                <span class="status-message positive">2 new</span>
+		                Friends
+		                <span class="status-message"></span>
 		              </h2>
 		            </div>
 		            <div class="clearfix">
 		              <div class="col2of5 mrl prl">
 		                <div class="dataset">
-		                  <table>
-		                    <tr>
-		                      <td class="dataset-entity">
-		                        RAM
-		                      </td>
-		                      <td class="dataset-number">
-		                        2 GB
-		                      </td>
-		                      <td width="50%">
-		                        <div class="dataset-bar" style="width: 50%"></div>
-		                      </td>
-		                    </tr>
-		                    <tr>
-		                      <td class="dataset-entity">
-		                        CPU
-		                      </td>
-		                      <td class="dataset-number">
-		                        5 GHz
-		                      </td>
-		                      <td>
-		                        <div class="dataset-bar" style="width: 100%"></div>
-		                      </td>
-		                    </tr>
-		                    <tr>
-		                      <td class="dataset-entity">
-		                        HDD
-		                      </td>
-		                      <td class="dataset-number">
-		                        500 GB
-		                      </td>
-		                      <td>
-		                        <div class="dataset-bar" style="width: 66%"></div>
-		                      </td>
-		                    </tr>
-		                  </table>
-		                </div>
-		              </div>
-		              <div class="col2of5">
-		                <div class="dataset">
-		                  <table>
-		                    <tr>
-		                      <td class="dataset-entity">
-		                        RAM
-		                      </td>
-		                      <td class="dataset-number">
-		                        2 GB
-		                      </td>
-		                      <td width="50%">
-		                        <div class="dataset-bar" style="width: 50%"></div>
-		                      </td>
-		                    </tr>
-		                    <tr>
-		                      <td class="dataset-entity">
-		                        CPU
-		                      </td>
-		                      <td class="dataset-number">
-		                        5 GHz
-		                      </td>
-		                      <td>
-		                        <div class="dataset-bar" style="width: 100%"></div>
-		                      </td>
-		                    </tr>
-		                    <tr>
-		                      <td class="dataset-entity">
-		                        HDD
-		                      </td>
-		                      <td class="dataset-number">
-		                        500 GB
-		                      </td>
-		                      <td>
-		                        <div class="dataset-bar" style="width: 66%"></div>
-		                      </td>
-		                    </tr>
-		                  </table>
+		            
 		                </div>
 		              </div>
 		            </div>
 		          </div>
-		          <div id="tabbox-cloud">
+
+		          <div id="tabbox-dollar">
 		            <div class="heading">
 		              <h2>
 		                Files inside the cloud
@@ -378,21 +244,42 @@
 		              </div>
 		            </div>
 		          </div>
+
+
+
 		        </div>
 		      </div>
 		    </div>
+
+
+
+			<div class="tabbox-stuff clearfix">
+				<div class="tabbox-content">
+					<div class="heading">
+		              <h2>
+		                Awards, Penalties & Notifications
+		                <span class="status-message"></span>
+		              </h2>
+		            </div>
+					
+				</div>
+			</div>
+
+
+
+
 		    <div class="tabbox-stuff clearfix">
 		      <ul class="tabbox-navigation">
-		        <li class="archive">
-		          <a href="#tabbox-archive-2"></a>
+		        <li class="salutation">
+		          <a href="#tabbox-salutation"></a>
 		        </li>
-		        <li class="messages">
-		          <a href="#tabbox-messages-2"></a>
+		        <li class="questionmark">
+		          <a href="#tabbox-questionmark"></a>
 		        </li>
 		      </ul>
 		      <div class="last-col">
 		        <div class="tabbox-content">
-		          <div id="tabbox-archive-2">
+		          <div id="tabbox-salutation">
 		            <div class="heading">
 		              <h2>
 		                Archived data
@@ -481,7 +368,7 @@
 		              </div>
 		            </div>
 		          </div>
-		          <div id="tabbox-messages-2">
+		          <div id="tabbox-questionmark">
 		            <div class="heading">
 		              <h2>
 		                Inbox messages
@@ -607,7 +494,7 @@
 			<div id="friends-container"></div>
 			<h3>Account</h3>
 			<h3>Awkward Karma: <span id="pKarmaSpanner"></span></h3>
-			<input id="logout_subm" type="submit" value="Log out">
+			
 		</div>
 	</div>
 </div>

@@ -55,9 +55,9 @@ function rADropdownSelect(sel, cid, isMainPost) {
 			yourCommentHere = "";
 		}
 		
-		var ins_text = yourCommentHere + lineBreaks + '[Ye-Ye Youbeeya: ' + value + '](http://comment-tag.com/rules/' + nonIntuitiveValue + '.php) I believe reddit can be improved. I earned five bucks for using this tag. Please don\'t use these tags if you\'re any of the following: immature/estranged to what you say/single/want to flirt/pompous/self-righteous/insecure/rolling stone/vote alt-right/born before 1965/born after 1989';
+		var ins_text = yourCommentHere + lineBreaks + '[Ye-Ye Youbeeya: ' + value + '](http://comment-tag.com/rules/' + nonIntuitiveValue + '.php) I believe reddit can be improved. I earned five bucks for using this tag.';
 		if (!chkbx.prop('checked')) {
-			ins_text = yourCommentHere + lineBreaks + 'Ye-Ye Youbeeya: ' + value + ' I believe reddit can be improved. I earned five bucks for using this tag. Please don\'t use these tags if you\'re any of the following: immature/estranged to what you say/single/want to flirt/pompous/self-righteous/insecure/rolling stone/vote alt-right/born before 1965/born after 1989';
+			ins_text = yourCommentHere + lineBreaks + 'Ye-Ye Youbeeya: ' + value + ' I believe reddit can be improved. I earned five bucks for using this tag.';
 		}
 		console.log("appended:" + ins_text);
 		ta.val( ta.val() + ins_text);
