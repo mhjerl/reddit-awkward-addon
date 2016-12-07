@@ -44,7 +44,7 @@ function rADropdownSelect(sel, cid, isMainPost) {
 		var yourCommentHere = "";
 		if (!$.trim( ta.val())) {
     		// Here: textarea is empty or contains only white-space
-			// Therefore: Append text			
+			// Therefore: Append snippet			
 			yourCommentHere = "[Your comment here]";
 			textAreaIsEmpty = true;
 		}
@@ -55,9 +55,9 @@ function rADropdownSelect(sel, cid, isMainPost) {
 			yourCommentHere = "";
 		}
 		
-		var ins_text = yourCommentHere + lineBreaks + '[Ye-Ye Youbeeya: ' + value + '](http://comment-tag.com/rules/' + nonIntuitiveValue + '.php) I believe reddit can be improved. I earned five bucks for using this tag.';
+		var ins_text = yourCommentHere + lineBreaks + '[Ye-Ye Youbeeya: ' + value + '](http://comment-tag.com/rules/' + nonIntuitiveValue + '.php) This is a road-sign. Where? Right here! The internet needs road-signs. You don\'t ask car-drivers if you can put up road-signs. You don\'t even ask the prime-minister or the queen. You just ask a specialist in safe driving and a road sign maker. And they\'ll say no. :-) Btw: I earned ten bucks for using this tag.';
 		if (!chkbx.prop('checked')) {
-			ins_text = yourCommentHere + lineBreaks + 'Ye-Ye Youbeeya: ' + value + ' I believe reddit can be improved. I earned five bucks for using this tag.';
+			ins_text = yourCommentHere + lineBreaks + 'Ye-Ye Youbeeya: ' + value + ' This is a road-sign. Where? Right here! The internet needs road-signs. You don\'t ask car-drivers if you can put up road-signs. You don\'t even ask the prime-minister or the queen. You just ask a specialist in safe driving and a road sign maker. And they\'ll say no. :-) Btw: I earned ten bucks for using this tag.';
 		}
 		console.log("appended:" + ins_text);
 		ta.val( ta.val() + ins_text);

@@ -35,466 +35,425 @@
 	</div>
 </div>
 <div class="content_sct">
+	<div class="futurico-content last-col">
+		<div class="mbl pbl">
+			<div class="tabbox">
+				<ul class="tabbox-tabs">
+					<li class="active">You</li>
+					<li>Events</li>
+					<li>Comment Tag</li>
+				</ul>
+				<div class="tabbox-stuff clearfix">
+					<ul class="tabbox-navigation">
+						<li class="home">
+							<a href="#tabbox-home"></a>
+						</li>
+						<li class="friends">
+							<a href="#tabbox-friends"></a>
+						</li>
+						<li class="dollar">
+							<a href="#tabbox-dollar"></a>
+						</li>
+					</ul>
+					<div class="last-col">
+						<div class="tabbox-content">
+							<div id="tabbox-home">
+								<div class="heading">
+									<h2 class="heading-col">
+										Home
+									</h2>
+									<div class="right dan">
+										<input id="logout_subm" class="button positive" type="submit" value="Log Out">
+									</div>
+								</div>
+								<div id="logged_in_with_dif_usernames_error_div" style="display: none;">
+									<h3 style="color:red;" id="real_un" ><span id="real_un"></span></h3>
+								</div>
+								<div id="blockederror_div" style="display: none;">
+									<h3 style="color:red;">Your account is blocked. You don't have to apologize to us. Although we have judged you by one of your actions, we're not a moral authority in relationship to you. Please contact us at mortenhh@gmail.com, stating a reason why you want your account re-opened.</h3>
+								</div>
+								<div id="versionerror_div" style="display: none;">
+									<h3 style="color:red;">New app version available. Please <a href="http://comment-tag.com">upgrade</a>.</h3>
+								</div>
+								<div id="before_authenticated_div">
+									<div class="mbl">
+										<div class="col1of2 last-col" style="padding-right: 15px">
+											<div class="login-block" >
+												<div class="login-ear"></div>
+												<h2 class="mbl">sign in</h2>
+												<div class="mbm">
+													<div class="text-rounded light">
+														<input id="redditor_inp" placeholder="redditor" tabindex="13" type="text">
+													</div>
+												</div>
+												<div class="pts">
+													<div class="text-rounded light">
+														<input id="auth_hash_inp" placeholder="comment-tag password" tabindex="14" type="password">
+													</div>
+												</div>
+												<div class="login-buttons clearfix">
+													<div class="left pts">
+														<span id="auth_status"></span>
+													</div>
+													<div class="right">
+														<input id="auth_subm" class="button positive" type="submit" value="Sign in ">
+													</div>
+												</div>
+											</div>
+											<!-- <div class="col1of2"> -->
+											<div class="mtl right">
+												<a class="button-huge positive" target="_new" href="http://comment-tag.com/activate.php" href="#">
+												GET PASSWORD
+												<span class="button-description">One minute</span>
+												</a>
+											</div>
+											<!-- </div> -->
+										</div>
+									</div>
+								</div>
 
-	<div id="before_authenticated_div" class="popup_section">
-		<div class="mbl">
-			<div class="col1of2">
-				<div class="mbl">
-					<a class="button-huge positive" target="_new" href="http://comment-tag.com/activate.php" href="#">
-						GET PASSWORD
-						<span class="button-description">One minute</span>
-					</a>
-				</div>
-			</div>
-			<div class="col1of2 last-col" style="padding-right: 15px">
-				<div class="login-block" >
-					<div class="login-ear"></div>
-					<h2 class="mbl">sign in</h2>
-					<div class="mbm">
-						<div class="text-rounded light">
-						<input id="redditor_inp" placeholder="redditor" tabindex="13" type="text">
-					</div>
-				</div>
-				<div class="pts">
-					<div class="text-rounded light">
-						<input id="auth_hash_inp" placeholder="comment-tag password" tabindex="14" type="password">
-					</div>
-				</div>
-				<div class="login-buttons clearfix">
-					<div class="left pts">
-						<div class="checkbox-light square checked js-checkbox">
-							remember
+								<div id="after_authenticated_home" style="display: none;">
+									<div class="clearfix">
+										<div class="mrl prl">
+											<div class="dataset">
+												<table>
+													<tr>
+														<td class="dataset-entity" colspan="2">
+															<h2><span id="redditorSpanner"></span></h2>
+														</td>
+													</tr>
+													<tr id="pkarma_table_row" style="display: none;">
+														<td class="dataset-entity">
+															<h3>Karma:</h3>
+														</td>
+														<td class="dataset-entity">
+															<h3><span id="pKarmaSpanner"></span></h3>
+														</td>
+													</tr>
+													<tr>	
+														<td class="dataset-entity" colspan="2">
+															<h3><span style="color:red;" id="statusSpanner"></span></h3>
+														</td>
+													</tr>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+							<div id="tabbox-friends">
+								<div class="heading">
+									<h2>
+										Friends
+										<span class="status-message"></span>
+									</h2>
+								</div>
+								<div class="clearfix">
+									<div class="col2of5 mrl prl">
+										<div class="dataset">
+										<div id="friends-container"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div id="tabbox-dollar">
+								<div class="heading">
+									<h2>
+										Files inside the cloud
+										<span class="status-message">Total: 91,819,826</span>
+									</h2>
+								</div>
+								<div class="clearfix">
+									<div class="col2of5 mrl prl">
+										<div class="dataset">
+											<table>
+												<tr>
+													<td class="dataset-entity">
+														RAM
+													</td>
+													<td class="dataset-number">
+														2 GB
+													</td>
+													<td width="50%">
+														<div class="dataset-bar" style="width: 50%"></div>
+													</td>
+												</tr>
+												<tr>
+													<td class="dataset-entity">
+														CPU
+													</td>
+													<td class="dataset-number">
+														5 GHz
+													</td>
+													<td>
+														<div class="dataset-bar" style="width: 100%"></div>
+													</td>
+												</tr>
+												<tr>
+													<td class="dataset-entity">
+														HDD
+													</td>
+													<td class="dataset-number">
+														500 GB
+													</td>
+													<td>
+														<div class="dataset-bar" style="width: 66%"></div>
+													</td>
+												</tr>
+											</table>
+										</div>
+									</div>
+									<div class="col2of5">
+										<div class="dataset">
+											<table>
+												<tr>
+													<td class="dataset-entity">
+														RAM
+													</td>
+													<td class="dataset-number">
+														2 GB
+													</td>
+													<td width="50%">
+														<div class="dataset-bar" style="width: 50%"></div>
+													</td>
+												</tr>
+												<tr>
+													<td class="dataset-entity">
+														CPU
+													</td>
+													<td class="dataset-number">
+														5 GHz
+													</td>
+													<td>
+														<div class="dataset-bar" style="width: 100%"></div>
+													</td>
+												</tr>
+												<tr>
+													<td class="dataset-entity">
+														HDD
+													</td>
+													<td class="dataset-number">
+														500 GB
+													</td>
+													<td>
+														<div class="dataset-bar" style="width: 66%"></div>
+													</td>
+												</tr>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
-				<div class="right">
-					<input id="auth_subm" class="button positive" type="submit" value="Sign in ">
 				</div>
-				<span id="auth_status"></span>
-			</div>
-		</div>
-	</div>
-		</div>
-	</div>
-
-
-
-
-
-
-
-	<div class="popup_section">
-	  <div class="futurico-content last-col">
-		<div class="mbl pbl">
-		  <div class="tabbox">
-		    <ul class="tabbox-tabs">
-		      <li class="active">You</li>
-			  <li>Events</li>
-		      <li>Comment Tag</li>
-		    </ul>
-
-		    <div class="tabbox-stuff clearfix">
-		      <ul class="tabbox-navigation">
-		        <li class="home">
-		          <a href="#tabbox-home"></a>
-		        </li>
-		        <li class="friends">
-		          <a href="#tabbox-friends"></a>
-		        </li>
-				<li class="dollar">
-		          <a href="#tabbox-dollar"></a>
-		        </li>
-		      </ul>
-		      <div class="last-col">
-		        <div class="tabbox-content">
-		          <div id="tabbox-home">
-		            <div class="heading">
-		              <h2 class="heading-col">
-		                Home
-		              </h2>
-					  <div class="right dan">
-					  	<input id="logout_subm" class="button positive" type="submit" value="Log Out">
-					  </div>
-		            </div>
-		            <div class="clearfix">
-		              <div class="col1of2 mrl prl">
-		                <div class="dataset">
-		                  <table>
-		                    <tr>
-		                      <td class="dataset-entity">
-		                        <h3>redditor:</h3>
-		                      </td>
-							  <td class="dataset-entity">
-								<h3><span id="redditorSpanner"></span></h3>
-		                      </td>
-		                    </tr>
-		                    <tr>
-		                      <td class="dataset-entity">
-		                        <h3>status:</h3>
-		                      </td>
-		                      <td class="dataset-entity">
-		                        <h3><span style="color:red;" id="statusSpanner"></span></h3>
-		                      </td>
-		                    </tr>
-		                  </table>
-		                </div>
-		              </div>
-		            </div>
-		          </div>
-		          <div id="tabbox-friends" style="overflow-y: auto;">
-		            <div class="heading">
-		              <h2>
-		                Friends
-		                <span class="status-message"></span>
-		              </h2>
-		            </div>
-		            <div class="clearfix">
-		              <div class="col2of5 mrl prl">
-		                <div class="dataset">
-		            
-		                </div>
-		              </div>
-		            </div>
-		          </div>
-
-		          <div id="tabbox-dollar">
-		            <div class="heading">
-		              <h2>
-		                Files inside the cloud
-		                <span class="status-message">Total: 91,819,826</span>
-		              </h2>
-		            </div>
-		            <div class="clearfix">
-		              <div class="col2of5 mrl prl">
-		                <div class="dataset">
-		                  <table>
-		                    <tr>
-		                      <td class="dataset-entity">
-		                        RAM
-		                      </td>
-		                      <td class="dataset-number">
-		                        2 GB
-		                      </td>
-		                      <td width="50%">
-		                        <div class="dataset-bar" style="width: 50%"></div>
-		                      </td>
-		                    </tr>
-		                    <tr>
-		                      <td class="dataset-entity">
-		                        CPU
-		                      </td>
-		                      <td class="dataset-number">
-		                        5 GHz
-		                      </td>
-		                      <td>
-		                        <div class="dataset-bar" style="width: 100%"></div>
-		                      </td>
-		                    </tr>
-		                    <tr>
-		                      <td class="dataset-entity">
-		                        HDD
-		                      </td>
-		                      <td class="dataset-number">
-		                        500 GB
-		                      </td>
-		                      <td>
-		                        <div class="dataset-bar" style="width: 66%"></div>
-		                      </td>
-		                    </tr>
-		                  </table>
-		                </div>
-		              </div>
-		              <div class="col2of5">
-		                <div class="dataset">
-		                  <table>
-		                    <tr>
-		                      <td class="dataset-entity">
-		                        RAM
-		                      </td>
-		                      <td class="dataset-number">
-		                        2 GB
-		                      </td>
-		                      <td width="50%">
-		                        <div class="dataset-bar" style="width: 50%"></div>
-		                      </td>
-		                    </tr>
-		                    <tr>
-		                      <td class="dataset-entity">
-		                        CPU
-		                      </td>
-		                      <td class="dataset-number">
-		                        5 GHz
-		                      </td>
-		                      <td>
-		                        <div class="dataset-bar" style="width: 100%"></div>
-		                      </td>
-		                    </tr>
-		                    <tr>
-		                      <td class="dataset-entity">
-		                        HDD
-		                      </td>
-		                      <td class="dataset-number">
-		                        500 GB
-		                      </td>
-		                      <td>
-		                        <div class="dataset-bar" style="width: 66%"></div>
-		                      </td>
-		                    </tr>
-		                  </table>
-		                </div>
-		              </div>
-		            </div>
-		          </div>
-
-
-
-		        </div>
-		      </div>
-		    </div>
-
-
-
-			<div class="tabbox-stuff clearfix">
-				<div class="tabbox-content">
-					<div class="heading">
-		              <h2>
-		                Awards, Penalties & Notifications
-		                <span class="status-message"></span>
-		              </h2>
-		            </div>
-					
+				<div class="tabbox-stuff clearfix">
+					<div class="tabbox-content">
+						<div class="heading">
+							<h2>
+								Notifications
+								<span class="status-message"></span>
+							</h2>
+						</div>
+						<div class="clearfix">
+							<div id="notificationsandgifts-container">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="tabbox-stuff clearfix">
+					<ul class="tabbox-navigation">
+						<li class="salutation">
+							<a href="#tabbox-salutation"></a>
+						</li>
+						<li class="questionmark">
+							<a href="#tabbox-questionmark"></a>
+						</li>
+					</ul>
+					<div class="last-col">
+						<div class="tabbox-content">
+							<div id="tabbox-salutation">
+								<div class="heading">
+									<h2>
+										Archived data
+										<span class="status-message negative">No connection</span>
+									</h2>
+									<div class="preloader"></div>
+								</div>
+								<div class="clearfix">
+									<div class="col2of5 mrl prl">
+										<div class="dataset">
+											<table>
+												<tr>
+													<td class="dataset-entity">
+														RAM
+													</td>
+													<td class="dataset-number">
+														2 GB
+													</td>
+													<td width="50%">
+														<div class="dataset-bar" style="width: 50%"></div>
+													</td>
+												</tr>
+												<tr>
+													<td class="dataset-entity">
+														CPU
+													</td>
+													<td class="dataset-number">
+														5 GHz
+													</td>
+													<td>
+														<div class="dataset-bar" style="width: 100%"></div>
+													</td>
+												</tr>
+												<tr>
+													<td class="dataset-entity">
+														HDD
+													</td>
+													<td class="dataset-number">
+														500 GB
+													</td>
+													<td>
+														<div class="dataset-bar" style="width: 66%"></div>
+													</td>
+												</tr>
+											</table>
+										</div>
+									</div>
+									<div class="col2of5">
+										<div class="dataset">
+											<table>
+												<tr>
+													<td class="dataset-entity">
+														RAM
+													</td>
+													<td class="dataset-number">
+														2 GB
+													</td>
+													<td width="50%">
+														<div class="dataset-bar" style="width: 50%"></div>
+													</td>
+												</tr>
+												<tr>
+													<td class="dataset-entity">
+														CPU
+													</td>
+													<td class="dataset-number">
+														5 GHz
+													</td>
+													<td>
+														<div class="dataset-bar" style="width: 100%"></div>
+													</td>
+												</tr>
+												<tr>
+													<td class="dataset-entity">
+														HDD
+													</td>
+													<td class="dataset-number">
+														500 GB
+													</td>
+													<td>
+														<div class="dataset-bar" style="width: 66%"></div>
+													</td>
+												</tr>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div id="tabbox-questionmark">
+								<div class="heading">
+									<h2>
+										Inbox messages
+										<span class="status-message positive">2 new</span>
+									</h2>
+								</div>
+								<div class="clearfix">
+									<div class="col2of5 mrl prl">
+										<div class="dataset">
+											<table>
+												<tr>
+													<td class="dataset-entity">
+														RAM
+													</td>
+													<td class="dataset-number">
+														2 GB
+													</td>
+													<td width="50%">
+														<div class="dataset-bar" style="width: 50%"></div>
+													</td>
+												</tr>
+												<tr>
+													<td class="dataset-entity">
+														CPU
+													</td>
+													<td class="dataset-number">
+														5 GHz
+													</td>
+													<td>
+														<div class="dataset-bar" style="width: 100%"></div>
+													</td>
+												</tr>
+												<tr>
+													<td class="dataset-entity">
+														HDD
+													</td>
+													<td class="dataset-number">
+														500 GB
+													</td>
+													<td>
+														<div class="dataset-bar" style="width: 66%"></div>
+													</td>
+												</tr>
+											</table>
+										</div>
+									</div>
+									<div class="col2of5">
+										<div class="dataset">
+											<table>
+												<tr>
+													<td class="dataset-entity">
+														RAM
+													</td>
+													<td class="dataset-number">
+														2 GB
+													</td>
+													<td width="50%">
+														<div class="dataset-bar" style="width: 50%"></div>
+													</td>
+												</tr>
+												<tr>
+													<td class="dataset-entity">
+														CPU
+													</td>
+													<td class="dataset-number">
+														5 GHz
+													</td>
+													<td>
+														<div class="dataset-bar" style="width: 100%"></div>
+													</td>
+												</tr>
+												<tr>
+													<td class="dataset-entity">
+														HDD
+													</td>
+													<td class="dataset-number">
+														500 GB
+													</td>
+													<td>
+														<div class="dataset-bar" style="width: 66%"></div>
+													</td>
+												</tr>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
-
-
-
-
-		    <div class="tabbox-stuff clearfix">
-		      <ul class="tabbox-navigation">
-		        <li class="salutation">
-		          <a href="#tabbox-salutation"></a>
-		        </li>
-		        <li class="questionmark">
-		          <a href="#tabbox-questionmark"></a>
-		        </li>
-		      </ul>
-		      <div class="last-col">
-		        <div class="tabbox-content">
-		          <div id="tabbox-salutation">
-		            <div class="heading">
-		              <h2>
-		                Archived data
-		                <span class="status-message negative">No connection</span>
-		              </h2>
-		              <div class="preloader"></div>
-		            </div>
-		            <div class="clearfix">
-		              <div class="col2of5 mrl prl">
-		                <div class="dataset">
-		                  <table>
-		                    <tr>
-		                      <td class="dataset-entity">
-		                        RAM
-		                      </td>
-		                      <td class="dataset-number">
-		                        2 GB
-		                      </td>
-		                      <td width="50%">
-		                        <div class="dataset-bar" style="width: 50%"></div>
-		                      </td>
-		                    </tr>
-		                    <tr>
-		                      <td class="dataset-entity">
-		                        CPU
-		                      </td>
-		                      <td class="dataset-number">
-		                        5 GHz
-		                      </td>
-		                      <td>
-		                        <div class="dataset-bar" style="width: 100%"></div>
-		                      </td>
-		                    </tr>
-		                    <tr>
-		                      <td class="dataset-entity">
-		                        HDD
-		                      </td>
-		                      <td class="dataset-number">
-		                        500 GB
-		                      </td>
-		                      <td>
-		                        <div class="dataset-bar" style="width: 66%"></div>
-		                      </td>
-		                    </tr>
-		                  </table>
-		                </div>
-		              </div>
-		              <div class="col2of5">
-		                <div class="dataset">
-		                  <table>
-		                    <tr>
-		                      <td class="dataset-entity">
-		                        RAM
-		                      </td>
-		                      <td class="dataset-number">
-		                        2 GB
-		                      </td>
-		                      <td width="50%">
-		                        <div class="dataset-bar" style="width: 50%"></div>
-		                      </td>
-		                    </tr>
-		                    <tr>
-		                      <td class="dataset-entity">
-		                        CPU
-		                      </td>
-		                      <td class="dataset-number">
-		                        5 GHz
-		                      </td>
-		                      <td>
-		                        <div class="dataset-bar" style="width: 100%"></div>
-		                      </td>
-		                    </tr>
-		                    <tr>
-		                      <td class="dataset-entity">
-		                        HDD
-		                      </td>
-		                      <td class="dataset-number">
-		                        500 GB
-		                      </td>
-		                      <td>
-		                        <div class="dataset-bar" style="width: 66%"></div>
-		                      </td>
-		                    </tr>
-		                  </table>
-		                </div>
-		              </div>
-		            </div>
-		          </div>
-		          <div id="tabbox-questionmark">
-		            <div class="heading">
-		              <h2>
-		                Inbox messages
-		                <span class="status-message positive">2 new</span>
-		              </h2>
-		            </div>
-		            <div class="clearfix">
-		              <div class="col2of5 mrl prl">
-		                <div class="dataset">
-		                  <table>
-		                    <tr>
-		                      <td class="dataset-entity">
-		                        RAM
-		                      </td>
-		                      <td class="dataset-number">
-		                        2 GB
-		                      </td>
-		                      <td width="50%">
-		                        <div class="dataset-bar" style="width: 50%"></div>
-		                      </td>
-		                    </tr>
-		                    <tr>
-		                      <td class="dataset-entity">
-		                        CPU
-		                      </td>
-		                      <td class="dataset-number">
-		                        5 GHz
-		                      </td>
-		                      <td>
-		                        <div class="dataset-bar" style="width: 100%"></div>
-		                      </td>
-		                    </tr>
-		                    <tr>
-		                      <td class="dataset-entity">
-		                        HDD
-		                      </td>
-		                      <td class="dataset-number">
-		                        500 GB
-		                      </td>
-		                      <td>
-		                        <div class="dataset-bar" style="width: 66%"></div>
-		                      </td>
-		                    </tr>
-		                  </table>
-		                </div>
-		              </div>
-		              <div class="col2of5">
-		                <div class="dataset">
-		                  <table>
-		                    <tr>
-		                      <td class="dataset-entity">
-		                        RAM
-		                      </td>
-		                      <td class="dataset-number">
-		                        2 GB
-		                      </td>
-		                      <td width="50%">
-		                        <div class="dataset-bar" style="width: 50%"></div>
-		                      </td>
-		                    </tr>
-		                    <tr>
-		                      <td class="dataset-entity">
-		                        CPU
-		                      </td>
-		                      <td class="dataset-number">
-		                        5 GHz
-		                      </td>
-		                      <td>
-		                        <div class="dataset-bar" style="width: 100%"></div>
-		                      </td>
-		                    </tr>
-		                    <tr>
-		                      <td class="dataset-entity">
-		                        HDD
-		                      </td>
-		                      <td class="dataset-number">
-		                        500 GB
-		                      </td>
-		                      <td>
-		                        <div class="dataset-bar" style="width: 66%"></div>
-		                      </td>
-		                    </tr>
-		                  </table>
-		                </div>
-		              </div>
-		            </div>
-		          </div>
-		        </div>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-
-		  </div>
-		</div>
-
-
-
-
-
-
-
-
-
-	<div id="logged_in_with_dif_usernames_error_div" class="popup_section" style="display: none;">
-		<h3 style="color:red;" id="real_un" ><span id="real_un"></span></h3>
-	</div>
-	<div id="blockederror_div" class="popup_section" style="display: none;">
-		<h3 style="color:red;">Your account is blocked. You don't have to apologize to us. Although we have judged you by one of your actions, we're not a moral authority in relationship to you. Please contact us at mortenhh@gmail.com, stating a reason why you want your account re-opened.</h3>
-	</div>
-	<div id="versionerror_div" class="popup_section" style="display: none;">
-		<h3 style="color:red;">New app version available. Please <a href="http://comment-tag.com">upgrade</a>.</h3>
-	</div>
-
-	
-	<div id="after_authenticated_div" style="display: none;">
-		<div class="article">
-			<div id="notificationsandgifts-container" class="popup_section">
-			</div>
-		</div>
-		<div class="popup_section">
-			<h3>Friends</h3>
-			<div id="friends-container"></div>
-			<h3>Account</h3>
-			<h3>Awkward Karma: <span id="pKarmaSpanner"></span></h3>
-			
 		</div>
 	</div>
 </div>

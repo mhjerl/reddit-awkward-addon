@@ -166,7 +166,6 @@ $('body').on('click', 'a', function(){
 
 $( "#logout_subm" ).click(function(event) {
 	set("semiSecretHash", "<loggedout>");
-	$( '#after_authenticated_div' ).fadeOut();
 	$( '#before_authenticated_div' ).fadeIn();
 	$( '#real_un' ).fadeOut();
 	$( "#statusSpanner" ).text("You are now logged out");
@@ -199,14 +198,16 @@ $( "#auth_subm" ).click(function(event) {
 				if (responsooObby.msg === "correcthash") {
 					$("auth_status").text("");
 					$( '#before_authenticated_div' ).fadeOut();
-					//$( '#after_authenticated_div' ).fadeIn();
+					$( '#after_authenticated_home' ).fadeIn();
 					$( "#statusSpanner" ).css( "color", "green" );
-					$( "#statusSpanner" ).text("Ready for action. Please reload the reddit comment page...");
+					$( "#statusSpanner" ).text("Ready for action. Please navigate to your favorite reddit comment page to populate these fields and tables...");
+					$( "#redditorSpanner" ).text(redditor);
+					$( "logout_subm" ).fadeIn();
 					set("semiSecretHash", hash);
 					set("redditor", redditor);
 				}
 				else if (responsooObby.msg === "wronghash") {
-					$( "#auth_status" ).text("Wrong hash.");
+					$( "#auth_status" ).text("Wrong password.");
 				}
 				else if (responsooObby.msg === "connectionerror") {
 					$( "#auth_status" ).text("Connection error. Please try again in 1 minute.");
@@ -342,7 +343,7 @@ function loadIt() {
 			$( '#real_un' ).text("You need to be logged into reddit (in the browser window) with the username: " + redditor);
 		}
 
-
+		$( "#statusSpanner" ).text("");
 		var semiSecretHash = data.semiSecretHash;
 		if(typeof semiSecretHash === 'undefined' || semiSecretHash === '<loggedout>') {
 			authenticated = false;
@@ -351,7 +352,9 @@ function loadIt() {
 		else {
 			authenticated = true;
 			$( '#before_authenticated_div' ).hide();
-			$( '#after_authenticated_div' ).show();
+			$( '#after_authenticated_home' ).show();
+			$( "#statusSpanner" ).css( "color", "green" );
+			$( "#statusSpanner" ).text("Ready for action. Please navigate to your favorite reddit comment page to populate these fields and tables...");
 		}
 
 		console.log("dat baand: " + JSON.stringify(data));
@@ -369,6 +372,10 @@ function loadIt() {
 		console.log("loadIt totalPKarma: " + totalPKarma);
 		var pKarmaSpanner = document.getElementById('pKarmaSpanner');
 		pKarmaSpanner.innerHTML = "" + totalPKarma + "!";
+		if (totalPKarma !== 0 && totalPKarma !== 'undefined') {
+			$( '#pkarma_table_row' ).fadeIn();
+		}
+
 		var accountType = data.accountType;
 		if (accountType === "premium") {
 			$( "#accountTypeInfo" ).empty();
@@ -480,15 +487,15 @@ var html = '<div class="header_presentation">' +
 		    '<tr><td>Subreddit</td><td><a target="_new" href="https://www.reddit.com/r/' + subreddit + '">' + subreddit + '</a></td></tr>' +
 		    '<tr><td>Reddit Links</td><td><a target="_new" href=https://www.reddit.com/r/' + subreddit + '/comments/' + pageid + '/' + pagename + '">thread</a>, <a target="_new" href=https://www.reddit.com/r/' + subreddit + '/comments/' + pageid + '/' + pagename + '/' + commentid + '">permalink</a></td></tr>' +
 		    '<tr><td>Redditor Addressed</td><td><a target="_new" href="http://comment-tag.com/user.php?redditor=' + redditorAddressed + '">' + redditorAddressed + '</a></td></tr>' +
-		    '<tr><td>Rule</td><td>??? <a target="_new" href="http://comment-tag.com/rules/' + tagShortHand + '.php">More...</a></td></tr>' +
+		    '<tr><td>Rule</td><td><a target="_new" href="http://comment-tag.com/rules/' + tagShortHand + '.php">Link</a></td></tr>' +
 		  '</table>' +
 		'</div>' +
 	'</div>' +
   '</div>';
 					
-					console.log("Beforex1" + html);
+					//console.log("Beforex1" + html);
 					html = cleanDomString(html);
-					console.log("Afterx1" + html);
+					//console.log("Afterx1" + html);
 					$('#notificationsandgifts-container').append(html);
 
 				}
@@ -502,11 +509,17 @@ var html = '<div class="header_presentation">' +
 					var subreddit = stripHTML(obby.obby.subreddit);
 					var pagename = stripHTML(obby.obby.pagename);
 					var tag = stripHTML(obby.obby.tag);
-					var tagShortHand = tag.match(/\{([^)]+)\}/)[1];
-					var tagCategoryCapital = tagCategories[tagShortHand];
+					var tagShortHand, tagCategoryCapital;
+					if (tag) { 
+						tagShortHand = tag.match(/\{([^)]+)\}/)[1];
+						tagCategoryCapital = tagCategories[tagShortHand];
+					}
 
 
-var html = '<div class="header_presentation">' +
+var html;
+
+if (subreddit) {
+html = '<div class="header_presentation">' +
     '<a style="cursor: pointer;" class="toggle15">' +
 	'<div class="icon_images">' +
      	'<img class="icon_image1" src="http://comment-tag.com/images/categories/browsericonandawkward.png" width="48">' +
@@ -524,15 +537,37 @@ var html = '<div class="header_presentation">' +
 			'<tr><td> </td></tr>' +
 		    '<tr><td>Subreddit</td><td><a target="_new" href="https://www.reddit.com/r/' + subreddit + '">' + subreddit + '</a></td></tr>' +
 		    '<tr><td>Reddit Links</td><td><a target="_new" href=https://www.reddit.com/r/' + subreddit + '/comments/' + pageid + '/' + pagename + '">thread</a>, <a target="_new" href=https://www.reddit.com/r/' + subreddit + '/comments/' + pageid + '/' + pagename + '/' + commentid + '">permalink</a></td></tr>' +
-		    '<tr><td>Redditor Addressed</td><td><a target="_new" href="http://comment-tag.com/user.php?redditor=landfast">???</a></td></tr>' +
-		    '<tr><td>Rule</td><td>Link<a target="_new" href="http://comment-tag.com/rules/' + tagShortHand + '.php">More...</a></td></tr>' +
+		    '<tr><td>Rule</td><td>Link<a target="_new" href="http://comment-tag.com/rules/' + tagShortHand + '.php">Link</a></td></tr>' +
 		'</table>' +
       '</div>' +
     '</div>' +
   '</div>';
-					console.log("Beforex2" + html);
+}
+else {
+html = '<div class="header_presentation">' +
+    '<a style="cursor: pointer;" class="toggle15">' +
+	'<div class="icon_images">' +
+     	'<img class="icon_image1" src="http://comment-tag.com/images/categories/browsericonandawkward.png" width="48">' +
+	'</div>' +
+    '</a>' +
+    '<div class="giftornotif_action">' +
+      '<div class="top_header_section_ra">' +
+      '<div class="tag_section_ra">Message for you!</div>' +
+      '</div>' +
+	  '<div class="giftornotif_content_section_ra">' +
+		  '<table>' +
+		    '<tr><td style="width: 150px">Time</td><td>' + when + '</td></tr>' +
+		    '<tr><td style="width: 150px">Motivation</td><td>"' + motivation + '"</td></tr>' +
+			'<tr><td> </td></tr>' +
+		'</table>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+}
+
+					//console.log("Beforex2" + html);
 					html = cleanDomString(html);
-					console.log("Afterx2" + html);
+					//console.log("Afterx2" + html);
 					$('#notificationsandgifts-container').append(html);
 
 
@@ -600,9 +635,9 @@ var html = '<div class="header_presentation">' +
     '</div>' +
   '</div>';
 
-				console.log("Beforex3" + html);
+				//console.log("Beforex3" + html);
 				html = cleanDomString(html);
-				console.log("Afterx3" + html);
+				//console.log("Afterx3" + html);
 				$('#friends-container').append(html);
 
 
@@ -800,5 +835,6 @@ function cleanDomString(data) {
 }
 
 function stripHTML(html_in){
+	if (!html_in) return null;
 	return html_in.replace(/<[^>]*>?/g, '');
 }
