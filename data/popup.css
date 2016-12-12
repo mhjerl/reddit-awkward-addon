@@ -11,7 +11,7 @@ body, html {
 	color: #dddddd;
 
 	background: #292b30 url("background-noise.png");
-	color: #dddddd; /* mhh originally: color: black; */
+	color: #111; /* #dddddd;*/ /* mhh originally: color: black; */
 	font: 12px/1.231 Arial, sans-serif;
 	margin: 0;
 	padding: 0;
@@ -906,17 +906,16 @@ input[type='password'] {
 	user-select: none; 
 }
 
-
-.popup_section {
-	position: relative;
-	left: 0; top: 0;
-    margin-left: 15px;
-    float: left;
-    display: inline-block;
+.giftornotif_content_section_ra {
+  /*margin-top: -10px;
+  background-color: red;*/
+  padding-top: 0px;
 }
 
-.giftornotif_content_section_ra {
-  padding-top: 30px;
+.giftornotif_content_section_ra table {
+  /*background-color: gray;*/
+  /*margin-top: -30px;*/
+  /*border: 1px solid black;*/
 }
 
 .tag_section_ra {
@@ -932,12 +931,12 @@ input[type='password'] {
 }
 
 .header_presentation {
-  /*background-color:white;*/
+  /*background-color: yellow; */
   width:550px;
-  height: 80px;
+  height: 50px;
   /*border: 1px solid black;*/
   overflow: hidden;
-  /*margin-bottom: 50px;*/
+  margin-bottom: 30px;
 }
 
 .icon_images {
@@ -1024,23 +1023,6 @@ table td {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-* {
-	margin: 0;
-	padding: 0;
-}
 
 
 

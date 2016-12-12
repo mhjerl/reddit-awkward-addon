@@ -407,7 +407,7 @@ function loadIt() {
 		}
 
 		if (createdUTCToGiftsOrNotificationsObject.length === 0) {
-			$('#notificationsandgifts-container').append('<div class="popup_section"><h3>No notifications, gifts or penalties...</h3></div>');
+			$('#notificationsandgifts-container').append('<h3>No notifications, gifts or penalties...</h3>');
 		}
 		
 		console.log("createdUTCToGiftsOrNotificationsObject size: " + createdUTCToGiftsOrNotificationsObject.length);
@@ -672,11 +672,11 @@ var html = '<div class="header_presentation">' +
 		$('.toggle15').click(function() {
 		  console.log("click! height: " + $(this).parent().height());
 		  //alert($(this).parent().height());
-		  if ($(this).parent().height() > 80) {
+		  if ($(this).parent().height() > 50) {
 			$(this).parent().animate(
-			  {height: "80px"}, 400);
+			  {height: "50px"}, 400);
 		  }
-		  else if ($(this).parent().height() <= 80) {
+		  else if ($(this).parent().height() <= 50) {
 			/*$("#giftornotif").animate({height: "360px"});*/
 			$(this).parent().animate({height: $(this).parent().get(0).scrollHeight}, 400);
 		  }
