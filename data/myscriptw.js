@@ -120,7 +120,7 @@ function mimbaw() {
 			var nonIntuitiveTagName = tagsKnownToWoman[a];
 			var intuitiveTagName = intuitiveTagNames[nonIntuitiveTagName];
 
-			var searchString = "Comment tag: " + intuitiveTagName;
+			var searchString = "Comment Tag: " + intuitiveTagName;
 			var replaceString = "comment-tag{" + nonIntuitiveTagName + "}";
 			//console.log("Body: " + body + " search: " + searchString + " replace: " + replaceString);
 			if (body.indexOf(intuitiveTagName) !== -1) {
@@ -129,11 +129,10 @@ function mimbaw() {
 				allCommentsWithAllEntries[i]['body'] = body;
 			}
 		}
-		
 	}
 
 
-
+/*
 	// Replace intuitive values in body with non-intuitive (II)
 	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
 		var body = allCommentsWithAllEntries[i]['body'];
@@ -151,22 +150,21 @@ function mimbaw() {
 				allCommentsWithAllEntries[i]['body'] = body;
 			}
 		}
-		
 	}
-
+*/
 
 
 
 
 
 	
-	console.log("-----------------------------------------------------------------------------------------------------1.");
+	/*console.log("-----------------------------------------------------------------------------------------------------1.");
 	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
 		console.log("" + i);
 		dump(allCommentsWithAllEntries[i]);
 	}
 	console.log("-------------------------------------------------------------------------------------------------2.");
-
+	*/
 
 
 	// declared in script background.js
@@ -322,6 +320,35 @@ function mimbaw() {
 			}
 		}
 	}
+
+
+
+	// comment-tag{i.find.the.subject.unworthy.for.discussion} tags:
+	// find (if it exists) comment with comment-tag{i.find.the.subject.unworthy.for.discussion} tag
+	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
+		if (allCommentsWithAllEntries[i]['body'].indexOf("comment-tag{i.find.the.subject.unworthy.for.discussion}") !== -1) {
+			var tag = "comment-tag{" + shortHandTag + "}";
+			var titleCursory = "";
+			var textCursory = "Was inspired";
+			var viewSetter = {tag: "comment-tag{i.find.the.subject.unworthy.for.discussion}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "green", title: titleCursory, garble: false, exclamation: "I won't participate in this discussion."};
+			viewSetterBunch.push(viewSetter);
+		}
+	}
+
+
+
+	// comment-tag{i.find.this.unworthy.for.discussion} tag:
+	// find (if it exists) comment with comment-tag{i.find.this.unworthy.for.discussion} tag
+	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
+		if (allCommentsWithAllEntries[i]['body'].indexOf("comment-tag{i.find.this.unworthy.for.discussion}") !== -1) {
+			var tag = "comment-tag{" + shortHandTag + "}";
+			var titleCursory = "";
+			var textCursory = "Was inspired";
+			var viewSetter = {tag: "comment-tag{i.find.this.unworthy.for.discussion}", id: allCommentsWithAllEntries[i]['id'], text: textCursory, color: "green", title: titleCursory, garble: false, exclamation: "I won't participate in this discussion."};
+			viewSetterBunch.push(viewSetter);
+		}
+	}
+
 
 
 	// comment-tag{your.post.inspired.me} tag:

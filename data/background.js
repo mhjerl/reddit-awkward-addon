@@ -21,7 +21,7 @@ var tabURL;
 var domain;
 var disqusThreadID;
 var justInstalled;
-
+var certificates;
 
 chrome.tabs.onUpdated.addListener(function(tabId, info, tab) {
 	if (info.status == "complete") {
@@ -199,7 +199,7 @@ function initAsynchronous(redditurl) {
 
 
 
-
+			certificates = JSON.parse(serverJsonObj.certificates); 
 
 
 
@@ -396,7 +396,7 @@ function processReddit3() {
 			//console.log("id:" + cid);
 		}*/
 		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-			chrome.tabs.sendMessage(tabs[0].id, {funkodonko: "makeDaryAlterationsToView", allComments: allCommentsWithAllEntries, viewSetterBunch: viewSetterBunch, membersOnPage: membersOnPage, tagsAtYourDisposal: tagsAtYourDisposal, redditor: redditor, subreddit: subreddit, commentPageId: commentPageId, imagetype: imagetype, imagecustom: imagecustom}, function(response) {
+			chrome.tabs.sendMessage(tabs[0].id, {funkodonko: "makeDaryAlterationsToView", allComments: allCommentsWithAllEntries, viewSetterBunch: viewSetterBunch, membersOnPage: membersOnPage, tagsAtYourDisposal: tagsAtYourDisposal, redditor: redditor, subreddit: subreddit, commentPageId: commentPageId, imagetype: imagetype, imagecustom: imagecustom, certificates: certificates}, function(response) {
 				console.log("resp from server.js: " + response.msg);
 				if (response.msg === "pli") {
 					set("pleaseLogInOnRealRedditPage", "true");

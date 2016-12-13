@@ -1,3 +1,8 @@
+Number.prototype.padLeft = function(base,chr){
+   var  len = (String(base || 10).length - String(this).length)+1;
+   return len > 0? new Array(len).join(chr || '0')+this : this;
+}
+
 $.fn.exists = function () {
 	return this.length !== 0;
 }
@@ -55,12 +60,38 @@ function rADropdownSelect(sel, cid, isMainPost) {
 			yourCommentHere = "";
 		}
 		
-		var ins_text = yourCommentHere + lineBreaks + '[Ye-Ye Youbeeya: ' + value + '](http://comment-tag.com/rules/' + nonIntuitiveValue + '.php) This is a road-sign. Where? Right here! The internet needs road-signs. You don\'t ask car-drivers if you can put up road-signs. You don\'t even ask the prime-minister or the queen. You just ask a specialist in safe driving and a road sign maker. And they\'ll say no. :-) Btw: I earned ten bucks for using this tag.';
+		var d = new Date, datePlusTime = [
+                    d.getFullYear(),d.getDate().padLeft(), (d.getMonth()+1).padLeft()].join('/')+
+                    ' ' +
+                  [ d.getHours().padLeft(),
+                    d.getMinutes().padLeft(),
+                    d.getSeconds().padLeft()].join(':');
+
+		var r1 = Math.floor(Math.random()*900) + 100;
+		var r2 = Math.floor(Math.random()*9000) + 1000;
+		var r3 = Math.floor(Math.random()*900) + 100;
+		var cert = "CTC-" + r1 + "-" + r2 + "-" + r3;
+
+		var ins_text = yourCommentHere + lineBreaks + 'C O M M E N T - T A G - C E R T I F I C A T E - B E G I N' + lineBreaks + 'Comment Tag: ' + value + lineBreaks + 'Issued to: The Submitter' + lineBreaks + 'Issuer: The Non-Profit Comment Tag Organization, on: ' + datePlusTime + '.' + lineBreaks + 'Value: USD10' + lineBreaks + 'Acquisition Status: *)' + lineBreaks + '*) Please install the Comment Tag Browser Extension (Available for Chrome and Opera) to view Acquisition Status.' + lineBreaks + 'Unique Certificate Id: ' + cert + lineBreaks + 'This Comment Tag Certificate certifies that this Comment Tag is used in compliance with the Comment Tag License, version 1.0. Until such Time as The Certificate is acquired by a Comment Tag Sponsor, the Rightful Owner of this Certificate is the Submitter.' + lineBreaks + 'Authors: Else Andersen and Morten Hjerl-Hansen\nDecember 2016, Faarevejle, DENMARK' + lineBreaks + 'C O M M E N T - T A G - C E R T I F I C A T E - E N D';
+
+
+
+
+
+
+
+
+
+
+
+
+		
+		/*var ins_text = yourCommentHere + lineBreaks + '[Ye-Ye Youbeeya: ' + value + '](http://comment-tag.com/rules/' + nonIntuitiveValue + '.php) This is a road-sign. Where? Right here! The internet needs road-signs. You don\'t ask car-drivers if you can put up road-signs. You don\'t even ask the prime-minister or the queen. You just ask a specialist in safe driving and a road sign maker. And they\'ll say no. :-) Btw: I earned ten bucks for using this tag.';
 		if (!chkbx.prop('checked')) {
 			ins_text = yourCommentHere + lineBreaks + 'Ye-Ye Youbeeya: ' + value + ' This is a road-sign. Where? Right here! The internet needs road-signs. You don\'t ask car-drivers if you can put up road-signs. You don\'t even ask the prime-minister or the queen. You just ask a specialist in safe driving and a road sign maker. And they\'ll say no. :-) Btw: I earned ten bucks for using this tag.';
-		}
+		}*/
 		console.log("appended:" + ins_text);
-		ta.val( ta.val() + ins_text);
+		ta.val( ta.val() + ins_text );
 		var myDDL =  $( sel );
 		myDDL[0].selectedIndex = 0;
 		setTimeout(function() {

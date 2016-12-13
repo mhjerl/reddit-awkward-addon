@@ -10,7 +10,7 @@ SCF = {};
 
 function logStorage() {
 	if(chrome.storage) {
-		chrome.storage.local.get(function(data){
+		chrome.storage.local.get(function(data) {
 			console.log("chrome.storage.local:");
 			if(chrome.runtime.lastError) {
 				console.error(chrome.runtime.lastError);
@@ -27,7 +27,7 @@ function logStorage() {
 			});
 		});
 	} else {
-		console.warn("chrome.storage is not accessible, check permissions");
+		console.warn("chrome.storage is not accessible, check permissions.........");
 	}
 }
 
@@ -367,7 +367,7 @@ function loadIt() {
 		
 		var redditorSpanner = document.getElementById('redditorSpanner');
 		redditorSpanner.innerHTML = "" + redditor;
-	
+		
 		var totalPKarma = stripHTML("" + data.totalPKarma);
 		console.log("loadIt totalPKarma: " + totalPKarma);
 		var pKarmaSpanner = document.getElementById('pKarmaSpanner');

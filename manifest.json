@@ -3,7 +3,7 @@
   "manifest_version": 2,
   "name": "Comment Tag",
   "short_name": "Comment Tag",
-  "version": "1.7.3",
+  "version": "1.7.9",
   "homepage_url": "http://comment-tag.com",
   "applications": {
     "gecko": {

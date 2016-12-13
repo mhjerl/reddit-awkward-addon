@@ -328,7 +328,8 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 		tagsAtYourDisposal = request.tagsAtYourDisposal;
 		console.log("2tagsAtYourDisposal len: " + tagsAtYourDisposal.length);
 		
-		//console.log("Ready to make dary alterations. Length: " + request.allComments.length + " VS length: " + request.viewSetterBunch.length + " members length: " + request.membersOnPage.length);		
+		console.log("Ready to make dary alterations. Length: " + request.allComments.length + " VS length: " + request.viewSetterBunch.length + " members length: " + request.membersOnPage.length);
+		var certificates = request.certificates;
 		var subreddit = request.subreddit;
 		commentPageId = request.commentPageId;
 		console.log("aaaaaaaaaaaaaaaaaaaaab subreddit: " + subreddit + " commentPageId: " + commentPageId);
@@ -338,6 +339,8 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 		var imagetypeRedditor = request.imagetype;
 		var imagecustomRedditor = request.imagecustom;
 		var redditor = request.redditor;
+		
+
 		var onScreenRedditor = getOnScreenRedditor();
 		console.log("onScreenRedditor: " + onScreenRedditor + " redditor ra: " + redditor);
 		if (onScreenRedditor !== redditor) {
@@ -358,6 +361,28 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 				color = "white"; // getColorFromScheme(colorPointer);
 				colorPointer++;
 			}
+
+			for (var j = 0; j < certificates.length; j++) {
+				if (certificates[j]['commentid'] === allComments[i]['id']) {
+					var cert_status = certificates[j]['status'];
+					var tname = "thing_t1_" + allComments[i]['id'];
+					var originalHtml = $('#' + tname).find(".md").first().html();
+					//var cleanText = $(originalHtml).text(); // Let jQuery strip the tags off the string
+					
+					if (originalHtml.indexOf("Acquisition Status: *)") !== -1) {
+						$('#' + tname).find(".md").first().empty();
+						var index = originalHtml.indexOf('Acquisition Status: *)');
+						var partOneOfTextos = originalHtml.substring(originalHtml, 0, index + 20);
+						var partThreeOfTextos = originalHtml.substring(originalHtml, index + 22);
+						var textWithCertificateInserted = partOneOfTextos + cert_status + partThreeOfTextos;
+						textWithCertificateInserted = cleanDomString(textWithCertificateInserted);
+						//console.log("After4: " + garbledHtml);
+						$('#' + tname).find(".md").first().append(textWithCertificateInserted);
+					}
+				}
+			}
+
+
 			for (var j = 0; j < membersOnPage.length; j++) {
 				if (membersOnPage[j]['member'] === allComments[i]['author']) {
 					var commentId = allComments[i]['id'];
@@ -373,7 +398,7 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 
 
 
-					$('#' + tname).find('.entry').first().css("background", color);
+					$('#' + tname).find('.entry').first().css("background", "gray");
 					//$('#' + tname).find('.entry').first().attr("class","BorderCorner");
 
 
