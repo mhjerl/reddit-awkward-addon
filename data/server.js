@@ -29,7 +29,7 @@ document.addEventListener('select_an_opt', function(data) {
 	
 	//alert(selectId);
 	if ($( '#' + divId ).exists()) {
-		console.log("removing div with dropdown");
+		//console.log("removing div with dropdown");
 		$( '#' + divId ).remove();
 		//$( '#' + ruleSpannerId ).remove();
 	}
@@ -45,11 +45,11 @@ document.addEventListener('bug4_fix_event', function(data) {
 	var commentId = data.detail.commentId;
 	var parentElementId = data.detail.parentElementId;
 
-	console.log("removing ra_first_post_div from here. (BUG4_)");
+	//console.log("removing ra_first_post_div from here. (BUG4_)");
 	for (var a = 0; a < 10; a++) {
 		$("[id^=ra_first_post_div" + a + "]").remove();
 	}
-	console.log("applied fix for BUG4_");
+	//console.log("applied fix for BUG4_");
 });
 
 
@@ -61,7 +61,7 @@ document.addEventListener('small_reply_link_clicked', function(data) {
 	$("[id^=ra_inserted_div_]").remove();
 	var commentId = data.detail.commentId;
 	var parentElementId = data.detail.parentElementId;
-	console.log("calling addControls from event handler...");
+	//console.log("calling addControls from event handler...");
 	addControls(commentId, parentElementId);
 });
 
@@ -74,7 +74,7 @@ document.addEventListener('load_more_clicked', function(data) {
 	$("[id^=ra_inserted_div_]").remove();
 	var commentId = data.detail.commentId;
 	var parentElementId = data.detail.parentElementId;
-	console.log("calling addControls from event handler...");
+	//console.log("calling addControls from event handler...");
 	addControls(commentId, parentElementId);
 });
 
@@ -82,7 +82,7 @@ document.addEventListener('load_more_clicked', function(data) {
 
 
 function addControls(commentId, parentElementId) {
-	console.log("hello from addControls: " + commentId + " " + parentElementId);
+	//console.log("hello from addControls: " + commentId + " " + parentElementId);
 	var bugOneFixVarIsResponseToMyself = false;
 	
 	
@@ -105,7 +105,7 @@ function addControls(commentId, parentElementId) {
 	var html = '<div id="' + divId + '">' + ruleSpanner + checkbox + dropdown;
 	var optionTagsAtYourDisposal = getArrayOfNiceOptionTagsAtYourDisposal(commentId);
 	if (optionTagsAtYourDisposal) {
-		console.log("optionTagsAtYourDisposal isn't null");
+		//console.log("optionTagsAtYourDisposal isn't null");
 		html += '<option id="ra_select_header_' + commentId + '">Please select a Comment Tag:</option>';
 		// Here: We can't be certain there are any tags at all at our disposal, but in this case there are
 		// Therefore: Create option list for select
@@ -115,7 +115,7 @@ function addControls(commentId, parentElementId) {
 	}
 	else {
 		bugOneFixVarIsResponseToMyself = true;
-		console.log("optionTagsAtYourDisposal is null");
+		//console.log("optionTagsAtYourDisposal is null");
 		// Here: No option tags for this cid
 		// Therefore: Put "No Comment Tag Tags available
 		html += '<option id="ra_select_header_' + commentId + '">Please select a Comment Tag:</option>';
@@ -127,29 +127,29 @@ function addControls(commentId, parentElementId) {
 	}
 	html += '</select><br></div>';
 	if ($('#siteTable').find('#thing_t3_' + commentId).exists()) {
-		console.log("------------------------------->11exista");
+		//console.log("------------------------------->11exista");
 	}
 	else {
-		console.log("------------------------------->11no-no exista");
+		//console.log("------------------------------->11no-no exista");
 	}	
 	if ($('#siteTable').find('#thing_t3_' + commentId).find( ".usertext-buttons" ).first().exists()) {
-		console.log("------------------------------->22exista");
+		//console.log("------------------------------->22exista");
 	}
 	else {
-		console.log("------------------------------->22no-no exista");
+		//console.log("------------------------------->22no-no exista");
 	}
 	if ($('.usertext-buttons').first().exists()) {
-		console.log("------------------------------->3exista");
+		//console.log("------------------------------->3exista");
 	}
 	else {
-		console.log("------------------------------->3no-no exista");
+		//console.log("------------------------------->3no-no exista");
 	}
 	if (parentElementId === "usertext-buttons") {
-		console.log("adding first control...." + divId);
+		//console.log("adding first control...." + divId);
 		if ($( "#" + divId).length == 0) { // here divId is always: "ra_first_post_div"
 			//console.log("------------------------->length of first" + $('.usertext-buttons').first().length());
 			//dump ($('.usertext-buttons').first());
-			console.log("---------------------------------> IMPORTANT: length of first: " + $('.usertext-buttons').first().length)
+			//console.log("---------------------------------> IMPORTANT: length of first: " + $('.usertext-buttons').first().length)
 			
 			$(".usertext-edit > div:nth-child(1)").after(html);
 
@@ -157,21 +157,21 @@ function addControls(commentId, parentElementId) {
 			
 			//$('.usertext-buttons').first().prepend( html );
 			if (!$( "#" + divId).exists()) {
-				console.log("error: div not found. div not prepended. trying again...");
+				//console.log("error: div not found. div not prepended. trying again...");
 				/*$( '#' + divId).find('.usertext-buttons').prepend( html );
 				if (!$( "#" + divId).exists()) {
-					console.log("error: div still not found. div still not prepended");
+					//console.log("error: div still not found. div still not prepended");
 				}
 				else {
-					console.log("found div. div prepended.");
+					//console.log("found div. div prepended.");
 				}*/
 			}
 			else {
-				console.log("found div. div prepended.");
+				//console.log("found div. div prepended.");
 			}
 		}
 		else {
-			console.log("------------------------->top select found!");
+			//console.log("------------------------->top select found!");
 		}
 
 
@@ -209,24 +209,24 @@ function addControls(commentId, parentElementId) {
 		}*/
 	}
 	else if (!$( "#" + parentElementId ).find( "#" + selectId ).exists()) {
-		console.log("select doesn't exist. html: " + html);
+		//console.log("select doesn't exist. html: " + html);
 		if (!$( "#" + parentElementId ).find( ".usertext-buttons" ).first().exists()) {
-			console.log("Couldn't find 1");
+			//console.log("Couldn't find 1");
 		}
 		else {
-			console.log("Could find 1");
+			//console.log("Could find 1");
 		}
 		if (!$( "#" + parentElementId ).find( ".usertext-buttons" ).exists()) {
-			console.log("Couldn't find 2");
+			//console.log("Couldn't find 2");
 		}
 		else {
-			console.log("Could find 2");
+			//console.log("Could find 2");
 		}
 		if (!$( "#" + parentElementId ).exists()) {
-			console.log("Couldn't find 3");
+			//console.log("Couldn't find 3");
 		}
 		else {
-			console.log("Could find 3");
+			//console.log("Could find 3");
 		}
 		if (bugOneFixVarIsResponseToMyself) {
 			// Here: Reddit JS code unfolds html elements different if firstperson==secondperson
@@ -237,16 +237,16 @@ function addControls(commentId, parentElementId) {
 			$( "#" + parentElementId ).find( ".usertext-buttons" ).first().prepend( html );
 		}
 		if (!$("#" + divId).is(":visible")) { // BUG2_ FIX
-			console.log("applied BUG2_ FIX");
+			//console.log("applied BUG2_ FIX");
 			$( "#" + parentElementId ).find( ".usertext-buttons" ).prepend( html );
-			console.log(html);
+			//console.log(html);
 		}
 	}
 	else {
-		console.log("select does exist. not adding: " + selectId);
+		//console.log("select does exist. not adding: " + selectId);
 	}
 
-	console.log("Tubbilup!");
+	//console.log("Tubbilup!");
 
 
 
@@ -257,7 +257,7 @@ function addControls(commentId, parentElementId) {
 
 function getArrayOfNiceOptionTagsAtYourDisposal(cid) {
 	if (!tagsAtYourDisposal) { console.log("ERROR ERROR ERROR ERROR ERROR: no tags in here!"); }
-	console.log("->tagsAtYourDisposal len: " + tagsAtYourDisposal.length + " cid: " + cid);
+	//console.log("->tagsAtYourDisposal len: " + tagsAtYourDisposal.length + " cid: " + cid);
 	//dump(tagsAtYourDisposal);
 	for (var c = 0; c < tagsAtYourDisposal.length; c++) {
 		var tagAtYourDisposal = tagsAtYourDisposal[c];
@@ -265,19 +265,19 @@ function getArrayOfNiceOptionTagsAtYourDisposal(cid) {
 		if (tagAtYourDisposal.id === cid) {
 			var tagArray = tagAtYourDisposal.tagsAtYourDisposal;
 			if (tagArray == null) {
-				console.log("tagArray is null. returning null");
+				//console.log("tagArray is null. returning null");
 				// Here: Special situation: No tags, because redditor is trying to reply to himself without replying to comment-tag{your.comment.inspired.me}
 				// Therefore: Simply return null
 				return null;
 			}
-			console.log("tagArray len: " + tagArray.length);
+			//console.log("tagArray len: " + tagArray.length);
 			var optionElements = [];
 			for (var j = 0; j < tagArray.length; j++) {
 				var tag = tagArray[j].tag;
 				var innerTag = tag.match(/\{([^)]+)\}/)[1];
 				var intuitiveTagName = intuitiveTagNames[innerTag];
 				var optionElement = '<option>' + intuitiveTagName + '</option>';
-				console.log("------------------------------------------------------------>" + optionElement);
+				//console.log("------------------------------------------------------------>" + optionElement);
 				optionElements[j] = optionElement;
 			}
 			return optionElements;
@@ -324,36 +324,33 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 		
 		/*var scripto = '<script type="text/javascript">$(document).ready(function() { $( ".save" ).click(function() { alert( "Handler for .click() called." ); }); });</script>';
 		$('head').append(scripto);*/
+
+
+		var scripto = '<style type="text/css">body {background-image: url("http://comment-tag.com/images/speechbubblelarge.png") !important; background-repeat: repeat; }</style>';
+		$('head').append(scripto);
 		
 		tagsAtYourDisposal = request.tagsAtYourDisposal;
-		console.log("2tagsAtYourDisposal len: " + tagsAtYourDisposal.length);
+		//console.log("2tagsAtYourDisposal len: " + tagsAtYourDisposal.length);
 		
-		console.log("Ready to make dary alterations. Length: " + request.allComments.length + " VS length: " + request.viewSetterBunch.length + " members length: " + request.membersOnPage.length);
+		//console.log("Ready to make dary alterations. Length: " + request.allComments.length + " VS length: " + request.viewSetterBunch.length + " members length: " + request.membersOnPage.length);
 		var certificates = request.certificates;
 		var subreddit = request.subreddit;
 		commentPageId = request.commentPageId;
-		console.log("aaaaaaaaaaaaaaaaaaaaab subreddit: " + subreddit + " commentPageId: " + commentPageId);
+		//console.log("aaaaaaaaaaaaaaaaaaaaab subreddit: " + subreddit + " commentPageId: " + commentPageId);
 		var viewSetterBunch = request.viewSetterBunch;
 		var allComments = request.allComments;
 		var membersOnPage = request.membersOnPage;
 		var imagetypeRedditor = request.imagetype;
 		var imagecustomRedditor = request.imagecustom;
-		var redditor = request.redditor;
-		
-
-		var onScreenRedditor = getOnScreenRedditor();
-		console.log("onScreenRedditor: " + onScreenRedditor + " redditor ra: " + redditor);
-		if (onScreenRedditor !== redditor) {
-			sendResponse({msg: "pli" });
-			return;
-		}
+		var redditor = getOnScreenRedditor();
+		//console.log(" redditor ra: " + redditor);
 		var colorPointer = 0;
-		console.log("viewSetterBunch.length" + viewSetterBunch.length);
-		console.log("allComments.length" + allComments.length);
+		//console.log("viewSetterBunch.length" + viewSetterBunch.length);
+		//console.log("allComments.length" + allComments.length);
 		//setTimeout( function() {
-			console.log("calling addControls from main...1");
+			//console.log("calling addControls from main...1");
 			addControls(commentPageId, "usertext-buttons");
-			console.log("calling addControls from main...Done..." + allComments.length);
+			//console.log("calling addControls from main...Done..." + allComments.length);
 		//}, 2000);
 		for (var i = 0; i < allComments.length; i++) {
 			var color = "##F8F8FF"; // "GhostWhite"
@@ -372,8 +369,8 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 					if (originalHtml.indexOf("Acquisition Status: *)") !== -1) {
 						$('#' + tname).find(".md").first().empty();
 						var index = originalHtml.indexOf('Acquisition Status: *)');
-						var partOneOfTextos = originalHtml.substring(originalHtml, 0, index + 20);
-						var partThreeOfTextos = originalHtml.substring(originalHtml, index + 22);
+						var partOneOfTextos = originalHtml.substring(0, index + 20);
+						var partThreeOfTextos = originalHtml.substring(index + 22 + 112 + 9);
 						var textWithCertificateInserted = partOneOfTextos + cert_status + partThreeOfTextos;
 						textWithCertificateInserted = cleanDomString(textWithCertificateInserted);
 						//console.log("After4: " + garbledHtml);
@@ -398,7 +395,7 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 
 
 
-					$('#' + tname).find('.entry').first().css("background", "gray");
+					$('#' + tname).find('.entry').first().css("background", "#F5F5F5");
 					//$('#' + tname).find('.entry').first().attr("class","BorderCorner");
 
 
@@ -418,10 +415,10 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 			for (var j = 0; j < viewSetterBunch.length; j++) {
 				//dump(viewSetterBunch[j]);
 				//if (typeof viewSetterBunch[j]['id'] === 'undefined') {
-				//	console.log("u");
+				//	//console.log("u");
 				//}
 				//else {
-				//	console.log("d");
+				//	//console.log("d");
 				//}
 				if (viewSetterBunch[j]['id'] === allComments[i]['id']) {
 					var proceed = true;
@@ -520,9 +517,9 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 						/*//$('div[id^="list_"]')
 						//$('#' + tname).find('form[id^="form-' + tname + '"]"').first().append(html);
 						var formsel = 'form[id^="form-' + tname + '"]';
-						console.log("formsel: " + formsel);
+						//console.log("formsel: " + formsel);
 						var h = $('#' + tname).find(formsel).first().html();
-						console.log("h: " + h);
+						//console.log("h: " + h);
 						*/
 
 
@@ -535,11 +532,11 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 						var imagetype;
 						var imagecustom;
 						var imageurl;
-						console.log("redditor: " + redditor + " comment author: " + allComments[i]['author']);
-						console.log("imagetypeRedditor->" + imagetypeRedditor);
-						console.log("imageurlRedditor->" + imagecustomRedditor);
+						//console.log("redditor: " + redditor + " comment author: " + allComments[i]['author']);
+						//console.log("imagetypeRedditor->" + imagetypeRedditor);
+						//console.log("imageurlRedditor->" + imagecustomRedditor);
 						if (redditor === allComments[i]['author']) {
-							console.log("schnooft!");
+							//console.log("schnooft!");
 							// Here: This comments author is the redditor who is logged in with Comment Tag
 							// Therefore: Set image
 							imagetype = imagetypeRedditor;
@@ -549,7 +546,7 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 							// Here: This comments author is different from the redditor who is logged in with Comment Tag, but still a member
 							// Therefore: Find member
 							for (var k = 0; k < membersOnPage.length; k++) {
-								console.log("membersOnPage[k]['member']: " + membersOnPage[k]['member'] + " --- allComments[i]['author']: " + allComments[i]['author']);
+								//console.log("membersOnPage[k]['member']: " + membersOnPage[k]['member'] + " --- allComments[i]['author']: " + allComments[i]['author']);
 								if (membersOnPage[k]['member'] === allComments[i]['author']) {
 									// Here: Found this comments author as member
 									// Therefore: Extract image data
@@ -577,7 +574,7 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 								imageurl = '<img class="friend_image_resize_fit_center" src="http://comment-tag.com/uplooood/' + imagecustom + '"  height="65"/>';
 							}
 						}
-						console.log("imageurl: " + imageurl);
+						//console.log("imageurl: " + imageurl);
 
 					
 						var html2 = $('#' + tname).find(".usertext-body").first().find(".md").first().html();
@@ -614,7 +611,7 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 						$('#' + tname).find(".usertext-body").first().append(html3);
 						//$('#' + tname).append(img);
 					
-						console.log("viewSetterBunch[j]['tag']: " + viewSetterBunch[j]['tag']);
+						//console.log("viewSetterBunch[j]['tag']: " + viewSetterBunch[j]['tag']);
 					
 	
 
@@ -623,29 +620,31 @@ function listenOListenMyFriend3(request, sender, sendResponse) {
 
 					
 						if (viewSetterBunch[j]['garble']) {
-							console.log("this viewsetter is garbled:" + viewSetterBunch[j]['id']);
-							console.log("garble type" + typeof viewSetterBunch[j]['garble']);
+							//console.log("this viewsetter is garbled:" + viewSetterBunch[j]['id']);
+							//console.log("garble type" + typeof viewSetterBunch[j]['garble']);
 							var originalHtml = $('#' + tname).find(".md").first().html();
-							console.log("originalHtml:" + originalHtml);
-							var cleanText = $(originalHtml).text(); // Let jQuery strip the tags off the string
-							console.log("cleanText:" + cleanText);
-							$('#' + tname).find(".md").first().empty();
-							var garbledHtml = "";
-							var colorPointer = 0;
-							var colors = ["#D2691E","#8B008B","#DC143C","#FF1493","#008000","#0000CD","#808000"];
-							for (var a = 0; a < cleanText.length; a++) {
-								var charThing = cleanText.charAt(a);
-								if (colorPointer >= colors.length) { colorPointer = 0; }
-								var fontSize = getRandomInt(16, 24);
-								var garbling = '<span style="color: ' + colors[colorPointer] + '; font-size:' + fontSize + 'px ;">' + charThing  + '</span>';
-								garbledHtml = garbledHtml + garbling;
-								colorPointer++;
+							if (originalHtml.indexOf("Unique Certificate Id: CTC-") === -1) {
+								//console.log("originalHtml:" + originalHtml);
+								var cleanText = $(originalHtml).text(); // Let jQuery strip the tags off the string
+								console.log("cleanText:" + cleanText);
+								$('#' + tname).find(".md").first().empty();
+								var garbledHtml = "";
+								var colorPointer = 0;
+								var colors = ["#D2691E","#8B008B","#DC143C","#FF1493","#008000","#0000CD","#808000"];
+								for (var a = 0; a < cleanText.length; a++) {
+									var charThing = cleanText.charAt(a);
+									if (colorPointer >= colors.length) { colorPointer = 0; }
+									var fontSize = getRandomInt(16, 24);
+									var garbling = '<span style="color: ' + colors[colorPointer] + '; font-size:' + fontSize + 'px ;">' + charThing  + '</span>';
+									garbledHtml = garbledHtml + garbling;
+									colorPointer++;
+								}
+								//var garbledHtml = '<span style="color: ' + color + '" class="' + circleCSS + 'tab">' + text  + '</span></li>';
+								//console.log("Before4: " + garbledHtml);
+								garbledHtml = cleanDomString(garbledHtml);
+								//console.log("After4: " + garbledHtml);
+								$('#' + tname).find(".md").first().append(garbledHtml);
 							}
-							//var garbledHtml = '<span style="color: ' + color + '" class="' + circleCSS + 'tab">' + text  + '</span></li>';
-							//console.log("Before4: " + garbledHtml);
-							garbledHtml = cleanDomString(garbledHtml);
-							//console.log("After4: " + garbledHtml);
-							$('#' + tname).find(".md").first().append(garbledHtml);
 						}
 
 
@@ -730,7 +729,7 @@ function dump(obj) {
     for (var i in obj) {
         out += i + ": " + obj[i] + "\n";
     }
-    console.log(out);
+	console.log(out);
 }
 
 /**
@@ -744,17 +743,17 @@ function getRandomInt(min, max) {
 function getOnScreenRedditor() {
 	var redditorOnScreen = "---";
     var longString = $("span.user").html();
-    console.log("span: " + longString);
+	//console.log("span: " + longString);
     var i = longString.indexOf('>');
     var i2 = longString.substring(i+1,longString.indexOf("</span>"));
-    console.log("i2:" + i2);
+	//console.log("i2:" + i2);
     if (longString.indexOf('class="login-required"') !== -1) {
-        console.log("not logged in");
+		//console.log("not logged in");
     }
     else {
         var j = i2.indexOf("</a>");
         redditorOnScreen = i2.substring(0,j);
-        console.log("redditorOnScreen: " + redditorOnScreen);
+		//console.log("redditorOnScreen: " + redditorOnScreen);
     }
 	return redditorOnScreen;
 }
@@ -796,7 +795,7 @@ var intuitiveTagNames = {
 	"a.warm.welcome.to.my.world.without.a.naive.invitation.to.be.my.friend" : "A warm welcome to my world, without a naive invitation to be my friend"
 };
 
-    
+
 function removeInvalidAttributes(target) {
 	var validAttrs = [ "class", "id", "href", "style", "src", "height", "width"]; // mhh originally: 	var validAttrs = [ "class", "id", "href", "style" ];
     var attrs = target.attributes, currentAttr;

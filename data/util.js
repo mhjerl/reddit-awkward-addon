@@ -51,9 +51,9 @@ function listenOListenMyFriend2(request, sender, sendResponse) {
         sendResponse({redditor: redditor});
     }
 	else if (request.funkodonko === "getTabURLFromUtilJS") {
-		console.log("a");
+		//console.log("a");
 		var tabURL = window.location.toString();
-		console.log("b:" + tabURL);
+		//console.log("b:" + tabURL);
 		sendResponse({tabURL: tabURL});
 	}
 	else if (request.funkodonko === "getDisqusThreadID") {
@@ -61,25 +61,25 @@ function listenOListenMyFriend2(request, sender, sendResponse) {
 		var disqusThreadObj = null;
 		var disqusMain = $( '#disqus-thread' );
 		var temp = $( '#disqus-thread' ).html();
-		console.log("temp:" + temp);
+		//console.log("temp:" + temp);
 		if (!disqusMain) {
-			console.log("------------------------------->No diqus on this page!");
+			//console.log("------------------------------->No diqus on this page!");
 			sendResponse({found: false, disqusThreadID: disqusThreadID});
 		}
 		else {
 			var b = $( '#disqus_thread' ).html();
-			console.log("b: " + b);
+			//console.log("b: " + b);
 			var a = $( '#disqus_thread' ).find( '#dsq-app1' ).contents().html();
-			console.log("a: " + a);
+			//console.log("a: " + a);
 			var disqusThreadJSON = $( '#disqus_thread' ).find( 'iframe#dsq-app1' ).contents().find("#disqus-threadData").html();
-			console.log("disqusThreadJSON:" + disqusThreadJSON);
+			//console.log("disqusThreadJSON:" + disqusThreadJSON);
 			var disqusThreadObj = JSON.parse(disqusThreadJSON);
 			var disqusThreadID = disqusThreadObj.response.posts[0].thread;
-			console.log("disqusThreadID" + disqusThreadID);
+			//console.log("disqusThreadID" + disqusThreadID);
 			sendResponse({found: found, disqusThreadID: disqusThreadID});
 		}
 		var disqusThreadJSON = $( '#disqus-threadData' ).text();
-		console.log("b123:" + disqusThreadJSON);
+		//console.log("b123:" + disqusThreadJSON);
 		*/
 
 

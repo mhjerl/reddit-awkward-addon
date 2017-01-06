@@ -61,7 +61,7 @@ function rADropdownSelect(sel, cid, isMainPost) {
 		}
 		
 		var d = new Date, datePlusTime = [
-                    d.getFullYear(),d.getDate().padLeft(), (d.getMonth()+1).padLeft()].join('/')+
+                    d.getFullYear(),d.getDate().padLeft(), (d.getMonth()+1).padLeft()].join('-')+
                     ' ' +
                   [ d.getHours().padLeft(),
                     d.getMinutes().padLeft(),
@@ -72,7 +72,7 @@ function rADropdownSelect(sel, cid, isMainPost) {
 		var r3 = Math.floor(Math.random()*900) + 100;
 		var cert = "CTC-" + r1 + "-" + r2 + "-" + r3;
 
-		var ins_text = yourCommentHere + lineBreaks + 'C O M M E N T - T A G - C E R T I F I C A T E - B E G I N' + lineBreaks + 'Comment Tag: ' + value + lineBreaks + 'Issued to: The Submitter' + lineBreaks + 'Issuer: The Non-Profit Comment Tag Organization, on: ' + datePlusTime + '.' + lineBreaks + 'Value: USD10' + lineBreaks + 'Acquisition Status: *)' + lineBreaks + '*) Please install the Comment Tag Browser Extension (Available for Chrome and Opera) to view Acquisition Status.' + lineBreaks + 'Unique Certificate Id: ' + cert + lineBreaks + 'This Comment Tag Certificate certifies that this Comment Tag is used in compliance with the Comment Tag License, version 1.0. Until such Time as The Certificate is acquired by a Comment Tag Sponsor, the Rightful Owner of this Certificate is the Submitter.' + lineBreaks + 'Authors: Else Andersen and Morten Hjerl-Hansen\nDecember 2016, Faarevejle, DENMARK' + lineBreaks + 'C O M M E N T - T A G - C E R T I F I C A T E - E N D';
+		var ins_text = yourCommentHere + lineBreaks + 'C O M M E N T - T A G - C E R T I F I C A T E - B E G I N' + lineBreaks + 'Comment Tag: ' + value + lineBreaks + 'Issuer: The Non-Profit Comment Tag Organization, on: ' + datePlusTime + '.' + lineBreaks + 'Value: USD 10' + lineBreaks + 'Acquisition Status: *)' + lineBreaks + '*) Please install the Comment Tag Browser Extension (Available for Chrome and Opera) to view Acquisition Status.' + lineBreaks + 'Unique Certificate Id: ' + cert + lineBreaks + 'This Comment Tag Certificate certifies that this Comment Tag is used in compliance with the Comment Tag Terms of Use' + lineBreaks + 'Authors: Else Andersen and Morten Hjerl-Hansen\nDecember 2016, Faarevejle, DENMARK' + lineBreaks + 'C O M M E N T - T A G - C E R T I F I C A T E - E N D';
 
 
 

@@ -26,7 +26,7 @@ function listenOListenMyFriendW(request, sender, sendResponse) {
 		var a1 = dimba[0]['data'];
 		dump(a1);
 		mainPostId = dimba[0]['data']['children'][0]['data']['id'];
-		console.log("------------------------>mainPostId: " + mainPostId);
+		//console.log("------------------------>mainPostId: " + mainPostId);
 		
 		////console.log(":::::::::::++++++++++:::::::::::::");
 		mimbaw();
@@ -47,7 +47,7 @@ function runScriptW(codeOneTag1, pageJson1, conflictRedditorsOnPage2) {
 
 	//$mainPostId = $jsonObj->data->children[0]->data->id;
 	mainPostId = dimba[0]['data']['children'][0]['data']['id'];
-	console.log("------------------------>mainPostId: " + mainPostId);
+	//console.log("------------------------>mainPostId: " + mainPostId);
 
 
 	//console.log(":::::::::::++++ kr aa ge ++++++:::::::::::::"+pageJson.length);
@@ -84,7 +84,7 @@ function mimbaw() {
 	/*for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
 		var cid = allCommentsWithAllEntries[i]['id'];
 		var parid = allCommentsWithAllEntries[i]['parent_id'];
-		console.log("cid: " + cid + " parid: " + parid);
+		//console.log("cid: " + cid + " parid: " + parid);
 	}*/
 	//return;
 	//console.log("count: " + allCommentsWithAllEntries.length);
@@ -160,10 +160,10 @@ function mimbaw() {
 	
 	/*console.log("-----------------------------------------------------------------------------------------------------1.");
 	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
-		console.log("" + i);
+		//console.log("" + i);
 		dump(allCommentsWithAllEntries[i]);
 	}
-	console.log("-------------------------------------------------------------------------------------------------2.");
+	//console.log("-------------------------------------------------------------------------------------------------2.");
 	*/
 
 
@@ -180,8 +180,8 @@ function mimbaw() {
 		if (allCommentsWithAllEntries[i]['body'].indexOf("comment-tag{") !== -1) {
 			var redditorInAllThisMess = allCommentsWithAllEntries[i]['author'];
 			var secondPersonCommentWithAllEntriesYoobee = getParent(allCommentsWithAllEntries[i]);
-			console.log("cid: " + allCommentsWithAllEntries[i]['id']);
-			console.log("secondPersonCommentWithAllEntriesYoobee: " + secondPersonCommentWithAllEntriesYoobee);
+			//console.log("cid: " + allCommentsWithAllEntries[i]['id']);
+			//console.log("secondPersonCommentWithAllEntriesYoobee: " + secondPersonCommentWithAllEntriesYoobee);
 			if (secondPersonCommentWithAllEntriesYoobee) {
 				for (var j = 0; j < allCommentsWithAllEntries.length; j++) {
 					if (allCommentsWithAllEntries[j]['parent_id'] === secondPersonCommentWithAllEntriesYoobee['id']) {
@@ -625,10 +625,10 @@ function mimbaw() {
 				}
 			}
 			// ----------------------- same as giveMeTheNamesOfAllApplesOnTheBranchWithThisCommentAsAxePointHmmm end --------------------------
-			console.log("------------------------------>apples length: " + apples.length);
+			//console.log("------------------------------>apples length: " + apples.length);
 			dumpLocal(apples);
 			for (var j = 0; j < apples.length; j++) {
-				console.log("------------------------------>apple id: " + apples[j]['id']);
+				//console.log("------------------------------>apple id: " + apples[j]['id']);
 				var titleCursory = "Redditor must not comment following a comment with comment-tag{i.consider.this.comment.definitive.and.consider.any.reply.inappropriate}";
 				var textCursory = "Replies prohibited";
 				var viewSetter = {tag: "comment-tag{i.consider.this.comment.definitive.and.consider.any.reply.inappropriate}", id: apples[j]['id'], text: textCursory, color: "red", title: titleCursory, garble: true, exclamation: "I ignored the above tag."};
@@ -906,10 +906,10 @@ function mimbaw() {
 			// Therefore: Traverse all of them and find 2. and 3. person direct answers
 			var wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson = getWholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson(allCommentsWithAllEntries[i]);
 			var onlySecondAndThirdPersonsArray = [];
-			console.log("wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson.length: " + wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson.length);
+			//console.log("wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson.length: " + wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson.length);
 			for (var j = 0; j < wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson.length; j++) {
-				console.log("allCommentsWithAllEntries[i]['author']: " + allCommentsWithAllEntries[i]['author']);
-				console.log("redditor: " + redditor);
+				//console.log("allCommentsWithAllEntries[i]['author']: " + allCommentsWithAllEntries[i]['author']);
+				//console.log("redditor: " + redditor);
 				if (wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson[j]['author'] !== allCommentsWithAllEntries[i]['author']) {
 					// Here: Author of reply IS NOT equal with first person
 					// Therefore: Stuff possible direct second- and third-person answers into array
@@ -923,11 +923,11 @@ function mimbaw() {
 				var tenMinutesChunksGoneBy = (nowUTC - thenUTC)/Math.floor(1000 * 60 * 10);
 				var points = Math.floor(tenMinutesChunksGoneBy);
 
-				console.log("then: " + thenUTC);
-				console.log("now: " + nowUTC);
-				console.log("age: " + (nowUTC - thenUTC));
-				console.log("tenMinutesChunksGoneBy:" + tenMinutesChunksGoneBy);
-				console.log("points:" + points);
+				//console.log("then: " + thenUTC);
+				//console.log("now: " + nowUTC);
+				//console.log("age: " + (nowUTC - thenUTC));
+				//console.log("tenMinutesChunksGoneBy:" + tenMinutesChunksGoneBy);
+				//console.log("points:" + points);
 				
 				if (points > 20) points = 20;
 				if (points < 5) points = 5;
@@ -960,21 +960,21 @@ function mimbaw() {
 				}
 				var notSoThenUTC = allCommentsWithAllEntries[i]['created_utc'] * 1000;
 				tenMinutesChunksGoneBy = (oldestChildUTC - notSoThenUTC)/Math.floor(1000 * 60 * 10);
-				console.log("allCommentsWithAllEntries[i]['id']: " + allCommentsWithAllEntries[i]['id']);
-				console.log("notSoThenUTC  :" + notSoThenUTC);
-				console.log("oldestChildUTC: " + oldestChildUTC);
+				//console.log("allCommentsWithAllEntries[i]['id']: " + allCommentsWithAllEntries[i]['id']);
+				//console.log("notSoThenUTC  :" + notSoThenUTC);
+				//console.log("oldestChildUTC: " + oldestChildUTC);
 				var points = Math.floor(tenMinutesChunksGoneBy);
-				console.log("points: " + points);
+				//console.log("points: " + points);
 				if (points > 20) points = 20;
 				if (points < 5) points = 5;
 				if (oldestChildNameCursory === redditor) {
-					console.log("is redditor: oldestChildCommentIdCursory: " + oldestChildCommentIdCursory + " oldestChildNameCursory" + oldestChildNameCursory);
+					//console.log("is redditor: oldestChildCommentIdCursory: " + oldestChildCommentIdCursory + " oldestChildNameCursory" + oldestChildNameCursory);
 					var textCursory = "You won " + points + " p-karma for your answer!";
 					var viewSetter = {tag: "comment-tag{waits.for.anyone}", id: oldestChildCommentIdCursory, text: textCursory, color: "orange", title: "Congratulations!", exclamation: "I earned Awkward Karma for answering."};
 					viewSetterBunch.push(viewSetter);
 				}
 				else {
-					console.log("is not redditor: oldestChildCommentIdCursory: " + oldestChildCommentIdCursory + " oldestChildNameCursory" + oldestChildNameCursory);
+					//console.log("is not redditor: oldestChildCommentIdCursory: " + oldestChildCommentIdCursory + " oldestChildNameCursory" + oldestChildNameCursory);
 					var pointsText = "Won " + points + "!";
 					var viewSetter = {tag: "comment-tag{waits.for.anyone}", id: oldestChildCommentIdCursory, text: pointsText, color: "red", title: "Answered question first and won p-karma", exclamation: "I answered first and won Awkward Karma."};
 					viewSetterBunch.push(viewSetter);
@@ -994,18 +994,18 @@ function mimbaw() {
 			var secondPersonDudeAllEntriesInHere = getParent(allCommentsWithAllEntries[i]);
 			var wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson = getWholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson(allCommentsWithAllEntries[i]);
 			var onlySecondAndThirdPersonsArray = [];
-			console.log("wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson.length: " + wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson.length);
+			//console.log("wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson.length: " + wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson.length);
 			for (var j = 0; j < wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson.length; j++) {
-				console.log("allCommentsWithAllEntries[j]['author']: " + allCommentsWithAllEntries[j]['author']);
-				console.log("redditor: " + redditor);
-				console.log("wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson[j]['author']:" + wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson[j]['author']);
+				//console.log("allCommentsWithAllEntries[j]['author']: " + allCommentsWithAllEntries[j]['author']);
+				//console.log("redditor: " + redditor);
+				//console.log("wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson[j]['author']:" + wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson[j]['author']);
 				if (wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson[j]['author'] !== allCommentsWithAllEntries[i]['author']) {
 					// Here: Author of reply IS NOT equal with first person
 					// Therefore: Stuff possible direct second- and third-person answers into array
 					onlySecondAndThirdPersonsArray.push(wholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson[j]);
 				}
 			}
-			console.log("onlySecondAndThirdPersonsArray.length " + onlySecondAndThirdPersonsArray.length);
+			//console.log("onlySecondAndThirdPersonsArray.length " + onlySecondAndThirdPersonsArray.length);
 			if (onlySecondAndThirdPersonsArray.length == 0) {
 				// Here: There are no replies yet
 				// Therefore: Make a viewsetter for either firstperson, secondperson and thirdperson
@@ -1180,9 +1180,9 @@ function getWholeBunchOfDirectRepliersArrayFirstSecondAndThirdPerson(commentWith
 
 function getViewSetterByIdAndTag(id, tag) {
 	for (var j = 0; j < viewSetterBunch.length; j++) {
-		console.log("------------------------>" + viewSetterBunch[j]['id'] + " ; " + id + " ; " + viewSetterBunch[j]['tag'] + " ; " + tag);
+		//console.log("------------------------>" + viewSetterBunch[j]['id'] + " ; " + id + " ; " + viewSetterBunch[j]['tag'] + " ; " + tag);
 		if (viewSetterBunch[j]['id'] === id && viewSetterBunch[j]['tag'] === tag) {
-			console.log("------------------------>FOUND");
+			//console.log("------------------------>FOUND");
 			return viewSetterBunch[j];
 		}
 	}
@@ -1191,9 +1191,9 @@ function getViewSetterByIdAndTag(id, tag) {
 
 function getFirstViewSetterById(id) {
 	for (var j = 0; j < viewSetterBunch.length; j++) {
-		console.log("2------------------------>" + viewSetterBunch[j]['id'] + " ; " + id);
+		//console.log("2------------------------>" + viewSetterBunch[j]['id'] + " ; " + id);
 		if (viewSetterBunch[j]['id'] === id) {
-			console.log("------------------------>FOUND2");
+			//console.log("------------------------>FOUND2");
 			return viewSetterBunch[j];
 		}
 	}
@@ -1206,7 +1206,7 @@ function dumpLocal(obj) {
         out += i + ": " + obj[i] + "\n";
     }
 
-   	console.log(out);
+   	//console.log(out);
 }
 
 
@@ -1227,22 +1227,22 @@ var parentC;
 var commentIdToLookFor;
 
 function getParent(k) {
-	console.log("base for search: " + k['id']);
+	//console.log("base for search: " + k['id']);
 	commentIdToLookFor = k['parent_id'];
 	if (k['parent_id'] === allCommentsWithAllEntries[0]['id']) {
 		return allCommentsWithAllEntries[0];
 	}
-	console.log("looking for: " + commentIdToLookFor);
+	//console.log("looking for: " + commentIdToLookFor);
 	for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
 		if (commentIdToLookFor === allCommentsWithAllEntries[i]['id']) {
-			console.log("Found!");
+			//console.log("Found!");
 			return allCommentsWithAllEntries[i];
 		}
 	}
 	////console.log("found: " + parentC);
 
 
-	console.log("Not found!");
+	//console.log("Not found!");
 
 
 

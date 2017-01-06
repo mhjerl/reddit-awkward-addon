@@ -3,7 +3,6 @@ var pageJsonTemp;
 var codeOneURL = "";
 var codeOneTag = "";
 var activated = false;
-var authenticated;
 var versionError;
 var blockedError;
 SCF = {};
@@ -156,74 +155,13 @@ $(".tabbox-stuff").tabs();
 
 
 
-$('body').on('click', 'a', function(){
+$('body').on('click', 'a', function(){ // Fix for tabs
  if (this.getAttribute("href").charAt(0) !== "#") {
  	chrome.tabs.create({url: $(this).attr('href')});
  }
  return false;
 });
 
-
-$( "#logout_subm" ).click(function(event) {
-	set("semiSecretHash", "<loggedout>");
-	$( '#before_authenticated_div' ).fadeIn();
-	$( '#real_un' ).fadeOut();
-	$( "#statusSpanner" ).text("You are now logged out");
-});
-
-$('#auth_hash_inp').keypress(function (e) {
-  if (e.which == 13) {
-    $( "#auth_subm" ).click();
-    return false;    //<---- Add this line
-  }
-});
-
-
-$( "#auth_subm" ).click(function(event) {
-	console.log("1");
-	var hash = $('#auth_hash_inp').val();
-	console.log("2");
-	var redditor = $('#redditor_inp').val();
-	console.log("3a");
-
-	var xhr = new XMLHttpRequest();
-	var url = "http://comment-tag.com/server/authenticate.php?redditor=" + redditor + "&hash=" + hash;
-	xhr.open("GET", url, true);  // true indicates asynchronous
-	xhr.onreadystatechange = function() {
-	    if (xhr.readyState == 4) {
-			if (xhr.status == 200) {
-			    var responsoo = xhr.responseText;
-				var responsooObby = JSON.parse(responsoo);
-				$( "#blockederror_div" ).hide();
-				if (responsooObby.msg === "correcthash") {
-					$("auth_status").text("");
-					$( '#before_authenticated_div' ).fadeOut();
-					$( '#after_authenticated_home' ).fadeIn();
-					$( "#statusSpanner" ).css( "color", "green" );
-					$( "#statusSpanner" ).text("Ready for action. Please navigate to your favorite reddit comment page to populate these fields and tables...");
-					$( "#redditorSpanner" ).text(redditor);
-					$( "logout_subm" ).fadeIn();
-					set("semiSecretHash", hash);
-					set("redditor", redditor);
-				}
-				else if (responsooObby.msg === "wronghash") {
-					$( "#auth_status" ).text("Wrong password.");
-				}
-				else if (responsooObby.msg === "connectionerror") {
-					$( "#auth_status" ).text("Connection error. Please try again in 1 minute.");
-				}
-				else {
-					$( "#auth_status" ).text("Connection error: A. Please contact us at mortenhh@gmail.com. Thanks. Message:" + responsooObby.msg);
-				}
-			}
-			else {
-				$( "#auth_status" ).text("Connection error: B. Please contact us at mortenhh@gmail.com. Thanks.");
-			}
-	    }
-	}
-	xhr.send();
-
-});
 
 
 console.log("popse.js: glutse glutse glutse glutse glutse glutse glutse glutse123 DOM fully loaded and parsed");
@@ -322,7 +260,7 @@ function loadIt() {
 	// Chrome docs: "Pass in null to get the entire contents of storage."
 	chrome.storage.local.get(null, function(data) {
 		var redditor = stripHTML(data.redditor);
-		$('#redditor_inp').val(redditor);
+		console.log("~~~~~~~~~~~~~~~>" + redditor);
 		blockedError = data.blockedError;
 		console.log("------------------>blockedError: " + blockedError);
 		if (blockedError !== "none" && typeof blockedError !== 'undefined') {
@@ -330,37 +268,25 @@ function loadIt() {
 			return;
 		}
 
-
 		versionError = data.versionError;
 		console.log("------------------>versionError: " + versionError);
 		if (versionError !== "none" && typeof versionError !== 'undefined') {
 			$( '#versionerror_div' ).show();
 			return;
 		}
-		var pleaseLogInOnRealRedditPage = data.pleaseLogInOnRealRedditPage;
-		if (pleaseLogInOnRealRedditPage === "true") {
-			$( '#logged_in_with_dif_usernames_error_div' ).show();
-			$( '#real_un' ).text("You need to be logged into reddit (in the browser window) with the username: " + redditor);
-		}
 
 		$( "#statusSpanner" ).text("");
-		var semiSecretHash = data.semiSecretHash;
-		if(typeof semiSecretHash === 'undefined' || semiSecretHash === '<loggedout>') {
-			authenticated = false;
-			return;
-		}
-		else {
-			authenticated = true;
-			$( '#before_authenticated_div' ).hide();
-			$( '#after_authenticated_home' ).show();
-			$( "#statusSpanner" ).css( "color", "green" );
-			$( "#statusSpanner" ).text("Ready for action. Please navigate to your favorite reddit comment page to populate these fields and tables...");
-		}
+		$( "#statusSpanner" ).css( "color", "green" );
+		$( "#statusSpanner" ).text("Ready for action. Please navigate to your favorite reddit comment page to populate these fields and tables...");
 
 		console.log("dat baand: " + JSON.stringify(data));
 		if (data.initError === "yes") {
 			var statusSpanner = document.getElementById('statusSpanner');
 			statusSpanner.innerHTML = "comment-tag.com is down. Please try again in a minute.";
+			return;
+		}
+		if (data.notLoggedInOnScreen === "yes") {
+			$( '#not_logged_in_on_screen_div' ).show();
 			return;
 		}
 

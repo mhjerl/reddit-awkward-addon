@@ -16,7 +16,6 @@ var loadCounter = 0;
 var subreddit;
 var commentPageId;
 var pageName;
-var semiSecretHash;
 var tabURL;
 var domain;
 var disqusThreadID;
@@ -29,7 +28,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, info, tab) {
 		codeOneURL = stripQueryString(url);
         codeOneURL =  stripTrailingSlash(codeOneURL);
 		
-		console.log("??????????????????????????????? complete ??????????????????????????????????" + codeOneURL);
+		//console.log("??????????????????????????????? complete ??????????????????????????????????" + codeOneURL);
 
 		processReddit(codeOneURL);
 
@@ -37,14 +36,8 @@ chrome.tabs.onUpdated.addListener(function(tabId, info, tab) {
 });
 
 
-function initCalledFromInjectScript() {
-	console.log("initCalledFromInjectScript");
-	processReddit(codeOneURL);
-}
-
-
 function logOnDOMContentLoaded(details) {
-    console.log("--------------a b u t--------------" + details.url);
+	//console.log("--------------a b u t--------------" + details.url);
 	
 
 
@@ -75,36 +68,35 @@ chrome.webNavigation.onDOMContentLoaded.addListener(logOnDOMContentLoaded);
 function initAsynchronous(redditurl) {
 	//console.log("glame");
 
-
-
 	subreddit = getSegment(redditurl, 2);
 	commentPageId = getSegment(redditurl, 4);
 	pageName = getSegment(redditurl, 5);
 	pageName = encodeURIComponent(pageName); // BUG5_ fix
 	
 	if (!commentPageId) {
-		console.log("Not a reddit comment page. Returning");
+		//console.log("Not a reddit comment page. Returning");
 		return;
 	}
 
-	if(typeof semiSecretHash === 'undefined' || semiSecretHash === '<loggedout>') {
-		chrome.browserAction.setIcon({
-			path : "data/off1.png"
-		});
-		console.log("No password. Returning");
+	if (redditor === "undefined" || redditor === "---") {
+		set("notLoggedInOnScreen", "yes");
+		console.log("redditor: " + redditor + " returning ---------------------- ");
 		return;
 	}
+	else {
+		set("notLoggedInOnScreen", "no");
+	}
 
-	chrome.browserAction.setBadgeBackgroundColor({color: "#ff0000"}); // purple
+	chrome.browserAction.setBadgeBackgroundColor({color: "#ff0000"}); // red
 	chrome.browserAction.setBadgeText({text: "Wait"});
 
 	var visitortime = new Date();
 	var visitortimezone = "" + -visitortime.getTimezoneOffset()/60;
 	
-	var url = "http://comment-tag.com/server/init.php?redditor=" + redditor + "&hash=" + semiSecretHash +  "&subreddit=" + subreddit +"&commentpageid=" + commentPageId +"&pagename=" + pageName + "&visitortimezone=" + visitortimezone + "&strictversion=2";
+	var url = "http://comment-tag.com/server/init.php?redditor=" + redditor + "&subreddit=" + subreddit +"&commentpageid=" + commentPageId +"&pagename=" + pageName + "&visitortimezone=" + visitortimezone + "&strictversion=2";
 	
 
-	console.log("init url: " + url);
+	//console.log("init url: " + url);
 
 
 
@@ -116,15 +108,15 @@ function initAsynchronous(redditurl) {
 
 
 	var xhr = new XMLHttpRequest();
-    console.log("dabut2: " + redditor);
+	console.log("dabut2: " + redditor);
 	
     xhr.open("GET", url, true);  // true indicates asynchronous
     //console.log("dupse");
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4) {
             serverJson = xhr.responseText;
-            console.log("glot: " + serverJson.length);
-			console.log(serverJson);
+			//console.log("glot: " + serverJson.length);
+			//console.log(serverJson);
 			
 			if (!serverJson.startsWith("{")) {
 				// Also correct
@@ -152,7 +144,7 @@ function initAsynchronous(redditurl) {
 				chrome.browserAction.setBadgeText({
 					'text': ''
 				});
-				console.log("Redditor is blocked. Returning");
+				//console.log("Redditor is blocked. Returning");
 				return;
 			}
 
@@ -179,7 +171,7 @@ function initAsynchronous(redditurl) {
 
 			var accountType = serverJsonObj.accountType;
 			set("accountType", accountType);
-			console.log("accountType: " + accountType);
+			//console.log("accountType: " + accountType);
 
 
 
@@ -282,7 +274,7 @@ function dump(obj) {
         out += i + ": " + obj[i] + "\n";
     }
 
-    console.log(out);
+	console.log(out);
 }
 
 function extractDomain(url) {
@@ -301,23 +293,23 @@ function processDisqus(url) {
 		    //console.log("response: " + response.redditor);
 			if (response.found) {
 				var disqusThreadID = response.disqusThreadID;
-				console.log(">disqusThreadID: " + disqusThreadID);
+				//console.log(">disqusThreadID: " + disqusThreadID);
 			}
-			console.log("hello world2");
+			//console.log("hello world2");
 		});
     });*/
 }
 // thread link:http://comment-tag.com/rules/your.comment.inspired.me.html
 function processReddit(url) {
-	console.log("-------------- k a b u t --------------" + url);
+	//console.log("-------------- k a b u t --------------" + url);
 	/*chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
 		chrome.tabs.sendMessage(tabs[0].id, {funkodonko: "getTabURLFromUtilJS"}, function(response) {
             //console.log("response: " + response.redditor);
             tabURL = response.tabURL;
-			console.log("tabURL: " + tabURL);
-			console.log("hello world"); 
+			//console.log("tabURL: " + tabURL);
+			//console.log("hello world"); 
 			domain = extractDomain(tabURL);
-			console.log("domain: " + domain);
+			//console.log("domain: " + domain);
 			if (domain === "www.reddit.com") {
 				processReddit11(url);
 			}
@@ -328,7 +320,7 @@ function processReddit(url) {
 		});
     });*/
 	domain = extractDomain(url);
-	console.log("domain: " + domain);
+	//console.log("domain: " + domain);
 	if (domain === "www.reddit.com") {
 		processReddit11(url);
 	}
@@ -343,16 +335,23 @@ function processReddit11(url) {
 		subreddit = getSegment(url, 2);
 		commentPageId = getSegment(url, 4);
 		pageName = getSegment(url, 5);
-		console.log("ooooooooooooooooooooooo subreddit: " + subreddit + " commentPageId: " + commentPageId);
+		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+			chrome.tabs.sendMessage(tabs[0].id, {funkodonko: "getRedditor"}, function(response) {
+				console.log("----------------->resp from util.js (getRedditor): " + response.redditor);
+				redditor = response.redditor;
+				console.log("---------------->response: " + response.redditor);
+			});
+		});
+		//console.log("ooooooooooooooooooooooo subreddit: " + subreddit + " commentPageId: " + commentPageId);
 		/* loadCounter++;
 	}
 	if (loadCounter > 4) { */
 		////console.log("----------           ---------------         ------------ > processReddit url:"+url);
-		console.log("calling loadIt...");
+		//console.log("calling loadIt...");
 		loadIt();
-		console.log("calling loadIt...done");
-        console.log("arthurquonnosk: " + url);
-        console.log("arthurguk: "+codeOneURL);
+		//console.log("calling loadIt...done");
+		//console.log("arthurquonnosk: " + url);
+		//console.log("arthurguk: "+codeOneURL);
 
 
 
@@ -370,7 +369,7 @@ function processReddit11(url) {
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4) {
                 pageJson = xhr.responseText;
-                console.log("klabonk:");
+				//console.log("klabonk:");
                 initAsynchronous(url);
             }
         }
@@ -390,20 +389,14 @@ function processReddit3() {
     if (a && a === "comments") {
         //console.log("tab: in comment section of reddit.com");
         runScriptW(codeOneTag, pageJson, conflictRedditorsOnPage);
-        //console.log("timmer: allCommentsWithAllEntries.len: " + allCommentsWithAllEntries.length);
+		//console.log("timmer: allCommentsWithAllEntries.len: " + allCommentsWithAllEntries.length);
 		/*for (var i = 0; i < allCommentsWithAllEntries.length; i++) {
 			var cid = allCommentsWithAllEntries[i]['id'];
 			//console.log("id:" + cid);
 		}*/
 		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-			chrome.tabs.sendMessage(tabs[0].id, {funkodonko: "makeDaryAlterationsToView", allComments: allCommentsWithAllEntries, viewSetterBunch: viewSetterBunch, membersOnPage: membersOnPage, tagsAtYourDisposal: tagsAtYourDisposal, redditor: redditor, subreddit: subreddit, commentPageId: commentPageId, imagetype: imagetype, imagecustom: imagecustom, certificates: certificates}, function(response) {
-				console.log("resp from server.js: " + response.msg);
-				if (response.msg === "pli") {
-					set("pleaseLogInOnRealRedditPage", "true");
-				}
-				else {
-					set("pleaseLogInOnRealRedditPage", "false");
-				}
+			chrome.tabs.sendMessage(tabs[0].id, {funkodonko: "makeDaryAlterationsToView", allComments: allCommentsWithAllEntries, viewSetterBunch: viewSetterBunch, membersOnPage: membersOnPage, tagsAtYourDisposal: tagsAtYourDisposal, subreddit: subreddit, commentPageId: commentPageId, imagetype: imagetype, imagecustom: imagecustom, certificates: certificates}, function(response) {
+				//console.log("resp from server.js: " + response.msg);
 				//console.log("response: " + response.msg);
 			});
 		});
@@ -515,39 +508,6 @@ function setVariablesCalledFromPopse(tag, ac) {
 }
 
 
-
-
-/*function authenticateCalledFromPopse(hash) {
-	console.log("hash: " + hash);
-	set("authenticated", "connectionerror");
-	var xhr = new XMLHttpRequest();
-	var url = "http://comment-tag.com/server/authenticate.php?hash=" + hash;
-    xhr.open("GET", url, true);  // true indicates asynchronous
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4) {
-            var responsoo = xhr.responseText;
-			var responsooObby = JSON.parse(responsoo);
-			if (responsooObby.msg === "correcthash") {
-				//set("authenticated", "correcthash");
-				chrome.runtime.sendMessage({request: "authenticateFromBackgroundToPopse", auth: true}, function(response) {
-					if (response.done) {
-						//doSomething();
-					}
-				});
-			}
-			else {
-				//set("authenticated", "wronghash");
-				chrome.runtime.sendMessage({request: "authenticateFromBackgroundToPopse", auth: false}, function(response) {
-					if (response.done) {
-						//doSomething();
-					}
-				});
-			}
-        }
-    }
-    xhr.send();
-}*/
-
 function loadIt() {
     //console.log("loadIt 1");
     chrome.storage.local.get(null, function(data) {
@@ -559,7 +519,7 @@ function loadIt() {
 		else {
 			justInstalled = true;
 		}
-		console.log("get: justInstalled: " + justInstalled);
+		//console.log("get: justInstalled: " + justInstalled);
 		set("storageKey", "storageValue");
 		//if (!justInstalled) alert("was null");
         ////console.log("dat baand: " + JSON.stringify(data));
@@ -568,10 +528,25 @@ function loadIt() {
         if (data.codeOneTag) codeOneTag = data.codeOneTag;
         //console.log("loadIt tag:" + codeOneTag);
 
+		
 
-		redditor = data.redditor;
-		semiSecretHash = data.semiSecretHash;
-		console.log("done loading from storage.");
+
+
+
+
+
+		//redditor = data.redditor;
+
+
+
+
+
+
+
+
+
+
+		//console.log("done loading from storage. redditor:" + redditor);
 
     });
 }
